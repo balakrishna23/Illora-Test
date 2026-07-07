@@ -1,11 +1,22 @@
 import path from "node:path";
 import type { NextConfig } from "next";
 
-// Baseline security headers. A full Content-Security-Policy is deliberately
-// omitted for now — Clerk, Sanity Studio, and Next dev tooling each need
-// their own allowances and a broken CSP silently kills auth/editing; add one
-// with per-service directives as a dedicated task before launch.
+// Content-Security-Policy: only the directives that are safe without a full
+// per-service audit are set here. base-uri/object-src/frame-ancestors carry
+// real value (block base-tag hijacking, plugin injection, and clickjacking)
+// and don't touch script/connect/style, so they can't break Clerk sign-in,
+// Sanity Studio, or Next hydration. A full script-src (ideally nonce-based)
+// is deliberately deferred — it needs live testing against Clerk and the
+// embedded Studio before it can be enforced without silently killing auth.
+const contentSecurityPolicy = [
+  "base-uri 'self'",
+  "object-src 'none'",
+  "frame-ancestors 'self'",
+].join("; ");
+
+// Baseline security headers.
 const securityHeaders = [
+  { key: "Content-Security-Policy", value: contentSecurityPolicy },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "X-Frame-Options", value: "SAMEORIGIN" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
