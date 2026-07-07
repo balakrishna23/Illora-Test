@@ -133,7 +133,7 @@ export default function EmbeddedRpoPage() {
             <div className="sticky top-24 rounded-xl border border-border bg-card p-6">
               <h2 className="font-semibold">Interested in embedded RPO?</h2>
               <p className="mt-2 text-sm text-muted-foreground">Let us know about your hiring volumes and we&apos;ll put together a proposal.</p>
-              <Link href="/contact" className={buttonVariants({ className: "mt-4 w-full" })}>
+              <Link href="/contact" className={buttonVariants({ variant: "accent", className: "mt-4 w-full" })}>
                 Start a conversation
               </Link>
             </div>

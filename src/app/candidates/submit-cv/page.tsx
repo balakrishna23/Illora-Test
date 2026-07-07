@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { SubmitCvForm } from "@/features/candidates/components/SubmitCvForm";
+import { findExistingApplicationForCandidate } from "@/features/candidates/queries";
+import { getCandidateByClerkUserId } from "@/features/portal/queries";
+import { requireUser } from "@/server/auth/session";
 
 export const metadata: Metadata = {
   title: "Submit Your CV",
@@ -9,7 +12,31 @@ export const metadata: Metadata = {
     "Submit your CV to Illora and be considered for upcoming roles across our seven specialist sectors, including IT & Telecommunications, Construction, and Healthcare.",
 };
 
-export default function SubmitCvPage() {
+type SearchParams = Promise<{ jobId?: string; jobSlug?: string; jobTitle?: string }>;
+
+export default async function SubmitCvPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
+  const { jobId, jobSlug, jobTitle } = await searchParams;
+
+  // Signed-in candidates with a submission already on file get a warning
+  // that submitting again replaces it (enforced in the submitCv action).
+  let existingSubmittedAt: string | undefined;
+  const session = await requireUser();
+  if (session.success) {
+    const candidate = await getCandidateByClerkUserId(session.userId);
+    if (candidate) {
+      const existing = await findExistingApplicationForCandidate(
+        candidate.id,
+        session.email,
+        jobId || null
+      );
+      existingSubmittedAt = existing?.submittedAt.toISOString();
+    }
+  }
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
       <Breadcrumbs
@@ -32,7 +59,12 @@ export default function SubmitCvPage() {
       </div>
 
       <div className="mt-8 rounded-xl border border-border bg-card p-6 sm:p-8">
-        <SubmitCvForm />
+        <SubmitCvForm
+          jobId={jobId}
+          jobSlug={jobSlug}
+          jobTitle={jobTitle}
+          existingSubmittedAt={existingSubmittedAt}
+        />
       </div>
 
       <p className="mt-6 text-xs text-muted-foreground">

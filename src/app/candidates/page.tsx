@@ -78,7 +78,7 @@ export default async function CandidatesPage() {
             </div>
           ))}
         </div>
-        <Link href="/jobs" className={buttonVariants({ className: "mt-5" })}>
+        <Link href="/jobs" className={buttonVariants({ variant: "accent", className: "mt-5" })}>
           Browse all jobs
         </Link>
       </div>
@@ -126,7 +126,7 @@ export default async function CandidatesPage() {
           </p>
           <Link
             href="/candidates/submit-cv"
-            className={buttonVariants({ size: "lg", className: "mt-5" })}
+            className={buttonVariants({ variant: "accent", size: "lg", className: "mt-5" })}
           >
             Submit your CV
           </Link>

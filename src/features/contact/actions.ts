@@ -2,6 +2,11 @@
 
 import { z } from "zod";
 
+import { db } from "@/server/db/client";
+import { contactMessages } from "@/server/db/schema";
+import { isBotSubmission } from "@/lib/honeypot";
+import { sendContactConfirmationEmail } from "@/server/integrations/resend";
+
 const contactSchema = z.object({
   name: z.string().min(2, "Name is required"),
   email: z.string().email("Valid email required"),
@@ -18,6 +23,9 @@ export async function sendContactMessage(
   _prev: ContactFormState | null,
   formData: FormData
 ): Promise<ContactFormState> {
+  // Silently accept bot submissions without persisting or emailing.
+  if (isBotSubmission(formData)) return { success: true };
+
   const parsed = contactSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) {
     return {
@@ -27,9 +35,17 @@ export async function sendContactMessage(
     };
   }
 
-  // Stub: route to correct distribution list via Resend
-  // const toEmail = { "General Enquiry": "hello@illora.com.au", "Employer Enquiry": "employers@illora.com.au", ... }[parsed.data.subject];
-  // await resend.emails.send({ to: toEmail, subject: `[${parsed.data.subject}] from ${parsed.data.name}`, ... });
+  await db.insert(contactMessages).values(parsed.data);
+
+  try {
+    await sendContactConfirmationEmail({
+      to: parsed.data.email,
+      name: parsed.data.name,
+      subject: parsed.data.subject,
+    });
+  } catch (error) {
+    console.error("sendContactMessage: failed to send confirmation email", error);
+  }
 
   return { success: true };
 }

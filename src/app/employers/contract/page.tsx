@@ -129,7 +129,7 @@ export default function ContractRecruitmentPage() {
             <div className="sticky top-24 rounded-xl border border-border bg-card p-6">
               <h2 className="font-semibold">Need a contractor?</h2>
               <p className="mt-2 text-sm text-muted-foreground">Register your requirement and we&apos;ll have a shortlist to you within 48 hours.</p>
-              <Link href="/employers/register-vacancy" className={buttonVariants({ className: "mt-4 w-full" })}>
+              <Link href="/employers/register-vacancy" className={buttonVariants({ variant: "accent", className: "mt-4 w-full" })}>
                 Register a Vacancy
               </Link>
             </div>

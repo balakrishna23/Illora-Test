@@ -1,3 +1,15 @@
+import { and, desc, eq, ne } from "drizzle-orm";
+
+import { db } from "@/server/db/client";
+import { jobs as jobsTable } from "@/server/db/schema";
+import { AU_STATES, JOB_INDUSTRIES, JOB_TYPES } from "@/lib/job-constants";
+
+export { AU_STATES, JOB_INDUSTRIES, JOB_TYPES };
+
+// Deliberately DB-backed via Drizzle against the `jobs` table, pending a real
+// JobAdder API integration. Function names/signatures are kept stable so
+// call sites don't need to change when that integration eventually lands.
+
 export type Job = {
   id: string;
   slug: string;
@@ -19,517 +31,84 @@ export type Job = {
   benefits: string[];
 };
 
-const MOCK_JOBS: Job[] = [
-  {
-    id: "1",
-    slug: "senior-network-engineer-sydney",
-    title: "Senior Network Engineer",
-    location: "Sydney",
-    state: "NSW",
-    latitude: -33.8688,
-    longitude: 151.2093,
-    type: "Permanent",
-    industry: "IT & Telecommunications",
-    salaryRange: "$120,000 – $140,000",
-    postedDate: "2026-06-25",
-    closingDate: "2026-07-25",
-    referenceNumber: "IL-001",
-    teaser: "Join a leading telco delivering critical infrastructure across the East Coast. You'll lead network design and be the escalation point for complex incidents.",
-    description: "We are seeking a Senior Network Engineer to join our client's infrastructure team in Sydney. This role sits at the heart of a major telecommunications rollout across the East Coast.",
-    responsibilities: [
-      "Design and implement enterprise-grade network solutions",
-      "Act as escalation point for Level 3 network incidents",
-      "Mentor junior engineers and conduct technical reviews",
-      "Liaise with vendors for hardware procurement and support",
-    ],
-    requirements: [
-      "5+ years experience in enterprise networking (Cisco, Juniper)",
-      "CCNP or equivalent certification preferred",
-      "Strong knowledge of BGP, OSPF, MPLS",
-      "Excellent problem-solving and communication skills",
-    ],
-    benefits: [
-      "Competitive salary package with annual reviews",
-      "Flexible hybrid working arrangement",
-      "Professional development and certification support",
-    ],
-  },
-  {
-    id: "2",
-    slug: "site-manager-brisbane",
-    title: "Site Manager — Commercial Construction",
-    location: "Brisbane",
-    state: "QLD",
-    latitude: -27.4698,
-    longitude: 153.0251,
-    type: "Permanent",
-    industry: "Construction",
-    salaryRange: "$130,000 – $150,000 + vehicle",
-    postedDate: "2026-06-28",
-    closingDate: "2026-07-28",
-    referenceNumber: "IL-002",
-    teaser: "Experienced Site Manager needed for a Tier 2 contractor delivering commercial and government projects across South-East Queensland.",
-    description: "Our client, a well-established Tier 2 construction company, is seeking a Site Manager to lead delivery of commercial projects valued up to $30M.",
-    responsibilities: [
-      "Oversee all on-site activities ensuring safety, quality, and programme compliance",
-      "Manage subcontractors and direct labour",
-      "Coordinate with project engineers and the client's representative",
-      "Conduct regular WHS inspections and toolbox talks",
-    ],
-    requirements: [
-      "Minimum 7 years construction site management experience",
-      "White Card and relevant WHS qualifications",
-      "Proven track record delivering commercial builds $5M–$30M",
-      "Strong leadership and stakeholder management skills",
-    ],
-    benefits: [
-      "Company vehicle or vehicle allowance",
-      "Project completion bonuses",
-      "Career pathway to Project Manager",
-    ],
-  },
-  {
-    id: "3",
-    slug: "registered-nurse-aged-care-melbourne",
-    title: "Registered Nurse — Aged Care",
-    location: "Melbourne",
-    state: "VIC",
-    latitude: -37.8136,
-    longitude: 144.9631,
-    type: "Permanent",
-    industry: "Healthcare",
-    salaryRange: "$75,000 – $85,000",
-    postedDate: "2026-06-30",
-    closingDate: "2026-07-30",
-    referenceNumber: "IL-003",
-    teaser: "Join a purpose-driven aged care provider in Melbourne's inner north. Excellent team culture, genuine career support, and above-award pay.",
-    description: "A well-regarded aged care provider is seeking a compassionate and experienced Registered Nurse to join their residential facility in Melbourne's inner north.",
-    responsibilities: [
-      "Deliver high-quality clinical care in accordance with aged care standards",
-      "Coordinate and supervise care plans for residents",
-      "Administer medications and conduct clinical assessments",
-      "Support and mentor Personal Care Workers",
-    ],
-    requirements: [
-      "Current AHPRA registration as a Registered Nurse",
-      "Minimum 2 years aged care or related clinical experience",
-      "Strong communication and empathy skills",
-      "NDIS Worker Screening Check (or willingness to obtain)",
-    ],
-    benefits: [
-      "Salary packaging options available",
-      "Ongoing education and CPD support",
-      "Supportive leadership team",
-    ],
-  },
-  {
-    id: "4",
-    slug: "devops-engineer-contract-sydney",
-    title: "DevOps Engineer (Contract)",
-    location: "Sydney",
-    state: "NSW",
-    latitude: -33.8688,
-    longitude: 151.2093,
-    type: "Contract",
-    industry: "IT & Telecommunications",
-    salaryRange: "$950 – $1,100/day",
-    postedDate: "2026-07-01",
-    closingDate: "2026-08-01",
-    referenceNumber: "IL-004",
-    teaser: "6-month contract with a federal government agency. CI/CD, Kubernetes, and AWS expertise required. Security clearance preferred.",
-    description: "A federal government agency requires a skilled DevOps Engineer for a 6-month contract to support a critical platform modernisation initiative.",
-    responsibilities: [
-      "Design and maintain CI/CD pipelines using GitHub Actions and Jenkins",
-      "Manage containerised workloads on Kubernetes (EKS)",
-      "Implement infrastructure-as-code using Terraform",
-      "Collaborate with security team on hardening and compliance",
-    ],
-    requirements: [
-      "Strong experience with AWS, Kubernetes, and Terraform",
-      "CI/CD pipeline design and maintenance",
-      "Baseline security clearance (or eligibility to obtain)",
-      "Government project experience preferred",
-    ],
-    benefits: [
-      "Competitive daily rate",
-      "Potential for extension or conversion to permanent",
-      "Work with leading-edge government technology programs",
-    ],
-  },
-  {
-    id: "5",
-    slug: "estimator-construction-perth",
-    title: "Estimator — Civil Construction",
-    location: "Perth",
-    state: "WA",
-    latitude: -31.9505,
-    longitude: 115.8605,
-    type: "Permanent",
-    industry: "Construction",
-    salaryRange: "$110,000 – $130,000",
-    postedDate: "2026-07-01",
-    closingDate: "2026-07-31",
-    referenceNumber: "IL-005",
-    teaser: "Established civil contractor seeking a sharp Estimator to price road, earthworks, and utilities projects across WA.",
-    description: "A growing civil construction company in Perth is looking for an experienced Estimator to join their pre-construction team.",
-    responsibilities: [
-      "Prepare accurate and competitive tenders for civil works",
-      "Conduct take-offs and material/subcontractor pricing",
-      "Liaise with clients, consultants, and subcontractors during tender phase",
-      "Review and present estimates to senior management",
-    ],
-    requirements: [
-      "Minimum 5 years estimating experience in civil construction",
-      "Proficiency in CostX or similar estimating software",
-      "Strong analytical skills and attention to detail",
-      "Experience with WA government and resource sector tenders",
-    ],
-    benefits: [
-      "Flexible working arrangements",
-      "Performance bonuses",
-      "Employee Assistance Program",
-    ],
-  },
-  {
-    id: "6",
-    slug: "project-manager-healthcare-it-canberra",
-    title: "Project Manager — Healthcare IT",
-    location: "Canberra",
-    state: "ACT",
-    latitude: -35.2809,
-    longitude: 149.13,
-    type: "Contract",
-    industry: "IT & Telecommunications",
-    salaryRange: "$1,100 – $1,250/day",
-    postedDate: "2026-07-01",
-    closingDate: "2026-08-01",
-    referenceNumber: "IL-006",
-    teaser: "12-month contract managing digital health implementations for a federal health agency. NV1 clearance required.",
-    description: "A leading federal health agency is seeking an experienced Project Manager to lead a series of digital health platform implementations.",
-    responsibilities: [
-      "Lead end-to-end delivery of digital health IT projects",
-      "Manage stakeholders at EL1/EL2 level and above",
-      "Apply PRINCE2 or AgilePM methodologies",
-      "Report to steering committee and manage risk registers",
-    ],
-    requirements: [
-      "NV1 security clearance (current and valid)",
-      "PRINCE2 Practitioner or PMI-PMP certification",
-      "5+ years PM experience in complex IT environments",
-      "Prior federal government or healthcare sector experience",
-    ],
-    benefits: [
-      "Top-tier daily rate",
-      "12-month contract with extension possibility",
-      "High-impact federal health programs",
-    ],
-  },
-  {
-    id: "7",
-    slug: "data-scientist-sydney",
-    title: "Data Scientist",
-    location: "Sydney",
-    state: "NSW",
-    latitude: -33.8688,
-    longitude: 151.2093,
-    type: "Permanent",
-    industry: "Data Science",
-    salaryRange: "$130,000 – $155,000",
-    postedDate: "2026-07-02",
-    closingDate: "2026-08-02",
-    referenceNumber: "IL-007",
-    teaser: "Join a fast-growing analytics team building forecasting and customer-segmentation models for a major retail group.",
-    description: "Our client, a national retail group, is seeking a Data Scientist to join their central analytics team in Sydney, working on demand forecasting, pricing, and customer segmentation models.",
-    responsibilities: [
-      "Build and maintain forecasting and segmentation models in Python",
-      "Partner with engineering to productionise models via MLOps pipelines",
-      "Translate business questions into measurable analytical problems",
-      "Present findings and recommendations to non-technical stakeholders",
-    ],
-    requirements: [
-      "3+ years in a data science or applied ML role",
-      "Strong Python (pandas, scikit-learn) and SQL skills",
-      "Experience with cloud ML platforms (SageMaker, Vertex AI, or similar)",
-      "Tertiary qualification in statistics, computer science, or related field",
-    ],
-    benefits: [
-      "Hybrid working (3 days in-office)",
-      "Dedicated learning and conference budget",
-      "Direct exposure to executive decision-making",
-    ],
-  },
-  {
-    id: "8",
-    slug: "senior-data-engineer-melbourne",
-    title: "Senior Data Engineer (Contract)",
-    location: "Melbourne",
-    state: "VIC",
-    latitude: -37.8136,
-    longitude: 144.9631,
-    type: "Contract",
-    industry: "Data Science",
-    salaryRange: "$1,000 – $1,150/day",
-    postedDate: "2026-07-03",
-    closingDate: "2026-08-03",
-    referenceNumber: "IL-008",
-    teaser: "9-month contract building a cloud data platform for a major superannuation fund. Strong dbt and Snowflake experience required.",
-    description: "A major superannuation fund is building out a modern data platform and requires a Senior Data Engineer to design and implement scalable data pipelines.",
-    responsibilities: [
-      "Design and build ELT pipelines using dbt and Snowflake",
-      "Implement data quality and observability frameworks",
-      "Optimise warehouse performance and cost",
-      "Mentor junior data engineers on the team",
-    ],
-    requirements: [
-      "5+ years data engineering experience",
-      "Hands-on Snowflake and dbt expertise",
-      "Strong understanding of data modelling (Kimball or Data Vault)",
-      "Financial services experience highly regarded",
-    ],
-    benefits: [
-      "Top-of-market contract rate",
-      "Hybrid working arrangement",
-      "High likelihood of extension",
-    ],
-  },
-  {
-    id: "9",
-    slug: "ev-battery-recycling-technician-adelaide",
-    title: "EV Battery Recycling Technician",
-    location: "Adelaide",
-    state: "SA",
-    latitude: -34.9285,
-    longitude: 138.6007,
-    type: "Permanent",
-    industry: "EV Waste & Recycling",
-    salaryRange: "$80,000 – $95,000",
-    postedDate: "2026-07-03",
-    closingDate: "2026-08-03",
-    referenceNumber: "IL-009",
-    teaser: "Join a pioneering battery recovery facility processing end-of-life EV batteries for a circular economy operator in South Australia.",
-    description: "A growing circular-economy operator is expanding its Adelaide battery recovery facility and needs a Recycling Technician experienced in safe handling and dismantling of lithium-ion EV battery packs.",
-    responsibilities: [
-      "Safely discharge, dismantle, and sort end-of-life EV battery packs",
-      "Follow strict hazardous materials handling and storage protocols",
-      "Operate battery testing and material recovery equipment",
-      "Maintain accurate processing and compliance records",
-    ],
-    requirements: [
-      "Experience handling lithium-ion batteries or hazardous materials",
-      "Relevant WHS and dangerous goods handling certification (or willingness to obtain)",
-      "Mechanical or electrical trade background highly regarded",
-      "Comfortable working in a fast-evolving, safety-critical environment",
-    ],
-    benefits: [
-      "Work in an emerging, high-growth sustainability sector",
-      "Full PPE and safety training provided",
-      "Career growth as the facility scales",
-    ],
-  },
-  {
-    id: "10",
-    slug: "sustainability-compliance-manager-geelong",
-    title: "Sustainability & Compliance Manager",
-    location: "Geelong",
-    state: "VIC",
-    latitude: -38.1499,
-    longitude: 144.3617,
-    type: "Permanent",
-    industry: "EV Waste & Recycling",
-    salaryRange: "$140,000 – $160,000",
-    postedDate: "2026-07-04",
-    closingDate: "2026-08-04",
-    referenceNumber: "IL-010",
-    teaser: "Lead environmental compliance and reporting for a battery and e-waste recovery operator expanding across Victoria.",
-    description: "Our client operates battery and e-waste recovery facilities across Victoria and is seeking a Sustainability & Compliance Manager to lead environmental licensing, reporting, and continuous improvement.",
-    responsibilities: [
-      "Manage EPA licensing, audits, and environmental reporting",
-      "Lead ISO 14001 environmental management system implementation",
-      "Develop circular-economy and resource-recovery improvement initiatives",
-      "Liaise with regulators, councils, and community stakeholders",
-    ],
-    requirements: [
-      "5+ years in environmental compliance or sustainability management",
-      "Working knowledge of EPA licensing and waste regulations",
-      "Experience in recycling, waste, or heavy industry preferred",
-      "Tertiary qualification in environmental science or engineering",
-    ],
-    benefits: [
-      "Genuine impact on Australia's battery circular economy",
-      "Vehicle allowance",
-      "Flexible working arrangements",
-    ],
-  },
-  {
-    id: "11",
-    slug: "soc-analyst-canberra",
-    title: "SOC Analyst (Level 2)",
-    location: "Canberra",
-    state: "ACT",
-    latitude: -35.2809,
-    longitude: 149.13,
-    type: "Permanent",
-    industry: "Cyber Security",
-    salaryRange: "$110,000 – $130,000",
-    postedDate: "2026-07-04",
-    closingDate: "2026-08-04",
-    referenceNumber: "IL-011",
-    teaser: "Join a 24/7 Security Operations Centre supporting federal government clients. NV1 clearance required.",
-    description: "A leading managed security services provider is expanding its Canberra-based SOC and is seeking a Level 2 Analyst to triage, investigate, and respond to security incidents for federal government clients.",
-    responsibilities: [
-      "Monitor and triage alerts via SIEM (Splunk / Sentinel)",
-      "Conduct initial incident investigation and escalation",
-      "Tune detection rules to reduce false positives",
-      "Produce incident reports for government stakeholders",
-    ],
-    requirements: [
-      "NV1 security clearance (current and valid)",
-      "2+ years SOC or incident response experience",
-      "Familiarity with MITRE ATT&CK framework",
-      "Security+ or equivalent certification preferred",
-    ],
-    benefits: [
-      "Shift allowance for rotating roster",
-      "Clearance sponsorship support for upgrades",
-      "Clear progression to Level 3 / Threat Hunter",
-    ],
-  },
-  {
-    id: "12",
-    slug: "penetration-tester-brisbane",
-    title: "Penetration Tester (Contract)",
-    location: "Brisbane",
-    state: "QLD",
-    latitude: -27.4698,
-    longitude: 153.0251,
-    type: "Contract",
-    industry: "Cyber Security",
-    salaryRange: "$1,100 – $1,300/day",
-    postedDate: "2026-07-05",
-    closingDate: "2026-08-05",
-    referenceNumber: "IL-012",
-    teaser: "4-month engagement delivering web application and infrastructure penetration tests for a financial services client.",
-    description: "A Brisbane-based financial services organisation requires an experienced Penetration Tester for a series of web application, API, and infrastructure security assessments.",
-    responsibilities: [
-      "Conduct black-box and grey-box penetration tests",
-      "Deliver clear, actionable findings reports to technical and executive audiences",
-      "Validate remediation of previously identified vulnerabilities",
-      "Work within agreed rules of engagement and change windows",
-    ],
-    requirements: [
-      "OSCP or equivalent offensive security certification",
-      "3+ years professional penetration testing experience",
-      "Strong understanding of OWASP Top 10 and common attack chains",
-      "Financial services or regulated industry experience highly regarded",
-    ],
-    benefits: [
-      "Strong contract rate",
-      "Variety across web, API, and infrastructure testing",
-      "Potential for ongoing panel work",
-    ],
-  },
-  {
-    id: "13",
-    slug: "registered-nurse-rural-remote-alice-springs",
-    title: "Registered Nurse — Rural & Remote",
-    location: "Alice Springs",
-    state: "NT",
-    latitude: -23.698,
-    longitude: 133.8807,
-    type: "Permanent",
-    industry: "Nursing & Aged Care",
-    salaryRange: "$95,000 – $115,000 + remote allowance",
-    postedDate: "2026-07-05",
-    closingDate: "2026-08-05",
-    referenceNumber: "IL-013",
-    teaser: "Make a genuine impact in a remote Central Australian community health setting. Visa sponsorship available for eligible candidates.",
-    description: "A community-controlled health service in Central Australia is seeking a Registered Nurse for a permanent rural and remote role, delivering primary health care to a remote community. Visa sponsorship and relocation support is available for suitably experienced candidates.",
-    responsibilities: [
-      "Deliver primary health care across a remote community clinic",
-      "Work autonomously within a multidisciplinary remote health team",
-      "Respond to acute presentations and coordinate retrievals when required",
-      "Support chronic disease management and community health programs",
-    ],
-    requirements: [
-      "Current AHPRA registration as a Registered Nurse",
-      "Remote or rural clinical experience highly regarded",
-      "Eligibility for, or current, Skills in Demand (subclass 482) visa considered",
-      "Resilience and comfort working independently in a remote setting",
-    ],
-    benefits: [
-      "Remote area allowance and subsidised housing",
-      "Visa sponsorship and migration support for eligible candidates",
-      "Annual remote leave loading",
-    ],
-  },
-  {
-    id: "14",
-    slug: "aged-care-nurse-unit-manager-cairns",
-    title: "Aged Care Nurse Unit Manager",
-    location: "Cairns",
-    state: "QLD",
-    latitude: -16.9186,
-    longitude: 145.7781,
-    type: "Permanent",
-    industry: "Nursing & Aged Care",
-    salaryRange: "$105,000 – $120,000",
-    postedDate: "2026-07-06",
-    closingDate: "2026-08-06",
-    referenceNumber: "IL-014",
-    teaser: "Lead clinical care for a 90-bed residential aged care facility in tropical North Queensland. International applicants welcome.",
-    description: "A well-regarded residential aged care provider in Cairns is seeking a Nurse Unit Manager to lead clinical operations for a 90-bed facility, with strong support for internationally qualified nurses navigating registration and visa pathways.",
-    responsibilities: [
-      "Lead and roster a team of RNs, ENs, and Personal Care Workers",
-      "Oversee care planning, clinical governance, and accreditation compliance",
-      "Manage relationships with families, GPs, and allied health providers",
-      "Support staff development including upskilling and mentoring",
-    ],
-    requirements: [
-      "Current AHPRA registration as a Registered Nurse",
-      "3+ years aged care leadership experience",
-      "Strong understanding of Aged Care Quality Standards",
-      "Internationally qualified nurses welcome — registration support provided",
-    ],
-    benefits: [
-      "Relocation and visa migration support available",
-      "Salary packaging and above-award pay",
-      "Tropical North Queensland lifestyle location",
-    ],
-  },
-];
+type JobRow = typeof jobsTable.$inferSelect;
+
+function toJob(row: JobRow): Job {
+  return {
+    id: row.id,
+    slug: row.slug,
+    title: row.title,
+    location: row.location,
+    state: row.state,
+    latitude: row.latitude,
+    longitude: row.longitude,
+    type: row.type as Job["type"],
+    industry: row.industry,
+    salaryRange: row.salaryRange ?? undefined,
+    postedDate: row.postedDate,
+    closingDate: row.closingDate,
+    referenceNumber: row.referenceNumber,
+    teaser: row.teaser,
+    description: row.description,
+    responsibilities: row.responsibilities,
+    requirements: row.requirements,
+    benefits: row.benefits,
+  };
+}
 
 export async function getRecentJobs(count = 4): Promise<Job[]> {
-  return MOCK_JOBS.slice(0, count);
+  const rows = await db
+    .select()
+    .from(jobsTable)
+    .where(eq(jobsTable.status, "active"))
+    .orderBy(desc(jobsTable.postedDate))
+    .limit(count);
+
+  return rows.map(toJob);
 }
 
 export async function getAllJobs(): Promise<Job[]> {
-  return MOCK_JOBS;
+  const rows = await db
+    .select()
+    .from(jobsTable)
+    .where(eq(jobsTable.status, "active"))
+    .orderBy(desc(jobsTable.postedDate));
+
+  return rows.map(toJob);
 }
 
 export async function getJobBySlug(slug: string): Promise<Job | null> {
-  return MOCK_JOBS.find((j) => j.slug === slug) ?? null;
+  // Returns the job regardless of status (including closed) so a direct
+  // link still resolves; the caller branches on status to show a
+  // "no longer accepting applications" state instead of a 404.
+  const [row] = await db.select().from(jobsTable).where(eq(jobsTable.slug, slug));
+  return row ? toJob(row) : null;
 }
 
 export async function getJobsByIndustry(industry: string): Promise<Job[]> {
-  return MOCK_JOBS.filter((j) => j.industry === industry);
+  const rows = await db
+    .select()
+    .from(jobsTable)
+    .where(and(eq(jobsTable.status, "active"), eq(jobsTable.industry, industry)))
+    .orderBy(desc(jobsTable.postedDate));
+
+  return rows.map(toJob);
 }
 
 export async function getSimilarJobs(job: Job, count = 3): Promise<Job[]> {
-  return MOCK_JOBS.filter(
-    (j) => j.id !== job.id && j.industry === job.industry
-  ).slice(0, count);
+  const rows = await db
+    .select()
+    .from(jobsTable)
+    .where(
+      and(
+        eq(jobsTable.status, "active"),
+        eq(jobsTable.industry, job.industry),
+        ne(jobsTable.id, job.id)
+      )
+    )
+    .orderBy(desc(jobsTable.postedDate))
+    .limit(count);
+
+  return rows.map(toJob);
 }
 
-export const JOB_INDUSTRIES = [
-  "IT & Telecommunications",
-  "Construction",
-  "Healthcare",
-  "Data Science",
-  "Cyber Security",
-  "EV Waste & Recycling",
-  "Nursing & Aged Care",
-] as const;
-
-export const JOB_TYPES = ["Permanent", "Contract", "Casual"] as const;
-
-export const AU_STATES = ["NSW", "VIC", "QLD", "WA", "SA", "ACT", "NT", "TAS"] as const;

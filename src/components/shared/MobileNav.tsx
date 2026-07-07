@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { MenuIcon } from "lucide-react";
+import { MenuIcon, ChevronDownIcon } from "lucide-react";
+import { Show } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -11,33 +13,126 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { primaryNavLinks } from "@/lib/navigation";
+import { NAV_ITEMS } from "@/lib/navigation";
 
-export function MobileNav() {
+export function MobileNav({ isAdmin }: { isAdmin: boolean }) {
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [expanded, setExpanded] = useState<string | null>(null);
+
+  function close() {
+    setSheetOpen(false);
+    setExpanded(null);
+  }
+
   return (
-    <Sheet>
+    <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
       <SheetTrigger
         render={<Button variant="ghost" size="icon" />}
-        className="md:hidden"
+        className="lg:hidden"
       >
         <MenuIcon />
         <span className="sr-only">Open menu</span>
       </SheetTrigger>
-      <SheetContent side="right">
+
+      <SheetContent side="right" className="w-72 overflow-y-auto">
         <SheetHeader>
           <SheetTitle>Menu</SheetTitle>
         </SheetHeader>
-        <nav aria-label="Primary" className="flex flex-col gap-1 px-4">
-          {primaryNavLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="rounded-md px-2 py-2 text-sm font-medium text-foreground/80 transition-colors hover:bg-muted hover:text-foreground"
-            >
-              {link.label}
-            </Link>
-          ))}
+
+        <nav aria-label="Mobile primary" className="mt-4 flex flex-col gap-0.5 px-2">
+          {NAV_ITEMS.map((item) => {
+            if (item.href) {
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={close}
+                  className="rounded-lg px-3 py-2.5 text-sm font-medium text-foreground/80 transition-colors hover:bg-muted hover:text-foreground"
+                >
+                  {item.label}
+                </Link>
+              );
+            }
+
+            const isOpen = expanded === item.label;
+            return (
+              <div key={item.label}>
+                <button
+                  type="button"
+                  aria-expanded={isOpen}
+                  onClick={() => setExpanded(isOpen ? null : item.label)}
+                  className="flex w-full items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium text-foreground/80 transition-colors hover:bg-muted hover:text-foreground"
+                >
+                  {item.label}
+                  <ChevronDownIcon
+                    className={`size-4 text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                    aria-hidden="true"
+                  />
+                </button>
+
+                {isOpen && (
+                  <div className="ml-3 mt-0.5 flex flex-col gap-0.5 border-l-2 border-primary/20 pl-3 animate-dropdown-in">
+                    {item.items?.map((sub) => (
+                      <Link
+                        key={sub.href}
+                        href={sub.href}
+                        onClick={close}
+                        className="rounded-md px-2 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-primary"
+                      >
+                        {sub.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </nav>
+
+        {/* CTA pair */}
+        <div className="mt-6 flex flex-col gap-2 px-2">
+          <Link
+            href="/jobs"
+            onClick={close}
+            className="rounded-lg border border-border bg-card px-4 py-2.5 text-center text-sm font-medium transition-colors hover:bg-muted"
+          >
+            Search Jobs
+          </Link>
+          <Link
+            href="/employers/register-vacancy"
+            onClick={close}
+            className="rounded-lg bg-accent px-4 py-2.5 text-center text-sm font-semibold text-accent-foreground transition-colors hover:bg-accent/85"
+          >
+            Hire Talent
+          </Link>
+          <Show when="signed-in">
+            {isAdmin && (
+              <Link
+                href="/admin"
+                onClick={close}
+                className="rounded-lg border border-border bg-card px-4 py-2.5 text-center text-sm font-medium transition-colors hover:bg-muted"
+              >
+                Admin
+              </Link>
+            )}
+            <Link
+              href="/portal"
+              onClick={close}
+              className="rounded-lg border border-border bg-card px-4 py-2.5 text-center text-sm font-medium transition-colors hover:bg-muted"
+            >
+              My Portal
+            </Link>
+          </Show>
+          <Show when="signed-out">
+            <Link
+              href="/sign-in"
+              onClick={close}
+              className="rounded-lg border border-border bg-card px-4 py-2.5 text-center text-sm font-medium transition-colors hover:bg-muted"
+            >
+              Sign In
+            </Link>
+          </Show>
+        </div>
       </SheetContent>
     </Sheet>
   );

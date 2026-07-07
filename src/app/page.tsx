@@ -1,12 +1,12 @@
 import { getRecentJobs } from "@/server/integrations/jobadder";
 import { jsonLdString } from "@/lib/utils";
 import { getRecentArticles, getSiteStats } from "@/server/integrations/sanity";
-import { getReviews, getAggregateRating } from "@/server/integrations/reviews";
+import { getReviews } from "@/server/integrations/reviews";
 
 import { HomeHero } from "@/features/home/components/HomeHero";
 import { JobTicker } from "@/features/home/components/JobTicker";
+import { NameMeaning } from "@/features/home/components/NameMeaning";
 import { IndustryTiles } from "@/features/home/components/IndustryTiles";
-import { TrustStrip } from "@/features/home/components/TrustStrip";
 import { TestimonialsCarousel } from "@/features/home/components/TestimonialsCarousel";
 import { KnowledgeHubPreview } from "@/features/home/components/KnowledgeHubPreview";
 import { DualCtaBand } from "@/features/home/components/DualCtaBand";
@@ -23,12 +23,11 @@ const orgJsonLd = {
 };
 
 export default async function Home() {
-  const [stats, jobs, articles, reviews, rating] = await Promise.all([
+  const [stats, jobs, articles, reviews] = await Promise.all([
     getSiteStats(),
     getRecentJobs(4),
     getRecentArticles(3),
     getReviews(6),
-    getAggregateRating(),
   ]);
 
   return (
@@ -39,8 +38,8 @@ export default async function Home() {
       />
       <HomeHero stats={stats} />
       <JobTicker jobs={jobs} />
+      <NameMeaning />
       <IndustryTiles />
-      <TrustStrip stats={stats} rating={rating} />
       <TestimonialsCarousel reviews={reviews} />
       <KnowledgeHubPreview articles={articles} />
       <DualCtaBand />

@@ -167,7 +167,7 @@ export default function PermanentRecruitmentPage() {
               </p>
               <Link
                 href="/employers/register-vacancy"
-                className={buttonVariants({ className: "mt-4 w-full" })}
+                className={buttonVariants({ variant: "accent", className: "mt-4 w-full" })}
               >
                 Register a Vacancy
               </Link>

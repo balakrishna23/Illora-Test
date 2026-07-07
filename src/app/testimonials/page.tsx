@@ -121,7 +121,7 @@ export default async function TestimonialsPage() {
             href="https://g.page/r/illora/review"
             target="_blank"
             rel="noopener noreferrer"
-            className={buttonVariants({ className: "mt-5" })}
+            className={buttonVariants({ variant: "accent", className: "mt-5" })}
           >
             Leave a review on Google
           </a>

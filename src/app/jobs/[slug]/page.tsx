@@ -3,12 +3,15 @@ import { jsonLdString } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { MapPinIcon, BriefcaseIcon, CalendarIcon, HashIcon } from "lucide-react";
+import { auth } from "@clerk/nextjs/server";
 
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { buttonVariants } from "@/components/ui/button";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { JobLocationMap } from "@/features/jobs/components/JobLocationMap";
+import { SaveJobButton } from "@/features/portal/components/SaveJobButton";
+import { getCandidateByClerkUserId, isJobSaved } from "@/features/portal/queries";
 import { getJobBySlug, getSimilarJobs, getAllJobs } from "@/server/integrations/jobadder";
 
 type PageProps = { params: Promise<{ slug: string }> };
@@ -30,10 +33,12 @@ export async function generateStaticParams() {
 
 export default async function JobDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const [job] = await Promise.all([getJobBySlug(slug), getAllJobs()]);
+  const [job, , { userId }] = await Promise.all([getJobBySlug(slug), getAllJobs(), auth()]);
   if (!job) notFound();
 
   const similar = await getSimilarJobs(job, 3);
+  const candidate = userId ? await getCandidateByClerkUserId(userId) : null;
+  const saved = candidate ? await isJobSaved(candidate.id, job.id) : false;
 
   const jobJsonLd = {
     "@context": "https://schema.org",
@@ -180,11 +185,18 @@ export default async function JobDetailPage({ params }: PageProps) {
                 the role and next steps.
               </p>
               <Link
-                href={`/candidates/submit-cv?role=${encodeURIComponent(job.title)}`}
-                className={buttonVariants({ className: "mt-4 w-full" })}
+                href={`/candidates/submit-cv?jobId=${job.id}&jobSlug=${job.slug}&jobTitle=${encodeURIComponent(job.title)}`}
+                className={buttonVariants({ variant: "accent", className: "mt-4 w-full" })}
               >
                 Apply Now
               </Link>
+              <div className="mt-2 flex justify-center">
+                <SaveJobButton
+                  job={{ id: job.id, slug: job.slug, title: job.title }}
+                  initialSaved={saved}
+                  isSignedIn={Boolean(userId)}
+                />
+              </div>
               <Separator className="my-4" />
               <p className="text-xs text-muted-foreground">
                 Not right for you?{" "}

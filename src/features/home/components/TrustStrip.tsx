@@ -2,6 +2,7 @@ import { ShieldCheckIcon, UsersIcon, TrendingUpIcon, StarIcon } from "lucide-rea
 
 import type { SiteStats } from "@/server/integrations/sanity";
 import type { AggregateRating } from "@/server/integrations/reviews";
+import { Reveal } from "@/components/shared/Reveal";
 
 export function TrustStrip({
   stats,
@@ -37,12 +38,14 @@ export function TrustStrip({
     <section className="border-y border-border bg-primary py-12">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
-          {items.map(({ icon: Icon, value, label }) => (
-            <div key={label} className="flex flex-col items-center text-center text-primary-foreground">
-              <Icon className="mb-2 size-6 text-accent" aria-hidden="true" />
-              <p className="text-2xl font-semibold">{value}</p>
-              <p className="mt-1 text-sm text-primary-foreground/70">{label}</p>
-            </div>
+          {items.map(({ icon: Icon, value, label }, i) => (
+            <Reveal key={label} delay={i * 80} animation="fade-in-up">
+              <div className="flex flex-col items-center text-center text-primary-foreground">
+                <Icon className="mb-2 size-6 text-accent" aria-hidden="true" />
+                <p className="text-2xl font-semibold">{value}</p>
+                <p className="mt-1 text-sm text-primary-foreground/70">{label}</p>
+              </div>
+            </Reveal>
           ))}
         </div>
       </div>

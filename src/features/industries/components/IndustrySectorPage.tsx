@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
+import { JobAlertForm } from "@/features/job-alerts/components/JobAlertForm";
 import type { Job } from "@/server/integrations/jobadder";
 
 type Props = {
@@ -96,7 +97,7 @@ export function IndustrySectorPage({ slug, name, overview, roles, jobs }: Props)
               </p>
               <Link
                 href="/employers/register-vacancy"
-                className={buttonVariants({ className: "mt-4 w-full" })}
+                className={buttonVariants({ variant: "accent", className: "mt-4 w-full" })}
               >
                 Register a Vacancy
               </Link>
@@ -112,6 +113,9 @@ export function IndustrySectorPage({ slug, name, overview, roles, jobs }: Props)
               >
                 Browse {name} jobs
               </Link>
+            </div>
+            <div className="rounded-xl border border-border bg-card p-6">
+              <JobAlertForm defaultIndustry={name} />
             </div>
           </div>
         </div>

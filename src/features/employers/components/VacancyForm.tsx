@@ -8,8 +8,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect as Select } from "@/components/ui/native-select";
 import { Button } from "@/components/ui/button";
+import { HoneypotField } from "@/components/shared/HoneypotField";
 import { registerVacancy, type VacancyFormState } from "@/features/employers/actions";
-import { JOB_INDUSTRIES } from "@/server/integrations/jobadder";
+import { JOB_INDUSTRIES } from "@/lib/job-constants";
 
 function FieldError({ errors }: { errors?: string[] }) {
   if (!errors?.length) return null;
@@ -39,6 +40,7 @@ export function VacancyForm({ serviceType }: { serviceType?: string }) {
 
   return (
     <form action={action} className="grid gap-5 sm:grid-cols-2">
+      <HoneypotField />
       {serviceType && (
         <input type="hidden" name="serviceType" value={serviceType} />
       )}

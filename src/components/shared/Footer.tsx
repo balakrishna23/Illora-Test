@@ -1,74 +1,132 @@
 import Link from "next/link";
-import { ExternalLinkIcon } from "lucide-react";
+import { PhoneIcon, MailIcon, MapPinIcon, ExternalLinkIcon } from "lucide-react";
 
+import { IlloraLogo } from "@/components/shared/IlloraLogo";
+import { DotDivider } from "@/components/shared/DotDivider";
 import { footerLinks } from "@/lib/navigation";
 import { Separator } from "@/components/ui/separator";
 
-const EMPLOYER_LINKS = [
+const MAIN_MENU = [
   { label: "For Employers", href: "/employers" },
+  { label: "For Candidates", href: "/candidates" },
+  { label: "Jobs", href: "/jobs" },
+  { label: "Industries", href: "/industries" },
+  { label: "About Us", href: "/about" },
+  { label: "Knowledge Hub", href: "/knowledge-hub" },
+  { label: "Testimonials", href: "/testimonials" },
+  { label: "Contact", href: "/contact" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Terms & Conditions", href: "/terms-of-service" },
+];
+
+const SERVICES = [
   { label: "Permanent Recruitment", href: "/employers/permanent" },
   { label: "Contract & Labour Hire", href: "/employers/contract" },
   { label: "Embedded / RPO", href: "/employers/embedded-rpo" },
   { label: "Register a Vacancy", href: "/employers/register-vacancy" },
-];
-
-const CANDIDATE_LINKS = [
-  { label: "For Candidates", href: "/candidates" },
-  { label: "Browse Jobs", href: "/jobs" },
   { label: "Submit Your CV", href: "/candidates/submit-cv" },
   { label: "Career Advice", href: "/candidates/career-advice" },
 ];
 
-const ABOUT_LINKS = [
-  { label: "About Illora", href: "/about" },
-  { label: "First Nations Partnership", href: "/about/first-nations-partnership" },
-  { label: "Capability Statement", href: "/about/capability-statement" },
-  { label: "Knowledge Hub", href: "/knowledge-hub" },
-  { label: "Testimonials", href: "/testimonials" },
-  { label: "Contact", href: "/contact" },
+const INDUSTRIES = [
+  { label: "IT & Telecommunications", href: "/industries/it-telecommunications" },
+  { label: "Construction", href: "/industries/construction" },
+  { label: "Healthcare", href: "/industries/healthcare" },
+  { label: "Nursing & Aged Care", href: "/industries/nursing-aged-care" },
+  { label: "Data Science", href: "/industries/data-science" },
+  { label: "Cyber Security", href: "/industries/cyber-security" },
+  { label: "EV Waste & Recycling", href: "/industries/ev-waste" },
+];
+
+const OFFICES = [
+  "1/19 Barry Drive, Turner ACT 2612",
+  "Level 19, 180 Lonsdale St, Melbourne VIC 3000",
+  "Level 29, 221 St Georges Terrace, Perth WA 6000",
+  "Level 28, 161 Castlereagh St, Sydney NSW 2000",
+  "Level 18, 324 Queen St, Brisbane QLD 4000",
+];
+
+const SOCIALS = [
+  { label: "Facebook", short: "f", href: "https://www.facebook.com/illouraservices" },
+  { label: "LinkedIn", short: "in", href: "https://www.linkedin.com/company/illouraservices" },
 ];
 
 export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-muted/30">
-      <div className="mx-auto max-w-6xl px-4 pt-14 pb-8 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
-          {/* Brand */}
-          <div className="col-span-2 sm:col-span-1">
-            <Link href="/" className="text-lg font-semibold tracking-tight text-primary">
-              Illora
+    <footer className="border-t border-border bg-muted/20">
+      {/* Aboriginal flag–inspired earth stripe: charcoal | terracotta | golden ochre */}
+      <div className="flex h-0.75" aria-hidden="true">
+        <div className="flex-1" style={{ background: "oklch(0.17 0.04 30)" }} />
+        <div className="flex-1 bg-primary" />
+        <div className="flex-1 bg-accent" />
+      </div>
+      <div className="mx-auto max-w-7xl px-4 pt-14 pb-8 sm:px-6 lg:px-8">
+
+        {/* 4-column grid */}
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.9fr_1fr_1.3fr_1.4fr]">
+
+          {/* ── Brand + Acknowledgement ── */}
+          <div>
+            <Link href="/" className="flex items-center gap-2.5">
+              <IlloraLogo className="h-12 w-12 shrink-0" />
+              <span className="text-base font-semibold tracking-tight text-foreground">
+                Illoura Services
+              </span>
             </Link>
-            <p className="mt-3 text-sm text-muted-foreground max-w-50 leading-relaxed">
-              First Nations-owned recruitment delivering real outcomes across IT, Construction, and Healthcare.
-            </p>
-            <div className="mt-4 flex flex-wrap gap-3">
-              {[
-                { label: "LinkedIn", href: "https://www.linkedin.com/company/illora" },
-                { label: "Facebook", href: "https://www.facebook.com/illoraservices" },
-              ].map(({ label, href }) => (
+
+            <div className="mt-5 border-l-2 border-accent/60 pl-3">
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Illoura Services acknowledges all Aboriginal and Torres Strait Islander
+                Traditional Custodians of the lands on which we work and live.
+              </p>
+              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                We pay our respect to their Elders – past and present – and recognise their
+                continuing connection to land, sea, culture and community.
+              </p>
+            </div>
+
+            {/* Supply Nation badge */}
+            <div className="mt-6 inline-flex items-center gap-3 rounded-xl border border-primary/25 bg-primary/5 px-4 py-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/15">
+                <span className="text-[10px] font-extrabold text-primary">SN</span>
+              </div>
+              <div>
+                <p className="text-sm font-bold text-primary leading-tight">Supply Nation</p>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground mt-0.5">
+                  Certified Indigenous Service Provider
+                </p>
+              </div>
+            </div>
+
+            {/* Social icons */}
+            <div className="mt-5 flex gap-2">
+              {SOCIALS.map(({ label, short, href }) => (
                 <a
                   key={label}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label={label}
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-background text-xs font-bold transition-opacity hover:opacity-75"
                 >
-                  {label}
-                  <ExternalLinkIcon className="size-3" aria-hidden="true" />
+                  {short}
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Employers */}
-          <nav aria-label="Footer — Employers">
-            <p className="text-xs font-semibold uppercase tracking-wider text-foreground">Employers</p>
+          {/* ── Main Menu ── */}
+          <nav aria-label="Footer — Main Menu">
+            <p className="text-xs font-bold uppercase tracking-widest text-primary">Main Menu</p>
             <ul className="mt-4 space-y-2.5">
-              {EMPLOYER_LINKS.map((link) => (
+              {MAIN_MENU.map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  <Link
+                    href={link.href}
+                    className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                  >
                     {link.label}
                   </Link>
                 </li>
@@ -76,65 +134,101 @@ export function Footer() {
             </ul>
           </nav>
 
-          {/* Candidates */}
-          <nav aria-label="Footer — Candidates">
-            <p className="text-xs font-semibold uppercase tracking-wider text-foreground">Candidates</p>
-            <ul className="mt-4 space-y-2.5">
-              {CANDIDATE_LINKS.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    {link.label}
-                  </Link>
+          {/* ── Services + Industries ── */}
+          <div>
+            <nav aria-label="Footer — Services">
+              <p className="text-xs font-bold uppercase tracking-widest text-primary">Services</p>
+              <ul className="mt-4 space-y-2.5">
+                {SERVICES.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <nav aria-label="Footer — Industries" className="mt-7">
+              <p className="text-xs font-bold uppercase tracking-widest text-primary">Industries</p>
+              <ul className="mt-4 space-y-2.5">
+                {INDUSTRIES.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+
+          {/* ── Contact + Offices ── */}
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest text-primary">Contact</p>
+            <ul className="mt-4 space-y-3">
+              <li>
+                <a
+                  href="tel:+61261966999"
+                  className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
+                >
+                  <PhoneIcon className="size-3.5 shrink-0 text-primary" aria-hidden="true" />
+                  +61 2 6196 6999
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:info@illouraservices.com"
+                  className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary break-all"
+                >
+                  <MailIcon className="size-3.5 shrink-0 text-primary" aria-hidden="true" />
+                  info@illouraservices.com
+                </a>
+              </li>
+            </ul>
+
+            <p className="mt-7 text-xs font-bold uppercase tracking-widest text-primary">Address</p>
+            <ul className="mt-4 space-y-3">
+              {OFFICES.map((addr) => (
+                <li key={addr} className="flex gap-2 text-sm text-muted-foreground">
+                  <MapPinIcon className="mt-0.5 size-3.5 shrink-0 text-primary" aria-hidden="true" />
+                  <span>{addr}</span>
                 </li>
               ))}
             </ul>
-          </nav>
 
-          {/* Company */}
-          <nav aria-label="Footer — Company">
-            <p className="text-xs font-semibold uppercase tracking-wider text-foreground">Company</p>
-            <ul className="mt-4 space-y-2.5">
-              {ABOUT_LINKS.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
-
-        {/* Certifications */}
-        <div className="mt-10 flex flex-wrap gap-3">
-          {["Supply Nation Certified", "Black Business Finder"].map((cert) => (
-            <span
-              key={cert}
-              className="rounded-full border border-border bg-card px-3 py-1 text-xs font-medium"
+            {/* Black Business Finder */}
+            <a
+              href="https://www.blackbusinessfinder.com.au/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-primary"
             >
-              {cert}
-            </span>
-          ))}
+              Black Business Finder
+              <ExternalLinkIcon className="size-3" aria-hidden="true" />
+            </a>
+          </div>
         </div>
 
-        <Separator className="my-8" />
+        <DotDivider className="my-8" count={41} />
+        <Separator className="mb-8" />
 
-        <p className="max-w-3xl text-sm text-muted-foreground">
-          Illora acknowledges the Traditional Owners of the lands on which we
-          work and live, and pays respect to Elders past, present and emerging.
-          We recognise that sovereignty was never ceded.
-        </p>
-
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            &copy; {year} Illora Services Pty Ltd. All rights reserved.
+            &copy; {year} Illoura Services Pty Ltd. All rights reserved.
           </p>
           <nav aria-label="Footer — Legal" className="flex gap-4">
             {footerLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                className="text-xs text-muted-foreground transition-colors hover:text-foreground"
               >
                 {link.label}
               </Link>

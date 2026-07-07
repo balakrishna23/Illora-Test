@@ -2,28 +2,31 @@ import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
 import { MobileNav } from "@/components/shared/MobileNav";
-import { primaryNavLinks } from "@/lib/navigation";
+import { DesktopNav } from "@/components/shared/DesktopNav";
+import { IlloraLogo } from "@/components/shared/IlloraLogo";
+import { AccountNavButton } from "@/components/shared/AccountNavButton";
+import { requireAdmin } from "@/server/auth/session";
 
-export function Header() {
+export async function Header() {
+  const adminSession = await requireAdmin();
+  const isAdmin = adminSession.success;
+
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+      {/* Aboriginal flag–inspired earth stripe: charcoal | terracotta | golden ochre */}
+      <div className="flex h-0.75" aria-hidden="true">
+        <div className="flex-1" style={{ background: "oklch(0.17 0.04 30)" }} />
+        <div className="flex-1 bg-primary" />
+        <div className="flex-1 bg-accent" />
+      </div>
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-lg font-semibold tracking-tight text-primary">Illora</span>
-          <span className="hidden text-xs text-accent font-medium sm:block">Supply Nation Certified</span>
+        <Link href="/" className="flex items-center gap-2.5">
+          <IlloraLogo className="h-10 w-10 shrink-0" />
+          <span className="text-base font-semibold tracking-tight text-foreground">Illoura Services</span>
+          <span className="hidden rounded-full bg-accent/15 px-2 py-0.5 text-xs text-accent font-medium sm:block">Supply Nation Certified</span>
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-5 lg:flex">
-          {primaryNavLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-foreground/75 transition-colors hover:text-foreground"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        <DesktopNav />
 
         <div className="hidden items-center gap-2 lg:flex">
           <Link
@@ -38,9 +41,10 @@ export function Header() {
           >
             Hire Talent
           </Link>
+          <AccountNavButton isAdmin={isAdmin} />
         </div>
 
-        <MobileNav />
+        <MobileNav isAdmin={isAdmin} />
       </div>
     </header>
   );

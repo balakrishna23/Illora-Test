@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { auth } from "@clerk/nextjs/server";
 import { jsonLdString } from "@/lib/utils";
 
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { JobsClient } from "@/features/jobs/components/JobsClient";
 import { getAllJobs } from "@/server/integrations/jobadder";
+import { getCandidateByClerkUserId, getSavedJobs } from "@/features/portal/queries";
 
 export const metadata: Metadata = {
   title: "Jobs",
@@ -11,8 +13,13 @@ export const metadata: Metadata = {
     "Search live job listings across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling. Filter by location, type, and industry.",
 };
 
-export default async function JobsPage() {
-  const jobs = await getAllJobs();
+type SearchParams = Promise<{ q?: string; industry?: string; state?: string }>;
+
+export default async function JobsPage({ searchParams }: { searchParams: SearchParams }) {
+  const [jobs, params, { userId }] = await Promise.all([getAllJobs(), searchParams, auth()]);
+
+  const candidate = userId ? await getCandidateByClerkUserId(userId) : null;
+  const savedJobIds = candidate ? (await getSavedJobs(candidate.id)).map((j) => j.jobId) : [];
 
   const itemListJsonLd = {
     "@context": "https://schema.org",
@@ -40,12 +47,19 @@ export default async function JobsPage() {
           ]}
         />
         <div className="mt-8">
-          <h1 className="text-3xl font-semibold tracking-tight">Jobs</h1>
+          <h1 className="text-3xl font-semibold tracking-tight">Find Your Next Role</h1>
           <p className="mt-2 text-muted-foreground">
             {jobs.length} live roles across our seven specialist sectors, Australia-wide.
           </p>
         </div>
-        <JobsClient jobs={jobs} />
+        <JobsClient
+          jobs={jobs}
+          initialQuery={params.q ?? ""}
+          initialIndustry={params.industry ?? ""}
+          initialState={params.state ?? ""}
+          savedJobIds={savedJobIds}
+          isSignedIn={Boolean(userId)}
+        />
       </div>
     </>
   );

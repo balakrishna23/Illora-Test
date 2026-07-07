@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect as Select } from "@/components/ui/native-select";
 import { Button } from "@/components/ui/button";
+import { HoneypotField } from "@/components/shared/HoneypotField";
 import { sendContactMessage, type ContactFormState } from "@/features/contact/actions";
 
 function FieldError({ errors }: { errors?: string[] }) {
@@ -37,6 +38,7 @@ export function ContactForm() {
 
   return (
     <form action={action} className="grid gap-5 sm:grid-cols-2">
+      <HoneypotField />
       <div>
         <Label htmlFor="name">Name *</Label>
         <Input id="name" name="name" className="mt-1" required />

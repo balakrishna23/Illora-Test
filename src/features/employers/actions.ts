@@ -2,7 +2,11 @@
 
 import { z } from "zod";
 
+import { db } from "@/server/db/client";
+import { vacancyRequests } from "@/server/db/schema";
+import { isBotSubmission } from "@/lib/honeypot";
 import { JOB_INDUSTRIES } from "@/server/integrations/jobadder";
+import { sendVacancyConfirmationEmail } from "@/server/integrations/resend";
 
 const vacancySchema = z.object({
   companyName: z.string().min(2, "Company name is required"),
@@ -26,6 +30,9 @@ export async function registerVacancy(
   _prev: VacancyFormState | null,
   formData: FormData
 ): Promise<VacancyFormState> {
+  // Silently accept bot submissions without persisting or emailing.
+  if (isBotSubmission(formData)) return { success: true };
+
   const raw = Object.fromEntries(formData.entries());
   const parsed = vacancySchema.safeParse(raw);
 
@@ -37,10 +44,18 @@ export async function registerVacancy(
     };
   }
 
-  // Stub: write to DB, push to JobAdder, send Resend email
-  // await db.insert(vacancyLeads).values(parsed.data);
-  // await jobadderClient.createJob(parsed.data);
-  // await resend.emails.send({ ... });
+  await db.insert(vacancyRequests).values(parsed.data);
+
+  try {
+    await sendVacancyConfirmationEmail({
+      to: parsed.data.email,
+      contactName: parsed.data.contactName,
+      companyName: parsed.data.companyName,
+      roleTitle: parsed.data.roleTitle,
+    });
+  } catch (error) {
+    console.error("registerVacancy: failed to send confirmation email", error);
+  }
 
   return { success: true };
 }

@@ -21,7 +21,8 @@ This file is the single source of truth for how Claude (and any human) writes co
 | File storage | Cloudflare R2 |
 | Email | Resend |
 | Testing | Playwright (E2E), Vitest (unit) |
-| CI/CD | GitHub Actions → Vercel |
+| Hosting | Hostinger KVM VPS running Coolify (self-hosted PaaS) |
+| CI/CD | GitHub → Coolify (git-push deploy, auto Let's Encrypt SSL) |
 | MCP tools available | Context7, GitHub, Playwright, Sequential Thinking |
 
 **Never** introduce a new package, ORM, auth provider, CMS, or styling system not listed above without asking first. If a task seems to require something outside this stack, stop and ask rather than installing it.
