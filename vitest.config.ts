@@ -7,4 +7,9 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  test: {
+    // Unit tests only — Playwright specs live in e2e/ and run via `npm run test:e2e`.
+    include: ["src/**/*.test.ts"],
+    exclude: ["e2e/**", "node_modules/**"],
+  },
 });
