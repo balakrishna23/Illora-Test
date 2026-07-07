@@ -12,6 +12,7 @@ import {
   replaceApplication,
 } from "@/features/candidates/queries";
 import { isBotSubmission } from "@/lib/honeypot";
+import { checkRateLimit, retryAfterMessage } from "@/server/lib/rate-limit-guard";
 import { JOB_INDUSTRIES } from "@/server/integrations/jobadder";
 import { createPresignedUploadUrl, deleteObject, getObjectSize } from "@/server/integrations/r2";
 import { sendCvConfirmationEmail } from "@/server/integrations/resend";
@@ -70,6 +71,11 @@ export async function submitCv(
 ): Promise<SubmitCvState> {
   // Silently accept bot submissions without persisting or emailing.
   if (isBotSubmission(formData)) return { success: true };
+
+  const rate = await checkRateLimit("submitCv");
+  if (!rate.ok) {
+    return { success: false, error: `Too many submissions. ${retryAfterMessage(rate.retryAfterSeconds)}` };
+  }
 
   const raw = Object.fromEntries(formData.entries());
   const parsed = submitCvSchema.safeParse(raw);
@@ -182,6 +188,13 @@ export async function getR2UploadUrl(
   filename: string,
   contentType: string
 ): Promise<{ uploadUrl: string; key: string }> {
+  // Higher ceiling than form submits — a single applicant may re-pick a file
+  // a few times — but still bounded to stop scripted bucket-spam.
+  const rate = await checkRateLimit("getR2UploadUrl", { limit: 20 });
+  if (!rate.ok) {
+    throw new Error("Too many upload attempts. Please wait a moment and try again.");
+  }
+
   if (!ALLOWED_CONTENT_TYPES.includes(contentType)) {
     throw new Error("Only PDF or DOCX files are accepted.");
   }

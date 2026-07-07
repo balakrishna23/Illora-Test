@@ -5,6 +5,7 @@ import { z } from "zod";
 import { AU_STATES, JOB_INDUSTRIES, JOB_TYPES } from "@/server/integrations/jobadder";
 import { createJobAlert, unsubscribeJobAlert } from "@/features/job-alerts/queries";
 import { isBotSubmission } from "@/lib/honeypot";
+import { checkRateLimit, retryAfterMessage } from "@/server/lib/rate-limit-guard";
 import type { CreateJobAlertState } from "@/features/job-alerts/types";
 
 const jobAlertSchema = z.object({
@@ -23,6 +24,11 @@ export async function subscribeToJobAlert(
 ): Promise<CreateJobAlertState> {
   // Silently accept bot submissions without persisting.
   if (isBotSubmission(formData)) return { success: true };
+
+  const rate = await checkRateLimit("subscribeToJobAlert");
+  if (!rate.ok) {
+    return { success: false, error: `Too many sign-ups. ${retryAfterMessage(rate.retryAfterSeconds)}` };
+  }
 
   const parsed = jobAlertSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) {

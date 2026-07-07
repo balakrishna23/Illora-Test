@@ -5,6 +5,7 @@ import { z } from "zod";
 import { db } from "@/server/db/client";
 import { vacancyRequests } from "@/server/db/schema";
 import { isBotSubmission } from "@/lib/honeypot";
+import { checkRateLimit, retryAfterMessage } from "@/server/lib/rate-limit-guard";
 import { JOB_INDUSTRIES } from "@/server/integrations/jobadder";
 import { sendVacancyConfirmationEmail } from "@/server/integrations/resend";
 
@@ -32,6 +33,11 @@ export async function registerVacancy(
 ): Promise<VacancyFormState> {
   // Silently accept bot submissions without persisting or emailing.
   if (isBotSubmission(formData)) return { success: true };
+
+  const rate = await checkRateLimit("registerVacancy");
+  if (!rate.ok) {
+    return { success: false, error: `Too many requests. ${retryAfterMessage(rate.retryAfterSeconds)}` };
+  }
 
   const raw = Object.fromEntries(formData.entries());
   const parsed = vacancySchema.safeParse(raw);

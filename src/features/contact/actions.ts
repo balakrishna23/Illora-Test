@@ -5,6 +5,7 @@ import { z } from "zod";
 import { db } from "@/server/db/client";
 import { contactMessages } from "@/server/db/schema";
 import { isBotSubmission } from "@/lib/honeypot";
+import { checkRateLimit, retryAfterMessage } from "@/server/lib/rate-limit-guard";
 import { sendContactConfirmationEmail } from "@/server/integrations/resend";
 
 const contactSchema = z.object({
@@ -25,6 +26,11 @@ export async function sendContactMessage(
 ): Promise<ContactFormState> {
   // Silently accept bot submissions without persisting or emailing.
   if (isBotSubmission(formData)) return { success: true };
+
+  const rate = await checkRateLimit("sendContactMessage");
+  if (!rate.ok) {
+    return { success: false, error: `Too many messages. ${retryAfterMessage(rate.retryAfterSeconds)}` };
+  }
 
   const parsed = contactSchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) {
