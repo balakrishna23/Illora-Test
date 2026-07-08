@@ -1,5 +1,6 @@
 import {
   doublePrecision,
+  integer,
   jsonb,
   pgTable,
   text,
@@ -141,6 +142,31 @@ export const vacancyRequests = pgTable("vacancy_requests", {
   status: text("status", { enum: vacancyRequestStatusValues })
     .notNull()
     .default("new"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const campaignAudienceValues = ["candidates", "clients", "all"] as const;
+export const campaignStatusValues = ["sending", "sent", "failed"] as const;
+
+export const emailCampaigns = pgTable("email_campaigns", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  subject: text("subject").notNull(),
+  body: text("body").notNull(),
+  audience: text("audience", { enum: campaignAudienceValues }).notNull(),
+  status: text("status", { enum: campaignStatusValues }).notNull().default("sending"),
+  recipientCount: integer("recipient_count").notNull().default(0),
+  sentCount: integer("sent_count").notNull().default(0),
+  failedCount: integer("failed_count").notNull().default(0),
+  createdBy: text("created_by").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  completedAt: timestamp("completed_at"),
+});
+
+// Global opt-out list for campaign email. Job alerts keep their own per-alert
+// unsubscribe; this suppresses an address from all admin-sent campaigns.
+export const emailSuppressions = pgTable("email_suppressions", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  email: text("email").notNull().unique(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 

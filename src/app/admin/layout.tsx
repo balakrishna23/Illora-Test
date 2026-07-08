@@ -9,6 +9,7 @@ const ADMIN_NAV = [
   { href: "/admin/applications", label: "Applications" },
   { href: "/admin/messages/contact", label: "Messages" },
   { href: "/admin/messages/vacancies", label: "Vacancy Requests" },
+  { href: "/admin/campaigns", label: "Campaigns" },
   { href: "/admin/assistant", label: "Assistant" },
 ];
 

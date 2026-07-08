@@ -42,6 +42,60 @@ export async function sendJobAlertEmail(input: {
   return { success: !error };
 }
 
+export type CampaignEmail = {
+  to: string;
+  subject: string;
+  html: string;
+  text: string;
+  unsubscribeUrl: string;
+};
+
+// Resend's batch endpoint caps each call at 100 emails. Permissive validation
+// makes one malformed address fail only itself, not its whole chunk.
+const CAMPAIGN_BATCH_SIZE = 100;
+
+export async function sendCampaignEmails(
+  emails: CampaignEmail[]
+): Promise<{ sentCount: number; failedCount: number }> {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  let sentCount = 0;
+  let failedCount = 0;
+
+  for (let i = 0; i < emails.length; i += CAMPAIGN_BATCH_SIZE) {
+    const chunk = emails.slice(i, i + CAMPAIGN_BATCH_SIZE);
+    try {
+      const { data, error } = await resend.batch.send(
+        chunk.map((email) => ({
+          from: FROM_EMAIL,
+          to: email.to,
+          subject: email.subject,
+          html: email.html,
+          text: email.text,
+          headers: { "List-Unsubscribe": `<${email.unsubscribeUrl}>` },
+        })),
+        { batchValidation: "permissive" }
+      );
+
+      if (error || !data) {
+        console.error(`sendCampaignEmails: batch of ${chunk.length} failed`, error?.message);
+        failedCount += chunk.length;
+      } else {
+        sentCount += data.data.length;
+        failedCount += chunk.length - data.data.length;
+        for (const failure of data.errors ?? []) {
+          console.error(`sendCampaignEmails: email at index ${i + failure.index} failed: ${failure.message}`);
+        }
+      }
+    } catch (err) {
+      // A thrown network/SDK error must not abort the remaining chunks.
+      console.error(`sendCampaignEmails: batch of ${chunk.length} threw`, err);
+      failedCount += chunk.length;
+    }
+  }
+
+  return { sentCount, failedCount };
+}
+
 export async function sendCvConfirmationEmail(input: {
   to: string;
   name: string;
