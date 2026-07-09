@@ -23,7 +23,7 @@ Candidate information: full name, contact details (email, phone, address), résu
 
 Employer information: company name, contact name, role, email, phone, and information about roles you engage us to fill.
 
-Website visitors: we collect standard server logs (IP address, browser type, pages visited) and analytics data via Vercel Analytics.`,
+Website visitors: we collect standard server logs (IP address, browser type, pages visited) for security and operational purposes.`,
   },
   {
     title: "3. How we use your information",
