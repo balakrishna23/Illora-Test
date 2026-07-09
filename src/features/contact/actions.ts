@@ -14,6 +14,7 @@ const contactSchema = z.object({
   phone: z.string().optional(),
   subject: z.enum(["General Enquiry", "Employer Enquiry", "Candidate Enquiry", "Media"]),
   message: z.string().min(10, "Please provide some detail"),
+  marketingConsent: z.preprocess((v) => v === "on", z.boolean()),
 });
 
 export type ContactFormState =

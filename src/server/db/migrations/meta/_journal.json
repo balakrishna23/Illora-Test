@@ -22,6 +22,13 @@
       "when": 1783531982454,
       "tag": "0002_huge_joseph",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1783575656135,
+      "tag": "0003_round_gorilla_man",
+      "breakpoints": true
     }
   ]
 }

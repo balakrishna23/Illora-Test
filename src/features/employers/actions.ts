@@ -21,6 +21,7 @@ const vacancySchema = z.object({
   urgency: z.enum(["ASAP", "Within 2 weeks", "Within a month", "No rush"]),
   message: z.string().min(10, "Please provide some detail about the role"),
   serviceType: z.string().optional(),
+  marketingConsent: z.preprocess((v) => v === "on", z.boolean()),
 });
 
 export type VacancyFormState =

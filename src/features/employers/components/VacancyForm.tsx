@@ -126,6 +126,20 @@ export function VacancyForm({ serviceType }: { serviceType?: string }) {
       </div>
 
       <div className="sm:col-span-2">
+        <label className="flex items-start gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            name="marketingConsent"
+            className="mt-0.5 rounded border-border"
+          />
+          <span className="text-sm text-muted-foreground">
+            Keep me updated with hiring insights and news from Illora. You can
+            unsubscribe at any time. (Optional)
+          </span>
+        </label>
+      </div>
+
+      <div className="sm:col-span-2">
         <Button type="submit" variant="accent" disabled={isPending} className="w-full sm:w-auto">
           {isPending ? "Submitting…" : "Register Vacancy"}
         </Button>

@@ -32,8 +32,10 @@ Website visitors: we collect standard server logs (IP address, browser type, pag
 — Assess your suitability for roles and present your profile to prospective employers (with your consent)
 — Manage the recruitment process on behalf of employers
 — Communicate with you about roles, interviews, and placement outcomes
-— Send you relevant market updates or Knowledge Hub content (you may opt out at any time)
-— Comply with our legal obligations`,
+— Send you marketing communications (market updates, hiring insights, Knowledge Hub content) — only where you have expressly opted in, and you may unsubscribe at any time
+— Comply with our legal obligations
+
+Transactional messages (for example, confirmation that we received your CV or enquiry) are part of providing our service and are sent regardless of marketing preferences.`,
   },
   {
     title: "4. Disclosure to third parties",
@@ -52,7 +54,13 @@ We do not sell personal information to third parties.`,
     content: `Candidate information is retained for a maximum of three years from the date of last contact, after which it is securely deleted unless you request earlier removal. Employer contact information is retained for the duration of our business relationship.`,
   },
   {
-    title: "6. Your rights",
+    title: "6. Marketing communications",
+    content: `We only send marketing emails (such as role alerts, hiring insights, and news) to people who have expressly opted in — for example, by ticking the marketing consent box when submitting a CV, registering a vacancy, or contacting us. We rely on your consent, or an existing business relationship where permitted, as the basis for sending in accordance with the Spam Act 2003 (Cth).
+
+Every marketing email includes a working unsubscribe link, and unsubscribing takes effect immediately. Transactional messages relating to a service you have requested are not marketing and are handled separately. We do not add people to marketing lists without a lawful basis, and we do not sell or rent our mailing lists.`,
+  },
+  {
+    title: "7. Your rights",
     content: `Under the Privacy Act, you have the right to:
 
 — Access the personal information we hold about you
@@ -63,15 +71,15 @@ We do not sell personal information to third parties.`,
 To exercise any of these rights, contact us at privacy@illora.com.au.`,
   },
   {
-    title: "7. Security",
+    title: "8. Security",
     content: `We take reasonable steps to protect personal information from misuse, loss, and unauthorised access. Résumés and documents are stored in Cloudflare R2 with access controls. Database access is restricted to authorised personnel and encrypted in transit and at rest.`,
   },
   {
-    title: "8. Complaints",
+    title: "9. Complaints",
     content: `If you have a complaint about how we have handled your personal information, please contact us at privacy@illora.com.au. We will respond within 30 days. If you are not satisfied with our response, you may contact the Office of the Australian Information Commissioner (OAIC) at www.oaic.gov.au.`,
   },
   {
-    title: "9. Contact",
+    title: "10. Contact",
     content: `For privacy enquiries: privacy@illora.com.au
 Illora Services Pty Ltd
 Level 12, 20 Martin Place, Sydney NSW 2000

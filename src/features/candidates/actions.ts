@@ -26,6 +26,7 @@ const submitCvSchema = z.object({
   linkedIn: z.string().url("Must be a valid URL").optional().or(z.literal("")),
   resumeKey: z.string().min(1, "Resume upload is required"),
   consent: z.literal("on", { error: "You must consent to proceed" }),
+  marketingConsent: z.preprocess((v) => v === "on", z.boolean()),
   jobId: z.string().uuid().optional().or(z.literal("")),
   jobSlug: z.string().optional(),
   jobTitle: z.string().optional(),

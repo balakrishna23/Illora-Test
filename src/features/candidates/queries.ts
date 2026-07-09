@@ -65,6 +65,7 @@ export async function replaceApplication(
     currentRole: string;
     linkedIn?: string;
     resumeR2Key: string;
+    marketingConsent: boolean;
   }
 ): Promise<void> {
   await db

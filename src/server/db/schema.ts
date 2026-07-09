@@ -1,4 +1,5 @@
 import {
+  boolean,
   doublePrecision,
   integer,
   jsonb,
@@ -117,6 +118,9 @@ export const applications = pgTable("applications", {
   linkedIn: text("linked_in"),
   resumeR2Key: text("resume_r2_key"),
   coverLetterR2Key: text("cover_letter_r2_key"),
+  // Explicit opt-in to marketing/campaign email at the point of submission.
+  // The campaign mailer only sends to rows where this is true.
+  marketingConsent: boolean("marketing_consent").notNull().default(false),
   status: text("status", { enum: applicationStatusValues })
     .notNull()
     .default("submitted"),
@@ -139,6 +143,7 @@ export const vacancyRequests = pgTable("vacancy_requests", {
   urgency: text("urgency").notNull(),
   message: text("message").notNull(),
   serviceType: text("service_type"),
+  marketingConsent: boolean("marketing_consent").notNull().default(false),
   status: text("status", { enum: vacancyRequestStatusValues })
     .notNull()
     .default("new"),
@@ -179,6 +184,7 @@ export const contactMessages = pgTable("contact_messages", {
   phone: text("phone"),
   subject: text("subject").notNull(),
   message: text("message").notNull(),
+  marketingConsent: boolean("marketing_consent").notNull().default(false),
   status: text("status", { enum: contactMessageStatusValues })
     .notNull()
     .default("new"),

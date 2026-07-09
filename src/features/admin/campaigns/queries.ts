@@ -3,7 +3,6 @@ import { desc, eq } from "drizzle-orm";
 import { db } from "@/server/db/client";
 import {
   applications,
-  candidates,
   emailCampaigns,
   emailSuppressions,
   vacancyRequests,
@@ -15,12 +14,15 @@ import type {
   CampaignRecipient,
 } from "@/features/admin/campaigns/types";
 
+// Consent gate: only people who explicitly opted in to marketing at submission
+// (marketing_consent = true) are reachable. The plain `candidates` table (Clerk
+// sign-ups) has no consent capture point, so it is intentionally NOT a source —
+// including it would email people who never opted in (Spam Act 2003).
 async function getCandidateRows(): Promise<CampaignRecipient[]> {
-  const [applicationRows, candidateRows] = await Promise.all([
-    db.select({ email: applications.email, name: applications.name }).from(applications),
-    db.select({ email: candidates.email }).from(candidates),
-  ]);
-  return [...applicationRows, ...candidateRows];
+  return db
+    .select({ email: applications.email, name: applications.name })
+    .from(applications)
+    .where(eq(applications.marketingConsent, true));
 }
 
 async function getClientRows(): Promise<CampaignRecipient[]> {
@@ -30,7 +32,8 @@ async function getClientRows(): Promise<CampaignRecipient[]> {
       name: vacancyRequests.contactName,
       company: vacancyRequests.companyName,
     })
-    .from(vacancyRequests);
+    .from(vacancyRequests)
+    .where(eq(vacancyRequests.marketingConsent, true));
 }
 
 async function getSuppressedEmails(): Promise<string[]> {

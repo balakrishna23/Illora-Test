@@ -70,6 +70,19 @@ export function ContactForm() {
         <FieldError errors={fieldErrors.message} />
       </div>
       <div className="sm:col-span-2">
+        <label className="flex items-start gap-3 cursor-pointer">
+          <input
+            type="checkbox"
+            name="marketingConsent"
+            className="mt-0.5 rounded border-border"
+          />
+          <span className="text-sm text-muted-foreground">
+            Keep me updated with news and insights from Illora. You can
+            unsubscribe at any time. (Optional)
+          </span>
+        </label>
+      </div>
+      <div className="sm:col-span-2">
         <Button type="submit" variant="accent" disabled={isPending}>
           {isPending ? "Sending…" : "Send message"}
         </Button>
