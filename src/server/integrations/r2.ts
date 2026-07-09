@@ -1,5 +1,6 @@
 import {
   DeleteObjectCommand,
+  GetObjectCommand,
   HeadObjectCommand,
   PutObjectCommand,
   S3Client,
@@ -45,6 +46,24 @@ export async function deleteObject(key: string): Promise<void> {
   await s3Client.send(
     new DeleteObjectCommand({ Bucket: process.env.R2_BUCKET_NAME, Key: key })
   );
+}
+
+// Short-lived presigned GET URL for a stored object (e.g. an admin viewing a
+// resume). Callers MUST authorize access before calling — this only signs.
+export async function createPresignedDownloadUrl(input: {
+  key: string;
+  downloadFilename?: string;
+}): Promise<{ downloadUrl: string }> {
+  const command = new GetObjectCommand({
+    Bucket: process.env.R2_BUCKET_NAME,
+    Key: input.key,
+    ...(input.downloadFilename
+      ? { ResponseContentDisposition: `attachment; filename="${input.downloadFilename}"` }
+      : {}),
+  });
+
+  const downloadUrl = await getSignedUrl(s3Client, command, { expiresIn: 120 });
+  return { downloadUrl };
 }
 
 // Metadata-only lookup (no download). Returns null if the object doesn't exist.

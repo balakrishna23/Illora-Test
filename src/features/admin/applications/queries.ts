@@ -19,6 +19,10 @@ export async function getAllApplications() {
       jobTitle: applications.jobTitle,
       liveJobTitle: jobs.title,
       liveJobSlug: jobs.slug,
+      // Keys are converted to booleans at the server/client boundary (the page)
+      // and never passed to the browser — downloads are signed on demand.
+      resumeR2Key: applications.resumeR2Key,
+      coverLetterR2Key: applications.coverLetterR2Key,
     })
     .from(applications)
     .leftJoin(jobs, eq(applications.jobId, jobs.id))

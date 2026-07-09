@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { getAllApplications } from "@/features/admin/applications/queries";
-import { ApplicationStatusSelect } from "@/features/admin/applications/components/ApplicationStatusSelect";
+import {
+  ApplicationsTable,
+  type AdminApplicationRow,
+} from "@/features/admin/applications/components/ApplicationsTable";
 
 export const metadata: Metadata = {
   title: "Admin — Applications",
@@ -11,58 +13,26 @@ export const metadata: Metadata = {
 export default async function AdminApplicationsPage() {
   const applications = await getAllApplications();
 
+  // Convert the R2 keys to booleans here so the actual keys never cross the
+  // server/client boundary — downloads are signed on demand, admin-gated.
+  const rows: AdminApplicationRow[] = applications.map((application) => ({
+    id: application.id,
+    name: application.name,
+    email: application.email,
+    phone: application.phone,
+    targetIndustry: application.targetIndustry,
+    status: application.status,
+    submittedAt: application.submittedAt.toISOString(),
+    jobSlug: application.liveJobSlug ?? application.jobSlug,
+    jobTitle: application.liveJobTitle ?? application.jobTitle,
+    hasResume: Boolean(application.resumeR2Key),
+    hasCoverLetter: Boolean(application.coverLetterR2Key),
+  }));
+
   return (
     <div>
-      <h2 className="text-xl font-semibold">Applications ({applications.length})</h2>
-
-      <div className="mt-4 overflow-x-auto rounded-xl border border-border">
-        <table className="w-full text-sm">
-          <thead className="bg-muted/50 text-left text-xs uppercase tracking-wide text-muted-foreground">
-            <tr>
-              <th className="px-4 py-2.5">Candidate</th>
-              <th className="px-4 py-2.5">Job</th>
-              <th className="px-4 py-2.5">Industry</th>
-              <th className="px-4 py-2.5">Submitted</th>
-              <th className="px-4 py-2.5">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {applications.map((application) => {
-              const jobSlug = application.liveJobSlug ?? application.jobSlug;
-              const jobTitle = application.liveJobTitle ?? application.jobTitle;
-              return (
-                <tr key={application.id} className="border-t border-border align-top">
-                  <td className="px-4 py-3">
-                    <p className="font-medium">{application.name}</p>
-                    <p className="text-xs text-muted-foreground">{application.email}</p>
-                    <p className="text-xs text-muted-foreground">{application.phone}</p>
-                  </td>
-                  <td className="px-4 py-3">
-                    {jobSlug && jobTitle ? (
-                      <Link href={`/jobs/${jobSlug}`} className="hover:text-primary">
-                        {jobTitle}
-                      </Link>
-                    ) : (
-                      <span className="text-muted-foreground">General submission</span>
-                    )}
-                  </td>
-                  <td className="px-4 py-3 text-muted-foreground">{application.targetIndustry}</td>
-                  <td className="px-4 py-3 text-muted-foreground">
-                    {new Date(application.submittedAt).toLocaleDateString("en-AU", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </td>
-                  <td className="px-4 py-3">
-                    <ApplicationStatusSelect id={application.id} status={application.status} />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+      <h2 className="text-xl font-semibold">Applications ({rows.length})</h2>
+      <ApplicationsTable applications={rows} />
     </div>
   );
 }
