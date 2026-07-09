@@ -6,6 +6,7 @@ import { CheckCircleIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { HoneypotField } from "@/components/shared/HoneypotField";
 import { requestCapabilityStatement } from "@/features/about/actions";
 
 type State = { success: true } | { success: false; error: string } | null;
@@ -29,6 +30,7 @@ export function CapabilityEmailForm() {
 
   return (
     <form action={action} className="flex flex-col gap-4 sm:flex-row sm:items-end">
+      <HoneypotField />
       <div className="flex-1">
         <Label htmlFor="capName">Name</Label>
         <Input id="capName" name="name" className="mt-1" required />
