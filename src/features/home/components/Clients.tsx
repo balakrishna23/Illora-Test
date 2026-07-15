@@ -1,23 +1,18 @@
-import { Reveal } from "@/components/shared/Reveal";
+import Image from "next/image";
 
-// Text-only by design. Government department branding uses the Commonwealth
-// Coat of Arms, which is legally protected and shouldn't be reproduced as a
-// client logo without authorisation — so clients are named, not badged.
-// Confirm any contract confidentiality terms before publishing these names.
+import { Reveal } from "@/components/shared/Reveal";
+import { logoUrl } from "@/server/lib/logos";
+
+// Government departments are named as TEXT only — never the Commonwealth Coat
+// of Arms, which is legally protected and must not be reproduced as a client
+// logo without authorisation. Confirm any contract confidentiality terms before
+// publishing these names. Private clients may use a logo (public/logos/).
 const GOVERNMENT_CLIENTS = [
   "Australian Government — Department of Health, Disability & Ageing",
   "Australian Government — Department of Home Affairs",
 ];
 
-const PRIVATE_CLIENTS = ["Coforge"];
-
-function ClientCard({ name }: { name: string }) {
-  return (
-    <div className="flex items-center justify-center rounded-xl border border-border bg-card px-5 py-6 text-center">
-      <p className="text-sm font-medium text-foreground">{name}</p>
-    </div>
-  );
-}
+const PRIVATE_CLIENTS = [{ logo: "coforge.png", name: "Coforge" }];
 
 export function Clients() {
   return (
@@ -44,7 +39,9 @@ export function Clients() {
             <div className="mt-3 grid gap-4 sm:grid-cols-2">
               {GOVERNMENT_CLIENTS.map((name, i) => (
                 <Reveal key={name} animation="fade-in-up" delay={i * 70}>
-                  <ClientCard name={name} />
+                  <div className="flex h-full items-center justify-center rounded-xl border border-border bg-card px-5 py-6 text-center">
+                    <p className="text-sm font-medium text-foreground">{name}</p>
+                  </div>
                 </Reveal>
               ))}
             </div>
@@ -52,11 +49,22 @@ export function Clients() {
           <div>
             <p className="text-sm font-semibold text-muted-foreground">Private sector</p>
             <div className="mt-3 grid gap-4">
-              {PRIVATE_CLIENTS.map((name, i) => (
-                <Reveal key={name} animation="fade-in-up" delay={i * 70}>
-                  <ClientCard name={name} />
-                </Reveal>
-              ))}
+              {PRIVATE_CLIENTS.map((client, i) => {
+                const src = logoUrl(client.logo);
+                return (
+                  <Reveal key={client.name} animation="fade-in-up" delay={i * 70}>
+                    <div className="flex h-full items-center justify-center rounded-xl border border-border bg-card px-5 py-6">
+                      {src ? (
+                        <div className="relative h-8 w-full">
+                          <Image src={src} alt={client.name} fill className="object-contain" sizes="200px" />
+                        </div>
+                      ) : (
+                        <p className="text-sm font-medium text-foreground">{client.name}</p>
+                      )}
+                    </div>
+                  </Reveal>
+                );
+              })}
             </div>
           </div>
         </div>

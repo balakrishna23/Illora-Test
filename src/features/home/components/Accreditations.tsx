@@ -1,36 +1,18 @@
-import { Reveal } from "@/components/shared/Reveal";
+import Image from "next/image";
 
-// Text-based badges by design — accurate, procurement-friendly, and free of the
-// logo-permission issues that come with third-party marks. Swap in real logo
-// files later if/when supplied. Wording is deliberately conservative: Supply
-// Nation is "Registered" (not Certified), and the networks are "Member" unless
-// a formal "Certified Member" status is confirmed.
+import { Reveal } from "@/components/shared/Reveal";
+import { logoUrl } from "@/server/lib/logos";
+
+// Each item shows its real logo if a matching file exists in public/logos/,
+// otherwise a text badge. Wording is deliberately conservative: Supply Nation
+// is "Registered" (not Certified), and the networks are "Member" unless a
+// formal "Certified Member" status is confirmed.
 const ACCREDITATIONS = [
-  {
-    abbr: "SN",
-    name: "Supply Nation",
-    caption: "Registered",
-  },
-  {
-    abbr: "NSWICC",
-    name: "NSW Indigenous Chamber of Commerce",
-    caption: "Member",
-  },
-  {
-    abbr: "PIBNG",
-    name: "Pilbara Indigenous Business Network Group",
-    caption: "Member",
-  },
-  {
-    abbr: "NTIBN",
-    name: "Northern Territory Indigenous Business Network",
-    caption: "Member",
-  },
-  {
-    abbr: "KDCCI",
-    name: "Karratha & Districts Chamber of Commerce & Industry",
-    caption: "Member",
-  },
+  { logo: "supply-nation.png", abbr: "SN", name: "Supply Nation", caption: "Registered" },
+  { logo: "nswicc.png", abbr: "NSWICC", name: "NSW Indigenous Chamber of Commerce", caption: "Member" },
+  { logo: "pibng.png", abbr: "PIBNG", name: "Pilbara Indigenous Business Network Group", caption: "Member" },
+  { logo: "ntibn.png", abbr: "NTIBN", name: "Northern Territory Indigenous Business Network", caption: "Member" },
+  { logo: "kdcci.png", abbr: "KDCCI", name: "Karratha & Districts Chamber of Commerce & Industry", caption: "Member" },
 ];
 
 export function Accreditations() {
@@ -55,23 +37,32 @@ export function Accreditations() {
         </Reveal>
 
         <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          {ACCREDITATIONS.map((item, i) => (
-            <Reveal key={item.abbr} animation="fade-in-up" delay={i * 70}>
-              <div className="flex h-full flex-col items-center rounded-xl border border-border bg-card p-5 text-center">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
-                  <span className="text-sm font-extrabold tracking-tight text-primary">
-                    {item.abbr}
+          {ACCREDITATIONS.map((item, i) => {
+            const src = logoUrl(item.logo);
+            return (
+              <Reveal key={item.abbr} animation="fade-in-up" delay={i * 70}>
+                <div className="flex h-full flex-col items-center rounded-xl border border-border bg-card p-5 text-center">
+                  {src ? (
+                    <div className="relative h-14 w-full">
+                      <Image src={src} alt={item.name} fill className="object-contain" sizes="200px" />
+                    </div>
+                  ) : (
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+                      <span className="text-sm font-extrabold tracking-tight text-primary">
+                        {item.abbr}
+                      </span>
+                    </div>
+                  )}
+                  <p className="mt-3 flex-1 text-sm font-medium leading-snug text-foreground">
+                    {item.name}
+                  </p>
+                  <span className="mt-3 inline-block rounded-full bg-accent/15 px-2.5 py-0.5 text-xs font-medium text-accent">
+                    {item.caption}
                   </span>
                 </div>
-                <p className="mt-3 flex-1 text-sm font-medium leading-snug text-foreground">
-                  {item.name}
-                </p>
-                <span className="mt-3 inline-block rounded-full bg-accent/15 px-2.5 py-0.5 text-xs font-medium text-accent">
-                  {item.caption}
-                </span>
-              </div>
-            </Reveal>
-          ))}
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>
