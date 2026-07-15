@@ -95,7 +95,7 @@ export function Footer() {
               <div>
                 <p className="text-sm font-bold text-primary leading-tight">Supply Nation</p>
                 <p className="text-[10px] uppercase tracking-widest text-muted-foreground mt-0.5">
-                  Certified Indigenous Service Provider
+                  Registered Indigenous Service Provider
                 </p>
               </div>
             </div>

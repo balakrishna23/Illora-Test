@@ -10,7 +10,7 @@ export function HomeHero({ stats }: { stats: SiteStats }) {
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
         <div className="max-w-3xl animate-slide-in-left">
           <p className="mb-4 text-sm font-medium uppercase tracking-widest text-accent">
-            Supply Nation Certified · First Nations Owned
+            Supply Nation Registered · First Nations Owned
           </p>
           <h1 className="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
             Recruitment that delivers real outcomes

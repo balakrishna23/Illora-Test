@@ -7,6 +7,8 @@ import { HomeHero } from "@/features/home/components/HomeHero";
 import { JobTicker } from "@/features/home/components/JobTicker";
 import { NameMeaning } from "@/features/home/components/NameMeaning";
 import { IndustryTiles } from "@/features/home/components/IndustryTiles";
+import { Clients } from "@/features/home/components/Clients";
+import { Accreditations } from "@/features/home/components/Accreditations";
 import { TestimonialsCarousel } from "@/features/home/components/TestimonialsCarousel";
 import { KnowledgeHubPreview } from "@/features/home/components/KnowledgeHubPreview";
 import { DualCtaBand } from "@/features/home/components/DualCtaBand";
@@ -40,6 +42,8 @@ export default async function Home() {
       <JobTicker jobs={jobs} />
       <NameMeaning />
       <IndustryTiles />
+      <Clients />
+      <Accreditations />
       <TestimonialsCarousel reviews={reviews} />
       <KnowledgeHubPreview articles={articles} />
       <DualCtaBand />

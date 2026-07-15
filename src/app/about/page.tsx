@@ -100,8 +100,8 @@ export default async function AboutPage() {
               <p>
                 Since 2018, Illora has placed over 1,200 candidates, partnered
                 with more than 80 employers across Australia, and maintained a
-                94% client retention rate. We hold Supply Nation certification
-                and are registered on the Black Business Finder — credentials
+                94% client retention rate. We are Supply Nation Registered
+                and listed on the Black Business Finder — credentials
                 that reflect who we are, not just what we do.
               </p>
             </div>
@@ -115,7 +115,7 @@ export default async function AboutPage() {
                 ["Founded", "2018"],
                 ["Headquarters", "Sydney, NSW (operates nationally)"],
                 ["Sectors", "7 specialist sectors, Australia-wide"],
-                ["Certifications", "Supply Nation · Black Business Finder"],
+                ["Registrations", "Supply Nation Registered · Black Business Finder"],
                 ["Candidates Placed", "1,200+"],
                 ["Client Retention", "94%"],
               ].map(([label, value]) => (

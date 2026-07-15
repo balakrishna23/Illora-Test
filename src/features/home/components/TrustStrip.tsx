@@ -15,7 +15,7 @@ export function TrustStrip({
     {
       icon: ShieldCheckIcon,
       value: "Supply Nation",
-      label: "Certified Indigenous Business",
+      label: "Registered Indigenous Business",
     },
     {
       icon: TrendingUpIcon,

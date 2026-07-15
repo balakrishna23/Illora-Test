@@ -8,7 +8,7 @@ import { CapabilityEmailForm } from "@/features/about/components/CapabilityEmail
 export const metadata: Metadata = {
   title: "Capability Statement",
   description:
-    "Download Illora's capability statement — covering our service offering, certifications, and sector expertise.",
+    "Download Illora's capability statement — covering our service offering, accreditations, and sector expertise.",
 };
 
 export default function CapabilityStatementPage() {
@@ -28,7 +28,7 @@ export default function CapabilityStatementPage() {
         </h1>
         <p className="mt-3 text-muted-foreground">
           Our capability statement covers Illora&apos;s service offering,
-          certifications, sector expertise, team overview, and example
+          accreditations, sector expertise, team overview, and example
           placements. It&apos;s designed for use in government and corporate
           procurement submissions.
         </p>
@@ -74,7 +74,7 @@ export default function CapabilityStatementPage() {
         <ul className="mt-4 space-y-3">
           {[
             "Company overview and founding story",
-            "Supply Nation certification and other registrations",
+            "Supply Nation registration and other credentials",
             "Service offering: permanent, contract, and embedded RPO",
             "Sector expertise across IT & Telco, Construction, and Healthcare",
             "Leadership team profiles",

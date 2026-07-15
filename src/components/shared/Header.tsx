@@ -23,7 +23,7 @@ export async function Header() {
         <Link href="/" className="flex items-center gap-2.5">
           <IlloraLogo className="h-10 w-10 shrink-0" />
           <span className="text-base font-semibold tracking-tight text-foreground">Illoura Services</span>
-          <span className="hidden rounded-full bg-accent/15 px-2 py-0.5 text-xs text-accent font-medium sm:block">Supply Nation Certified</span>
+          <span className="hidden rounded-full bg-accent/15 px-2 py-0.5 text-xs text-accent font-medium sm:block">Supply Nation Registered</span>
         </Link>
 
         <DesktopNav />

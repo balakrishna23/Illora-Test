@@ -9,17 +9,17 @@ import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 export const metadata: Metadata = {
   title: "First Nations Partnership",
   description:
-    "Illora's First Nations partnership commitments, Supply Nation certification, and Indigenous procurement credentials.",
+    "Illora's First Nations partnership commitments, Supply Nation registration, and Indigenous procurement credentials.",
 };
 
 const CERTIFICATIONS = [
   {
-    name: "Supply Nation Certified",
+    name: "Supply Nation Registered",
     description:
-      "Supply Nation is Australia's peak body for Indigenous business certification. Certification requires independent verification that a business is at least 50% Indigenous-owned and controlled — a higher standard than self-identification.",
+      "Supply Nation is Australia's peak body for Indigenous business supplier diversity. As a Registered business, Illora is confirmed as at least 50% Aboriginal or Torres Strait Islander owned and listed in Supply Nation's directory of Indigenous businesses.",
     verifyText: "Verify on Supply Nation directory",
     verifyHref: "https://www.supplynation.org.au/search",
-    renewalNote: "Certification renewed 2025. Annual review.",
+    renewalNote: "Registration current. Reviewed annually.",
   },
   {
     name: "Black Business Finder",
@@ -50,7 +50,7 @@ const COMMITMENTS = [
   {
     title: "Economic participation",
     description:
-      "We actively support government and corporate clients in meeting their Indigenous Procurement Policy (IPP) obligations and can provide certification documentation and assistance with procurement reporting.",
+      "We actively support government and corporate clients in meeting their Indigenous Procurement Policy (IPP) obligations and can provide registration documentation and assistance with procurement reporting.",
   },
 ];
 
@@ -97,7 +97,7 @@ export default function FirstNationsPartnershipPage() {
       {/* Certifications */}
       <div>
         <h2 className="text-2xl font-semibold tracking-tight">
-          Certifications &amp; Registrations
+          Accreditations &amp; Registrations
         </h2>
         <p className="mt-2 text-muted-foreground">
           Every credential below is independently verifiable. We provide links
@@ -161,7 +161,7 @@ export default function FirstNationsPartnershipPage() {
         <p className="mt-3 max-w-2xl text-primary-foreground/70 leading-relaxed">
           If your organisation operates under the Commonwealth Indigenous
           Procurement Policy (IPP) or a state equivalent, we can provide our
-          Supply Nation certificate, ABN verification, and RENSW or other
+          Supply Nation registration, ABN verification, and RENSW or other
           state registration documentation on request. We can also assist your
           team with reporting requirements.
         </p>

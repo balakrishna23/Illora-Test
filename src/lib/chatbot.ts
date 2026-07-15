@@ -50,7 +50,7 @@ const REPLIES: Record<string, ChatReply> = {
     links: [{ label: "Explore our industries →", href: "/industries" }],
   },
   about: {
-    text: "Illoura Services is a proud First Nations-owned recruitment business, Supply Nation Certified, and we've been connecting great people with great employers since 2018. We operate across all of Australia and put relationships before transactions — every time.",
+    text: "Illoura Services is a proud First Nations-owned recruitment business, Supply Nation Registered, and we've been connecting great people with great employers since 2018. We operate across all of Australia and put relationships before transactions — every time.",
     links: [{ label: "Learn more about us →", href: "/about" }],
   },
   salary: {
@@ -75,7 +75,7 @@ const REPLIES: Record<string, ChatReply> = {
     ],
   },
   "first-nations": {
-    text: "We're proud to be a First Nations-owned business, Supply Nation Certified, and genuinely committed to supporting Aboriginal and Torres Strait Islander candidates and employers. We walk the talk — this isn't just a tagline for us.",
+    text: "We're proud to be a First Nations-owned business, Supply Nation Registered, and genuinely committed to supporting Aboriginal and Torres Strait Islander candidates and employers. We walk the talk — this isn't just a tagline for us.",
     links: [{ label: "Our First Nations commitment →", href: "/about/first-nations-partnership" }],
   },
   "no-match": {
