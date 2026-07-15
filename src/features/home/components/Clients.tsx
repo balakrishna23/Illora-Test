@@ -12,7 +12,7 @@ const GOVERNMENT_CLIENTS = [
   "Australian Government — Department of Home Affairs",
 ];
 
-const PRIVATE_CLIENTS = [{ logo: "coforge.png", name: "Coforge" }];
+const PRIVATE_CLIENTS = [{ logo: "coforge.jpeg", name: "Coforge" }];
 
 export function Clients() {
   return (

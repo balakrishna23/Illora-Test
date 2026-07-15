@@ -8,11 +8,11 @@ import { logoUrl } from "@/server/lib/logos";
 // is "Registered" (not Certified), and the networks are "Member" unless a
 // formal "Certified Member" status is confirmed.
 const ACCREDITATIONS = [
-  { logo: "supply-nation.png", abbr: "SN", name: "Supply Nation", caption: "Registered" },
-  { logo: "nswicc.png", abbr: "NSWICC", name: "NSW Indigenous Chamber of Commerce", caption: "Member" },
-  { logo: "pibng.png", abbr: "PIBNG", name: "Pilbara Indigenous Business Network Group", caption: "Member" },
-  { logo: "ntibn.png", abbr: "NTIBN", name: "Northern Territory Indigenous Business Network", caption: "Member" },
-  { logo: "kdcci.png", abbr: "KDCCI", name: "Karratha & Districts Chamber of Commerce & Industry", caption: "Member" },
+  { logo: "supply-nation.jpeg", abbr: "SN", name: "Supply Nation", caption: "Registered" },
+  { logo: "nswicc.jpeg", abbr: "NSWICC", name: "NSW Indigenous Chamber of Commerce", caption: "Member" },
+  { logo: "pibng.jpeg", abbr: "PIBNG", name: "Pilbara Indigenous Business Network Group", caption: "Member" },
+  { logo: "ntibn.jpeg", abbr: "NTIBN", name: "Northern Territory Indigenous Business Network", caption: "Member" },
+  { logo: "kdcci.jpeg", abbr: "KDCCI", name: "Karratha & Districts Chamber of Commerce & Industry", caption: "Member" },
 ];
 
 export function Accreditations() {
