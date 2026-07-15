@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const SECTIONS = [
   {
     title: "1. About this policy",
-    content: `This Privacy Policy explains how Illora Services Pty Ltd (ABN: [to be inserted]) ('Illora', 'we', 'us', 'our') collects, holds, uses, and discloses personal information in accordance with the Privacy Act 1988 (Cth) and the Australian Privacy Principles (APPs).
+    content: `This Privacy Policy explains how Illoura Services Pty Ltd (ABN: [to be inserted]) ('Illoura', 'we', 'us', 'our') collects, holds, uses, and discloses personal information in accordance with the Privacy Act 1988 (Cth) and the Australian Privacy Principles (APPs).
 
 By using our website or engaging our services, you consent to the collection and use of your information as described in this policy. This policy was last updated in June 2026 and should be reviewed alongside any solicitor-drafted addendum before reliance in a commercial or regulatory context.`,
   },
@@ -68,7 +68,7 @@ Every marketing email includes a working unsubscribe link, and unsubscribing tak
 — Request deletion of your information (subject to our legal obligations)
 — Opt out of marketing communications at any time
 
-To exercise any of these rights, contact us at privacy@illora.com.au.`,
+To exercise any of these rights, contact us at privacy@illouraservices.com.`,
   },
   {
     title: "8. Security",
@@ -76,13 +76,14 @@ To exercise any of these rights, contact us at privacy@illora.com.au.`,
   },
   {
     title: "9. Complaints",
-    content: `If you have a complaint about how we have handled your personal information, please contact us at privacy@illora.com.au. We will respond within 30 days. If you are not satisfied with our response, you may contact the Office of the Australian Information Commissioner (OAIC) at www.oaic.gov.au.`,
+    content: `If you have a complaint about how we have handled your personal information, please contact us at privacy@illouraservices.com. We will respond within 30 days. If you are not satisfied with our response, you may contact the Office of the Australian Information Commissioner (OAIC) at www.oaic.gov.au.`,
   },
   {
     title: "10. Contact",
-    content: `For privacy enquiries: privacy@illora.com.au
-Illora Services Pty Ltd
-Level 12, 20 Martin Place, Sydney NSW 2000
+    content: `For privacy enquiries: privacy@illouraservices.com
+Illoura Services Pty Ltd
+30 Applebox Avenue, Glenwood NSW 2768
+Additional offices in Coombs ACT and Tarneit VIC.
 
 Note: This policy requires review by a qualified solicitor before it is relied upon for compliance purposes. It is provided here as a structural placeholder reflecting our intended data practices.`,
   },

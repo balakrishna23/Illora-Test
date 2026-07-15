@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { LandmarkIcon, BadgeCheckIcon } from "lucide-react";
 
 import { Reveal } from "@/components/shared/Reveal";
 import { logoUrl } from "@/server/lib/logos";
@@ -8,8 +9,8 @@ import { logoUrl } from "@/server/lib/logos";
 // logo without authorisation. Confirm any contract confidentiality terms before
 // publishing these names. Private clients may use a logo (public/logos/).
 const GOVERNMENT_CLIENTS = [
-  "Australian Government — Department of Health, Disability & Ageing",
-  "Australian Government — Department of Home Affairs",
+  { name: "Department of Health, Disability & Ageing", tier: "Australian Government" },
+  { name: "Department of Home Affairs", tier: "Australian Government" },
 ];
 
 const PRIVATE_CLIENTS = [{ logo: "coforge.jpeg", name: "Coforge" }];
@@ -33,41 +34,56 @@ export function Clients() {
           </div>
         </Reveal>
 
-        <div className="mt-10 grid gap-10 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            <p className="text-sm font-semibold text-muted-foreground">Government</p>
-            <div className="mt-3 grid gap-4 sm:grid-cols-2">
-              {GOVERNMENT_CLIENTS.map((name, i) => (
-                <Reveal key={name} animation="fade-in-up" delay={i * 70}>
-                  <div className="flex h-full items-center justify-center rounded-xl border border-border bg-card px-5 py-6 text-center">
-                    <p className="text-sm font-medium text-foreground">{name}</p>
+        {/* Government — the flagship trust signal, given a bolder treatment */}
+        <Reveal animation="fade-in-up">
+          <div className="mt-10 overflow-hidden rounded-2xl border border-primary/20 bg-primary/5">
+            <div className="flex items-center gap-2 border-b border-primary/15 bg-primary/10 px-6 py-3">
+              <LandmarkIcon className="size-4 text-primary" aria-hidden="true" />
+              <p className="text-sm font-semibold tracking-wide text-primary">
+                Trusted by Australian Government departments
+              </p>
+            </div>
+            <div className="grid gap-px bg-border sm:grid-cols-2">
+              {GOVERNMENT_CLIENTS.map((client) => (
+                <div key={client.name} className="flex items-start gap-3 bg-card px-6 py-6">
+                  <BadgeCheckIcon className="mt-0.5 size-5 shrink-0 text-primary" aria-hidden="true" />
+                  <div>
+                    <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                      {client.tier}
+                    </p>
+                    <p className="mt-0.5 text-base font-semibold text-foreground">{client.name}</p>
                   </div>
-                </Reveal>
+                </div>
               ))}
             </div>
           </div>
-          <div>
+        </Reveal>
+
+        {/* Private sector */}
+        <Reveal animation="fade-in-up" delay={80}>
+          <div className="mt-8">
             <p className="text-sm font-semibold text-muted-foreground">Private sector</p>
-            <div className="mt-3 grid gap-4">
-              {PRIVATE_CLIENTS.map((client, i) => {
+            <div className="mt-3 grid gap-4 sm:grid-cols-3">
+              {PRIVATE_CLIENTS.map((client) => {
                 const src = logoUrl(client.logo);
                 return (
-                  <Reveal key={client.name} animation="fade-in-up" delay={i * 70}>
-                    <div className="flex h-full items-center justify-center rounded-xl border border-border bg-card px-5 py-6">
-                      {src ? (
-                        <div className="relative h-8 w-full">
-                          <Image src={src} alt={client.name} fill className="object-contain" sizes="200px" />
-                        </div>
-                      ) : (
-                        <p className="text-sm font-medium text-foreground">{client.name}</p>
-                      )}
-                    </div>
-                  </Reveal>
+                  <div
+                    key={client.name}
+                    className="flex h-full items-center justify-center rounded-xl border border-border bg-card px-5 py-6"
+                  >
+                    {src ? (
+                      <div className="relative h-9 w-full">
+                        <Image src={src} alt={client.name} fill className="object-contain" sizes="240px" />
+                      </div>
+                    ) : (
+                      <p className="text-sm font-medium text-foreground">{client.name}</p>
+                    )}
+                  </div>
                 );
               })}
             </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
