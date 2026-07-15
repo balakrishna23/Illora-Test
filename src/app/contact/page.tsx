@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { jsonLdString } from "@/lib/utils";
 import { PhoneIcon, MailIcon, MapPinIcon, ClockIcon } from "lucide-react";
 
-import { Separator } from "@/components/ui/separator";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { ContactForm } from "@/features/contact/components/ContactForm";
 
@@ -21,16 +20,11 @@ const localBusinessJsonLd = {
   url: "https://illora.com.au",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Level 12, 20 Martin Place",
-    addressLocality: "Sydney",
+    streetAddress: "30 Applebox Avenue",
+    addressLocality: "Glenwood",
     addressRegion: "NSW",
-    postalCode: "2000",
+    postalCode: "2768",
     addressCountry: "AU",
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: -33.8672,
-    longitude: 151.2089,
   },
   openingHours: ["Mo-Fr 08:30-17:30"],
 };
@@ -81,10 +75,11 @@ export default function ContactPage() {
               <div className="flex items-start gap-3">
                 <MapPinIcon className="mt-0.5 size-5 shrink-0 text-accent" aria-hidden="true" />
                 <div>
-                  <p className="font-medium">Office</p>
-                  <address className="not-italic text-sm text-muted-foreground">
-                    Level 12, 20 Martin Place<br />
-                    Sydney NSW 2000
+                  <p className="font-medium">Offices</p>
+                  <address className="not-italic text-sm text-muted-foreground space-y-2">
+                    <span className="block">30 Applebox Avenue, Glenwood NSW 2768</span>
+                    <span className="block">2 Janine Haines Terrace, Coombs ACT 2611</span>
+                    <span className="block">11 Celestial Circuit, Tarneit VIC 3029</span>
                   </address>
                 </div>
               </div>
@@ -99,22 +94,6 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <Separator className="my-8" />
-
-            {/* Map embed */}
-            <div className="overflow-hidden rounded-xl border border-border">
-              <iframe
-                title="Illora office location"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3312.6!2d151.2089!3d-33.8672!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzPCsDUyJzAyLjEiUyAxNTHCsDEyJzMyLjAiRQ!5e0!3m2!1sen!2sau!4v1"
-                width="100%"
-                height="250"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                aria-label="Map showing Illora office at 20 Martin Place, Sydney"
-              />
-            </div>
           </div>
 
           {/* Contact form */}

@@ -39,11 +39,9 @@ const INDUSTRIES = [
 ];
 
 const OFFICES = [
-  "1/19 Barry Drive, Turner ACT 2612",
-  "Level 19, 180 Lonsdale St, Melbourne VIC 3000",
-  "Level 29, 221 St Georges Terrace, Perth WA 6000",
-  "Level 28, 161 Castlereagh St, Sydney NSW 2000",
-  "Level 18, 324 Queen St, Brisbane QLD 4000",
+  "30 Applebox Avenue, Glenwood NSW 2768",
+  "2 Janine Haines Terrace, Coombs ACT 2611",
+  "11 Celestial Circuit, Tarneit VIC 3029",
 ];
 
 const SOCIALS = [
