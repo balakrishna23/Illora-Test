@@ -66,6 +66,23 @@ export async function createPresignedDownloadUrl(input: {
   return { downloadUrl };
 }
 
+// Fetches the raw bytes of an object (e.g. to feed a resume to the parser).
+// Returns null if the object doesn't exist or can't be read.
+export async function getObjectBytes(
+  key: string
+): Promise<{ bytes: Uint8Array; contentType?: string } | null> {
+  try {
+    const res = await s3Client.send(
+      new GetObjectCommand({ Bucket: process.env.R2_BUCKET_NAME, Key: key })
+    );
+    const bytes = await res.Body?.transformToByteArray();
+    if (!bytes) return null;
+    return { bytes, contentType: res.ContentType };
+  } catch {
+    return null;
+  }
+}
+
 // Metadata-only lookup (no download). Returns null if the object doesn't exist.
 export async function getObjectSize(key: string): Promise<number | null> {
   try {

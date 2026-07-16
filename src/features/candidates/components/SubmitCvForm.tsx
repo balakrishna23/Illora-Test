@@ -1,13 +1,18 @@
 "use client";
 
-import { useActionState, useState } from "react";
-import { CheckCircleIcon, UploadIcon } from "lucide-react";
+import { useActionState, useRef, useState } from "react";
+import { CheckCircleIcon, SparklesIcon, UploadIcon } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NativeSelect as Select } from "@/components/ui/native-select";
 import { Button } from "@/components/ui/button";
-import { submitCv, getR2UploadUrl, type SubmitCvState } from "@/features/candidates/actions";
+import {
+  submitCv,
+  getR2UploadUrl,
+  parseUploadedResume,
+  type SubmitCvState,
+} from "@/features/candidates/actions";
 import { HoneypotField } from "@/components/shared/HoneypotField";
 import { JOB_INDUSTRIES } from "@/lib/job-constants";
 
@@ -95,11 +100,53 @@ type Props = {
 
 export function SubmitCvForm({ jobId, jobSlug, jobTitle, existingSubmittedAt }: Props) {
   const [resumeKey, setResumeKey] = useState("");
+  const [autofillStatus, setAutofillStatus] = useState<"idle" | "reading" | "done" | "none">("idle");
+  const formRef = useRef<HTMLFormElement>(null);
 
   const [state, action, isPending] = useActionState<SubmitCvState | null, FormData>(
     submitCv,
     null
   );
+
+  // After a resume uploads, try to read it and pre-fill the form. Uncontrolled
+  // inputs are set via the DOM (FormData reads their live value on submit).
+  function setFieldValue(name: string, value?: string) {
+    if (!value) return;
+    const el = formRef.current?.elements.namedItem(name) as
+      | HTMLInputElement
+      | HTMLSelectElement
+      | null;
+    if (!el) return;
+    if (el instanceof HTMLSelectElement) {
+      // Only set a select if the parsed value is an available option.
+      if ([...el.options].some((o) => o.value === value)) el.value = value;
+    } else {
+      el.value = value;
+    }
+  }
+
+  async function handleResumeUploaded(key: string) {
+    setResumeKey(key);
+    setAutofillStatus("reading");
+    try {
+      const result = await parseUploadedResume(key);
+      if (result.success) {
+        const d = result.data;
+        setFieldValue("name", d.name);
+        setFieldValue("email", d.email);
+        setFieldValue("phone", d.phone);
+        setFieldValue("currentRole", d.currentRole);
+        setFieldValue("linkedIn", d.linkedIn);
+        setFieldValue("targetIndustry", d.targetIndustry);
+        setFieldValue("securityClearance", d.securityClearance);
+        setAutofillStatus("done");
+      } else {
+        setAutofillStatus("none");
+      }
+    } catch {
+      setAutofillStatus("none");
+    }
+  }
 
   if (state?.success) {
     return (
@@ -122,7 +169,7 @@ export function SubmitCvForm({ jobId, jobSlug, jobTitle, existingSubmittedAt }: 
   const fieldErrors = state?.success === false ? (state.fieldErrors ?? {}) : {};
 
   return (
-    <form action={action} className="grid gap-5 sm:grid-cols-2">
+    <form ref={formRef} action={action} className="grid gap-5 sm:grid-cols-2">
       <HoneypotField />
       <input type="hidden" name="resumeKey" value={resumeKey} />
       {jobId && <input type="hidden" name="jobId" value={jobId} />}
@@ -156,6 +203,38 @@ export function SubmitCvForm({ jobId, jobSlug, jobTitle, existingSubmittedAt }: 
           {state.error}
         </div>
       )}
+
+      {/* Resume upload first — a PDF auto-fills the fields below */}
+      <div className="sm:col-span-2 rounded-xl border border-accent/30 bg-accent/5 p-4">
+        <FileUploadField
+          label="Resume"
+          required
+          onKeyChange={handleResumeUploaded}
+        />
+        <FieldError errors={fieldErrors.resumeKey} />
+        {autofillStatus === "reading" && (
+          <p className="mt-2 flex items-center gap-1.5 text-xs text-muted-foreground">
+            <SparklesIcon className="size-3.5 animate-pulse text-accent" aria-hidden="true" />
+            Reading your resume to pre-fill the form…
+          </p>
+        )}
+        {autofillStatus === "done" && (
+          <p className="mt-2 flex items-center gap-1.5 text-xs text-green-700">
+            <SparklesIcon className="size-3.5 text-accent" aria-hidden="true" />
+            We pre-filled some fields from your resume — please review and correct anything.
+          </p>
+        )}
+        {autofillStatus === "none" && (
+          <p className="mt-2 text-xs text-muted-foreground">
+            Upload a PDF resume and we&apos;ll try to pre-fill the form for you.
+          </p>
+        )}
+        {autofillStatus === "idle" && (
+          <p className="mt-2 text-xs text-muted-foreground">
+            Tip: upload a PDF and we&apos;ll auto-fill your details below.
+          </p>
+        )}
+      </div>
 
       <div>
         <Label htmlFor="name">Full name *</Label>
@@ -204,15 +283,6 @@ export function SubmitCvForm({ jobId, jobSlug, jobTitle, existingSubmittedAt }: 
           <option value="TSPV">Top Secret Positive Vetting (TSPV)</option>
         </Select>
         <FieldError errors={fieldErrors.securityClearance} />
-      </div>
-
-      <div className="sm:col-span-2">
-        <FileUploadField
-          label="Resume"
-          required
-          onKeyChange={setResumeKey}
-        />
-        <FieldError errors={fieldErrors.resumeKey} />
       </div>
 
       <div className="sm:col-span-2">

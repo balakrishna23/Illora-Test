@@ -15,6 +15,7 @@ import { isBotSubmission } from "@/lib/honeypot";
 import { checkRateLimit, retryAfterMessage } from "@/server/lib/rate-limit-guard";
 import { JOB_INDUSTRIES } from "@/server/integrations/jobadder";
 import { createPresignedUploadUrl, deleteObject, getObjectSize } from "@/server/integrations/r2";
+import { parseResumeFromR2, type ParsedResume } from "@/server/integrations/resume-parser";
 import { sendCvConfirmationEmail } from "@/server/integrations/resend";
 
 const submitCvSchema = z.object({
@@ -212,4 +213,21 @@ export async function getR2UploadUrl(
   const { uploadUrl } = await createPresignedUploadUrl({ key, contentType });
 
   return { uploadUrl, key };
+}
+
+// Reads the just-uploaded resume (PDF only) and returns fields to pre-fill the
+// form. Best-effort: any failure returns { success: false } and the user just
+// fills the form manually — auto-fill never blocks a submission.
+export async function parseUploadedResume(
+  key: string
+): Promise<{ success: true; data: ParsedResume } | { success: false }> {
+  const rate = await checkRateLimit("parseUploadedResume", { limit: 15 });
+  if (!rate.ok) return { success: false };
+
+  if (!R2_KEY_PATTERN.test(key)) return { success: false };
+
+  const data = await parseResumeFromR2(key);
+  if (!data || Object.keys(data).length === 0) return { success: false };
+
+  return { success: true, data };
 }
