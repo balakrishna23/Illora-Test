@@ -49,7 +49,13 @@ export function JobsClient({
   const filtered = jobs
     .filter((job) => {
       const q = deferred.toLowerCase();
-      const matchSearch = !q || job.title.toLowerCase().includes(q) || job.teaser.toLowerCase().includes(q);
+      const matchSearch =
+        !q ||
+        job.title.toLowerCase().includes(q) ||
+        job.teaser.toLowerCase().includes(q) ||
+        job.location.toLowerCase().includes(q) ||
+        job.state.toLowerCase().includes(q) ||
+        job.industry.toLowerCase().includes(q);
       const matchIndustry = industries.length === 0 || industries.includes(job.industry);
       const matchState = !stateFilter || job.state === stateFilter;
       const matchLocation = locations.length === 0 || locations.includes(job.location);

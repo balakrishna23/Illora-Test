@@ -67,8 +67,8 @@
   --secondary-foreground: oklch(0.20 0.07 35);
   --muted: oklch(0.95 0.018 72);
   --muted-foreground: oklch(0.50 0.05 45);
-  /* Golden ochre accent */
-  --accent: oklch(0.72 0.15 68);
+  /* Muted golden ochre accent (dulled from the brighter original) */
+  --accent: oklch(0.66 0.10 68);
   --accent-foreground: oklch(0.15 0.05 35);
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.87 0.025 70);
@@ -88,8 +88,8 @@
   --sidebar-accent-foreground: oklch(0.20 0.07 35);
   --sidebar-border: oklch(0.87 0.025 70);
   --sidebar-ring: oklch(0.38 0.14 28);
-  /* Brand ochre for hero/section backgrounds */
-  --brand-ochre: oklch(0.72 0.15 68);
+  /* Brand ochre for hero/section backgrounds (dulled to match accent) */
+  --brand-ochre: oklch(0.66 0.10 68);
   --brand-ochre-foreground: oklch(0.15 0.05 35);
 }
 

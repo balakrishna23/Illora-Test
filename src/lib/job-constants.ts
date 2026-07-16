@@ -4,6 +4,8 @@
 // browser bundle.
 
 export const JOB_INDUSTRIES = [
+  "ICT",
+  "Government",
   "IT & Telecommunications",
   "Construction",
   "Healthcare",
