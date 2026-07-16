@@ -1,0 +1,1 @@
+ALTER TABLE "applications" ADD COLUMN "security_clearance" text DEFAULT 'None' NOT NULL;

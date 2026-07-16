@@ -1,7 +1,7 @@
 import { and, desc, eq, isNull, sql } from "drizzle-orm";
 
 import { db } from "@/server/db/client";
-import { applications } from "@/server/db/schema";
+import { applications, securityClearanceValues } from "@/server/db/schema";
 
 type Application = typeof applications.$inferSelect;
 
@@ -64,6 +64,7 @@ export async function replaceApplication(
     targetIndustry: string;
     currentRole: string;
     linkedIn?: string;
+    securityClearance: (typeof securityClearanceValues)[number];
     resumeR2Key: string;
     marketingConsent: boolean;
   }

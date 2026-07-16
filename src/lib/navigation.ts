@@ -34,7 +34,6 @@ export const NAV_ITEMS: NavItem[] = [
       { label: "EV Waste & Recycling",    href: "/industries/ev-waste" },
     ],
   },
-  { label: "Jobs",     href: "/jobs" },
   {
     label: "About",
     items: [

@@ -12,6 +12,7 @@ export async function getAllApplications() {
       phone: applications.phone,
       targetIndustry: applications.targetIndustry,
       currentRole: applications.currentRole,
+      securityClearance: applications.securityClearance,
       status: applications.status,
       submittedAt: applications.submittedAt,
       jobId: applications.jobId,

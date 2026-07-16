@@ -21,6 +21,7 @@ export default async function AdminApplicationsPage() {
     email: application.email,
     phone: application.phone,
     targetIndustry: application.targetIndustry,
+    securityClearance: application.securityClearance,
     status: application.status,
     submittedAt: application.submittedAt.toISOString(),
     jobSlug: application.liveJobSlug ?? application.jobSlug,

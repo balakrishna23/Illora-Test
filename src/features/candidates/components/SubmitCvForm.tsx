@@ -192,6 +192,19 @@ export function SubmitCvForm({ jobId, jobSlug, jobTitle, existingSubmittedAt }: 
         <Input id="linkedIn" name="linkedIn" type="url" placeholder="https://linkedin.com/in/…" className="mt-1" />
         <FieldError errors={fieldErrors.linkedIn} />
       </div>
+      <div className="sm:col-span-2">
+        <Label htmlFor="securityClearance">
+          Australian Government security clearance
+        </Label>
+        <Select id="securityClearance" name="securityClearance" className="mt-1" defaultValue="None">
+          <option value="None">None</option>
+          <option value="Baseline">Baseline</option>
+          <option value="NV1">Negative Vetting 1 (NV1)</option>
+          <option value="NV2">Negative Vetting 2 (NV2)</option>
+          <option value="TSPV">Top Secret Positive Vetting (TSPV)</option>
+        </Select>
+        <FieldError errors={fieldErrors.securityClearance} />
+      </div>
 
       <div className="sm:col-span-2">
         <FileUploadField

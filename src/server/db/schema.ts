@@ -101,6 +101,17 @@ export const applicationStatusValues = [
   "withdrawn",
 ] as const;
 
+// Australian Government security clearance levels (AGSVA). NV1/NV2 = Negative
+// Vetting 1/2; TSPV = Top Secret Positive Vetting. Relevant for ICT/government
+// roles. Keep in sync with the Zod enum in candidates/actions.ts.
+export const securityClearanceValues = [
+  "None",
+  "Baseline",
+  "NV1",
+  "NV2",
+  "TSPV",
+] as const;
+
 // Represents every CV/application submission, not only ones from signed-in
 // candidates — candidateId and jobId are both nullable to support anonymous
 // submitters and jobs that are later deleted.
@@ -116,6 +127,9 @@ export const applications = pgTable("applications", {
   targetIndustry: text("target_industry").notNull(),
   currentRole: text("current_role").notNull(),
   linkedIn: text("linked_in"),
+  securityClearance: text("security_clearance", { enum: securityClearanceValues })
+    .notNull()
+    .default("None"),
   resumeR2Key: text("resume_r2_key"),
   coverLetterR2Key: text("cover_letter_r2_key"),
   // Explicit opt-in to marketing/campaign email at the point of submission.

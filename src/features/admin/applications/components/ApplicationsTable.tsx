@@ -16,6 +16,7 @@ export type AdminApplicationRow = {
   email: string;
   phone: string;
   targetIndustry: string;
+  securityClearance: string;
   status: (typeof applicationStatusValues)[number];
   submittedAt: string;
   jobSlug: string | null;
@@ -129,6 +130,11 @@ export function ApplicationsTable({ applications }: { applications: AdminApplica
                     <p className="text-xs text-muted-foreground">{application.email}</p>
                     <p className="text-xs text-muted-foreground">{application.phone}</p>
                     <p className="text-xs text-muted-foreground">{application.targetIndustry}</p>
+                    {application.securityClearance && application.securityClearance !== "None" && (
+                      <span className="mt-1 inline-block rounded bg-primary/10 px-1.5 py-0.5 text-xs font-medium text-primary">
+                        Clearance: {application.securityClearance}
+                      </span>
+                    )}
                   </td>
                   <td className="px-4 py-3">
                     {application.jobSlug && application.jobTitle ? (

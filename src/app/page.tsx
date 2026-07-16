@@ -1,10 +1,9 @@
 import { getRecentJobs } from "@/server/integrations/jobadder";
 import { jsonLdString } from "@/lib/utils";
 import { getRecentArticles, getSiteStats } from "@/server/integrations/sanity";
-import { getReviews, getAggregateRating } from "@/server/integrations/reviews";
+import { getReviews } from "@/server/integrations/reviews";
 
 import { HomeHero } from "@/features/home/components/HomeHero";
-import { TrustStrip } from "@/features/home/components/TrustStrip";
 import { JobTicker } from "@/features/home/components/JobTicker";
 import { NameMeaning } from "@/features/home/components/NameMeaning";
 import { IndustryTiles } from "@/features/home/components/IndustryTiles";
@@ -26,9 +25,8 @@ const orgJsonLd = {
 };
 
 export default async function Home() {
-  const [stats, rating, jobs, articles, reviews] = await Promise.all([
+  const [stats, jobs, articles, reviews] = await Promise.all([
     getSiteStats(),
-    getAggregateRating(),
     getRecentJobs(4),
     getRecentArticles(3),
     getReviews(6),
@@ -41,7 +39,6 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: jsonLdString(orgJsonLd) }}
       />
       <HomeHero stats={stats} />
-      <TrustStrip stats={stats} rating={rating} />
       <JobTicker jobs={jobs} />
       <IndustryTiles />
       <Accreditations />

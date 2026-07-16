@@ -3,7 +3,7 @@
 import { z } from "zod";
 
 import { db } from "@/server/db/client";
-import { applications } from "@/server/db/schema";
+import { applications, securityClearanceValues } from "@/server/db/schema";
 import { requireUser } from "@/server/auth/session";
 import { getOrCreateCandidate } from "@/features/portal/queries";
 import {
@@ -24,6 +24,7 @@ const submitCvSchema = z.object({
   targetIndustry: z.enum(JOB_INDUSTRIES),
   currentRole: z.string().min(2, "Current role/title is required"),
   linkedIn: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  securityClearance: z.enum(securityClearanceValues),
   resumeKey: z.string().min(1, "Resume upload is required"),
   consent: z.literal("on", { error: "You must consent to proceed" }),
   marketingConsent: z.preprocess((v) => v === "on", z.boolean()),
