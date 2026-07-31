@@ -10,7 +10,7 @@ import {
   getAllArticles,
   ARTICLE_CATEGORIES,
   type Article,
-} from "@/server/integrations/sanity";
+} from "@/features/knowledge-hub/queries";
 
 export const metadata: Metadata = {
   title: "Knowledge Hub",

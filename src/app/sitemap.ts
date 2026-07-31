@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { getAllJobs } from "@/server/integrations/jobadder";
-import { getAllArticles } from "@/server/integrations/sanity";
+import { getAllArticles } from "@/features/knowledge-hub/queries";
 
 // Served on demand rather than prerendered — building it would open DB
 // connections from every build worker and can exhaust the Supabase pool.

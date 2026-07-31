@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/sheet";
 import { NAV_ITEMS } from "@/lib/navigation";
 
-export function MobileNav({ isAdmin }: { isAdmin: boolean }) {
+export function MobileNav() {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
 
@@ -106,15 +106,13 @@ export function MobileNav({ isAdmin }: { isAdmin: boolean }) {
             Hire Talent
           </Link>
           <Show when="signed-in">
-            {isAdmin && (
-              <Link
-                href="/admin"
-                onClick={close}
-                className="rounded-lg border border-border bg-card px-4 py-2.5 text-center text-sm font-medium transition-colors hover:bg-muted"
-              >
-                Admin
-              </Link>
-            )}
+            <Link
+              href="/admin"
+              onClick={close}
+              className="rounded-lg border border-border bg-card px-4 py-2.5 text-center text-sm font-medium transition-colors hover:bg-muted"
+            >
+              Admin
+            </Link>
             <Link
               href="/portal"
               onClick={close}

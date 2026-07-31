@@ -1,4 +1,5 @@
 import { and, count, eq, gte } from "drizzle-orm";
+import { clerkClient } from "@clerk/nextjs/server";
 
 import { db } from "@/server/db/client";
 import {
@@ -21,6 +22,11 @@ async function countRows(query: Promise<{ value: number }[]>): Promise<number> {
   return row?.value ?? 0;
 }
 
+async function getTotalAccountsCreated(): Promise<number> {
+  const client = await clerkClient();
+  return client.users.getCount();
+}
+
 export async function getAdminAnalytics() {
   const [
     activeJobs,
@@ -33,6 +39,7 @@ export async function getAdminAnalytics() {
     contactMessagesNew,
     vacancyRequestsTotal,
     vacancyRequestsNew,
+    totalAccountsCreated,
   ] = await Promise.all([
     countRows(db.select({ value: count() }).from(jobs).where(eq(jobs.status, "active"))),
     countRows(
@@ -65,6 +72,7 @@ export async function getAdminAnalytics() {
     countRows(
       db.select({ value: count() }).from(vacancyRequests).where(eq(vacancyRequests.status, "new"))
     ),
+    getTotalAccountsCreated(),
   ]);
 
   return {
@@ -78,5 +86,6 @@ export async function getAdminAnalytics() {
     contactMessagesNew,
     vacancyRequestsTotal,
     vacancyRequestsNew,
+    totalAccountsCreated,
   };
 }

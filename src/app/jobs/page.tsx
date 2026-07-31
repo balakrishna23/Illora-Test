@@ -7,6 +7,8 @@ import { JobsClient } from "@/features/jobs/components/JobsClient";
 import { getAllJobs } from "@/server/integrations/jobadder";
 import { getCandidateByClerkUserId, getSavedJobs } from "@/features/portal/queries";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
 export const metadata: Metadata = {
   title: "Jobs",
   description:
@@ -28,7 +30,7 @@ export default async function JobsPage({ searchParams }: { searchParams: SearchP
     itemListElement: jobs.map((job, index) => ({
       "@type": "ListItem",
       position: index + 1,
-      url: `https://illora.com.au/jobs/${job.slug}`,
+      url: `${SITE_URL}/jobs/${job.slug}`,
       name: job.title,
     })),
   };

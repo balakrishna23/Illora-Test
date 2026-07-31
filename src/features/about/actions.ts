@@ -4,6 +4,7 @@ import { z } from "zod";
 
 import { isBotSubmission } from "@/lib/honeypot";
 import { checkRateLimit, retryAfterMessage } from "@/server/lib/rate-limit-guard";
+import { sendCapabilityStatementEmail } from "@/server/integrations/resend";
 
 const capabilitySchema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -26,8 +27,13 @@ export async function requestCapabilityStatement(
   const parsed = capabilitySchema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { success: false, error: "Please provide a valid name and email." };
 
-  // Stub: send Resend email with PDF link
-  // await resend.emails.send({ to: parsed.data.email, subject: "Illora Capability Statement", ... });
+  const { success } = await sendCapabilityStatementEmail({
+    to: parsed.data.email,
+    name: parsed.data.name,
+  });
+  if (!success) {
+    return { success: false, error: "Could not send the email. Please try again shortly." };
+  }
 
   return { success: true };
 }

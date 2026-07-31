@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { requireAdmin } from "@/server/auth/session";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { isAdminEmail, requireUser } from "@/server/auth/session";
 
 const ADMIN_NAV = [
   { href: "/admin", label: "Dashboard" },
@@ -10,13 +11,38 @@ const ADMIN_NAV = [
   { href: "/admin/messages/contact", label: "Messages" },
   { href: "/admin/messages/vacancies", label: "Vacancy Requests" },
   { href: "/admin/campaigns", label: "Campaigns" },
+  { href: "/admin/articles", label: "Articles" },
+  { href: "/admin/team", label: "Team" },
+  { href: "/admin/settings", label: "Settings" },
   { href: "/admin/assistant", label: "Assistant" },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const session = await requireAdmin();
+  const session = await requireUser();
   if (!session.success) {
-    redirect("/");
+    redirect("/sign-in?redirect_url=/admin");
+  }
+
+  if (!isAdminEmail(session.email)) {
+    return (
+      <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
+        <Card>
+          <CardHeader>
+            <CardTitle>Admin access required</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3 text-sm text-muted-foreground">
+            <p>
+              You are signed in as <span className="font-medium text-foreground">{session.email}</span>,
+              but that account is not allowed to open the admin portal.
+            </p>
+            <p>
+              Add this email to <code>ADMIN_EMAILS</code> or include its domain in <code>ADMIN_DOMAINS</code>,
+              then try again.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   return (

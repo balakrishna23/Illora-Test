@@ -1,0 +1,2 @@
+#!/bin/sh
+powershell.exe -ExecutionPolicy Bypass -File "scripts/agent-hook-dispatch.ps1" -Trigger "post-commit" >/dev/null 2>&1 &

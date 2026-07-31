@@ -7,7 +7,9 @@ import { CalendarIcon, ClockIcon, ArrowLeftIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
-import { getArticleBySlug, getAllArticles, getRecentArticles } from "@/server/integrations/sanity";
+import { getArticleBySlug, getAllArticles, getRecentArticles } from "@/features/knowledge-hub/queries";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -44,7 +46,7 @@ export default async function ArticlePage({ params }: PageProps) {
     publisher: {
       "@type": "Organization",
       name: "Illora",
-      logo: { "@type": "ImageObject", url: "https://illora.com.au/logo.png" },
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/logo.png` },
     },
   };
 

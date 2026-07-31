@@ -5,12 +5,8 @@ import { MobileNav } from "@/components/shared/MobileNav";
 import { DesktopNav } from "@/components/shared/DesktopNav";
 import { IlloraLogo } from "@/components/shared/IlloraLogo";
 import { AccountNavButton } from "@/components/shared/AccountNavButton";
-import { requireAdmin } from "@/server/auth/session";
 
 export async function Header() {
-  const adminSession = await requireAdmin();
-  const isAdmin = adminSession.success;
-
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       {/* Aboriginal flag–inspired earth stripe: charcoal | terracotta | golden ochre */}
@@ -41,10 +37,10 @@ export async function Header() {
           >
             Hire Talent
           </Link>
-          <AccountNavButton isAdmin={isAdmin} />
+          <AccountNavButton />
         </div>
 
-        <MobileNav isAdmin={isAdmin} />
+        <MobileNav />
       </div>
     </header>
   );

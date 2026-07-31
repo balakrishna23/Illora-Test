@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
 import { IlloraLogo } from "@/components/shared/IlloraLogo";
-import type { SiteStats } from "@/server/integrations/sanity";
+import type { SiteStats } from "@/features/home/queries";
 
 export function HomeHero({ stats }: { stats: SiteStats }) {
   return (

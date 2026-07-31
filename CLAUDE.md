@@ -16,7 +16,7 @@ This file is the single source of truth for how Claude (and any human) writes co
 | Auth | Clerk |
 | ORM | Drizzle ORM |
 | Database | PostgreSQL (via Supabase) |
-| CMS | Sanity |
+| CMS | None — Knowledge Hub articles, team profiles, and site stats are managed via a custom admin panel (`/admin/articles`, `/admin/team`, `/admin/settings`), stored in Postgres via Drizzle. Sanity was removed. |
 | ATS integration | JobAdder |
 | File storage | Cloudflare R2 |
 | Email | Resend |

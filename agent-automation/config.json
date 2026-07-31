@@ -1,0 +1,7 @@
+{
+  "enabled": true,
+  "postBuildEnabled": true,
+  "postCommitEnabled": true,
+  "watchEnabled": true,
+  "baseBranch": "main"
+}

@@ -5,15 +5,13 @@ import { Show, UserButton } from "@clerk/nextjs";
 
 import { buttonVariants } from "@/components/ui/button";
 
-export function AccountNavButton({ isAdmin }: { isAdmin: boolean }) {
+export function AccountNavButton() {
   return (
     <>
       <Show when="signed-in">
-        {isAdmin && (
-          <Link href="/admin" className={buttonVariants({ variant: "outline", size: "sm" })}>
-            Admin
-          </Link>
-        )}
+        <Link href="/admin" className={buttonVariants({ variant: "outline", size: "sm" })}>
+          Admin
+        </Link>
         <Link href="/portal" className={buttonVariants({ variant: "outline", size: "sm" })}>
           My Portal
         </Link>

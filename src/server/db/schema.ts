@@ -10,6 +10,9 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 
+import { JOB_INDUSTRIES } from "@/lib/job-constants";
+import { ARTICLE_CATEGORIES } from "@/lib/article-constants";
+
 export const jobAlerts = pgTable("job_alerts", {
   id: uuid("id").primaryKey().defaultRandom(),
   email: text("email").notNull(),
@@ -27,7 +30,7 @@ export const jobAlerts = pgTable("job_alerts", {
     .default([]),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
+}).enableRLS();
 
 export const jobAlertSendLog = pgTable("job_alert_send_log", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -36,14 +39,14 @@ export const jobAlertSendLog = pgTable("job_alert_send_log", {
     .references(() => jobAlerts.id),
   sentAt: timestamp("sent_at").notNull().defaultNow(),
   matchedJobIds: jsonb("matched_job_ids").$type<string[]>().notNull(),
-});
+}).enableRLS();
 
 export const candidates = pgTable("candidates", {
   id: uuid("id").primaryKey().defaultRandom(),
   clerkUserId: text("clerk_user_id").notNull().unique(),
   email: text("email").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-});
+}).enableRLS();
 
 // Job type/status taxonomies are duplicated here (not imported from features/)
 // per CLAUDE.md's server/db boundary; keep in sync with the Zod schemas in
@@ -73,7 +76,7 @@ export const jobs = pgTable("jobs", {
   status: text("status", { enum: jobStatusValues }).notNull().default("active"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
+}).enableRLS();
 
 export const savedJobs = pgTable(
   "saved_jobs",
@@ -90,7 +93,7 @@ export const savedJobs = pgTable(
     savedAt: timestamp("saved_at").notNull().defaultNow(),
   },
   (table) => [unique().on(table.candidateId, table.jobId)]
-);
+).enableRLS();
 
 export const applicationStatusValues = [
   "submitted",
@@ -140,7 +143,7 @@ export const applications = pgTable("applications", {
     .default("submitted"),
   submittedAt: timestamp("submitted_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
+}).enableRLS();
 
 export const vacancyRequestStatusValues = ["new", "contacted", "closed"] as const;
 
@@ -162,9 +165,15 @@ export const vacancyRequests = pgTable("vacancy_requests", {
     .notNull()
     .default("new"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-});
+}).enableRLS();
 
-export const campaignAudienceValues = ["candidates", "clients", "all"] as const;
+export const campaignAudienceValues = [
+  "candidates",
+  ...JOB_INDUSTRIES.map((industry) => `candidates:${industry}` as const),
+  "clients",
+  "general",
+  "all",
+] as const;
 export const campaignStatusValues = ["sending", "sent", "failed"] as const;
 
 export const emailCampaigns = pgTable("email_campaigns", {
@@ -177,9 +186,12 @@ export const emailCampaigns = pgTable("email_campaigns", {
   sentCount: integer("sent_count").notNull().default(0),
   failedCount: integer("failed_count").notNull().default(0),
   createdBy: text("created_by").notNull(),
+  replyTo: text("reply_to"),
+  attachmentR2Key: text("attachment_r2_key"),
+  attachmentFilename: text("attachment_filename"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   completedAt: timestamp("completed_at"),
-});
+}).enableRLS();
 
 // Global opt-out list for campaign email. Job alerts keep their own per-alert
 // unsubscribe; this suppresses an address from all admin-sent campaigns.
@@ -187,7 +199,7 @@ export const emailSuppressions = pgTable("email_suppressions", {
   id: uuid("id").primaryKey().defaultRandom(),
   email: text("email").notNull().unique(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-});
+}).enableRLS();
 
 export const contactMessageStatusValues = ["new", "read", "replied"] as const;
 
@@ -203,4 +215,54 @@ export const contactMessages = pgTable("contact_messages", {
     .notNull()
     .default("new"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-});
+}).enableRLS();
+
+// Singleton — the app always reads/updates the first (and only) row. Replaces
+// the retired Sanity `siteStats` document type.
+export const siteSettings = pgTable("site_settings", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  yearsOperating: integer("years_operating").notNull(),
+  candidatesPlaced: integer("candidates_placed").notNull(),
+  clientRetentionPct: integer("client_retention_pct").notNull(),
+  activeEmployers: integer("active_employers").notNull(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+}).enableRLS();
+
+// Replaces the retired Sanity `teamMember` document type.
+export const teamMembers = pgTable("team_members", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name").notNull(),
+  role: text("role").notNull(),
+  culturalConnection: text("cultural_connection"),
+  bio: text("bio").notNull(),
+  linkedIn: text("linked_in"),
+  sortOrder: integer("sort_order").notNull().default(0),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+}).enableRLS();
+
+export const articleCategoryValues = ARTICLE_CATEGORIES;
+
+// Knowledge Hub posts. Replaces the retired Sanity `article` document type.
+export const articles = pgTable("articles", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  slug: text("slug").notNull().unique(),
+  title: text("title").notNull(),
+  category: text("category", { enum: articleCategoryValues }).notNull(),
+  publishDate: text("publish_date").notNull(),
+  readingTimeMinutes: integer("reading_time_minutes").notNull(),
+  excerpt: text("excerpt").notNull(),
+  body: text("body").notNull(),
+  authorName: text("author_name").notNull(),
+  authorRole: text("author_role").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+}).enableRLS();
+
+// Singleton — shared signature appended to every campaign send unless the
+// admin unchecks it in the composer.
+export const campaignSettings = pgTable("campaign_settings", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  signature: text("signature"),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+}).enableRLS();

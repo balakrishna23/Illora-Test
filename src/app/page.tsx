@@ -1,6 +1,7 @@
 import { getRecentJobs } from "@/server/integrations/jobadder";
 import { jsonLdString } from "@/lib/utils";
-import { getRecentArticles, getSiteStats } from "@/server/integrations/sanity";
+import { getRecentArticles } from "@/features/knowledge-hub/queries";
+import { getSiteStats } from "@/features/home/queries";
 import { getReviews } from "@/server/integrations/reviews";
 
 import { HomeHero } from "@/features/home/components/HomeHero";
@@ -13,15 +14,20 @@ import { TestimonialsCarousel } from "@/features/home/components/TestimonialsCar
 import { KnowledgeHubPreview } from "@/features/home/components/KnowledgeHubPreview";
 import { DualCtaBand } from "@/features/home/components/DualCtaBand";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
 const orgJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "Illoura Services",
   description:
     "First Nations-owned recruitment delivering real outcomes across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling.",
-  url: "https://illouraservices.com",
-  logo: "https://illouraservices.com/logo.png",
-  sameAs: [],
+  url: SITE_URL,
+  logo: `${SITE_URL}/logo.png`,
+  sameAs: [
+    "https://www.facebook.com/illouraservices",
+    "https://www.linkedin.com/company/illouraservices",
+  ],
 };
 
 export default async function Home() {

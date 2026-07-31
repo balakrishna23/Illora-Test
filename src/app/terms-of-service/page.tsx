@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const SECTIONS = [
   {
     title: "1. Acceptance of terms",
-    content: `By accessing or using the Illora website (illora.com.au) or our recruitment services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our website or services.
+    content: `By accessing or using the Illora website (illouraservices.com) or our recruitment services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our website or services.
 
 Note: These terms should be reviewed and finalised by a qualified solicitor before they are relied upon commercially. They are provided here as a structural placeholder.`,
   },
@@ -63,7 +63,7 @@ Note: These terms should be reviewed and finalised by a qualified solicitor befo
   },
   {
     title: "10. Contact",
-    content: `For questions about these terms: legal@illora.com.au
+    content: `For questions about these terms: legal@illouraservices.com
 Illora Services Pty Ltd
 Level 12, 20 Martin Place, Sydney NSW 2000`,
   },

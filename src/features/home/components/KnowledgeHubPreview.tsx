@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
 import { Reveal } from "@/components/shared/Reveal";
-import type { Article } from "@/server/integrations/sanity";
+import type { Article } from "@/features/knowledge-hub/queries";
 
 export function KnowledgeHubPreview({ articles }: { articles: Article[] }) {
   return (

@@ -14,6 +14,8 @@ import { SaveJobButton } from "@/features/portal/components/SaveJobButton";
 import { getCandidateByClerkUserId, isJobSaved } from "@/features/portal/queries";
 import { getJobBySlug, getSimilarJobs, getAllJobs } from "@/server/integrations/jobadder";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
 type PageProps = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -51,7 +53,7 @@ export default async function JobDetailPage({ params }: PageProps) {
     hiringOrganization: {
       "@type": "Organization",
       name: "Illora",
-      sameAs: "https://illora.com.au",
+      sameAs: SITE_URL,
     },
     jobLocation: {
       "@type": "Place",

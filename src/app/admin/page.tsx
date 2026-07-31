@@ -24,6 +24,7 @@ export default async function AdminDashboardPage() {
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <StatCard label="Total accounts created" value={stats.totalAccountsCreated} />
       <StatCard label="Active jobs" value={stats.activeJobs} />
       <StatCard
         label="Applications this week"

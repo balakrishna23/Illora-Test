@@ -51,3 +51,10 @@ next-env.d.ts
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+# local agent automation artifacts
+/agent-automation/logs/
+/agent-automation/runs/
+/agent-automation/state/
+/agent-automation/reports/latest-summary.json
+/agent-bridge/messages/

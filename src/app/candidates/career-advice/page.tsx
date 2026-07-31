@@ -5,7 +5,7 @@ import { ArrowRightIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { buttonVariants } from "@/components/ui/button";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
-import { getArticlesByCategory } from "@/server/integrations/sanity";
+import { getArticlesByCategory } from "@/features/knowledge-hub/queries";
 
 export const metadata: Metadata = {
   title: "Career Advice",

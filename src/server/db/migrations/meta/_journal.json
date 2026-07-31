@@ -36,6 +36,20 @@
       "when": 1784222613023,
       "tag": "0004_conscious_lady_deathstrike",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1785334843526,
+      "tag": "0005_spicy_captain_marvel",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1785518037791,
+      "tag": "0006_enable_rls_all_tables",
+      "breakpoints": true
     }
   ]
 }

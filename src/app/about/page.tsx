@@ -6,7 +6,7 @@ import { ExternalLinkIcon } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
-import { getTeam } from "@/server/integrations/sanity";
+import { getTeam } from "@/features/about/queries";
 
 export const metadata: Metadata = {
   title: "About",

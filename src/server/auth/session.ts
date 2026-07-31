@@ -20,6 +20,8 @@ export async function requireUser(): Promise<RequireUserResult> {
   return { success: true, userId, email };
 }
 
+const DEFAULT_ADMIN_DOMAINS = ["illouraservices.com"];
+
 function getAdminEmails(): string[] {
   return (process.env.ADMIN_EMAILS ?? "")
     .split(",")
@@ -27,11 +29,28 @@ function getAdminEmails(): string[] {
     .filter(Boolean);
 }
 
+function getAdminDomains(): string[] {
+  const configuredDomains = (process.env.ADMIN_DOMAINS ?? "")
+    .split(",")
+    .map((domain) => domain.trim().toLowerCase())
+    .filter(Boolean);
+
+  return configuredDomains.length > 0 ? configuredDomains : DEFAULT_ADMIN_DOMAINS;
+}
+
+export function isAdminEmail(email: string): boolean {
+  const normalized = email.toLowerCase();
+  return (
+    getAdminDomains().some((domain) => normalized.endsWith(`@${domain}`)) ||
+    getAdminEmails().includes(normalized)
+  );
+}
+
 export async function requireAdmin(): Promise<RequireUserResult> {
   const session = await requireUser();
   if (!session.success) return session;
 
-  if (!getAdminEmails().includes(session.email.toLowerCase())) {
+  if (!isAdminEmail(session.email)) {
     return { success: false, error: "You do not have access to the admin panel." };
   }
 

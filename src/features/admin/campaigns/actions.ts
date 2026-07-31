@@ -5,7 +5,12 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 
 import { requireAdmin } from "@/server/auth/session";
-import { sendCampaignEmails, type CampaignEmail } from "@/server/integrations/resend";
+import {
+  sendCampaignEmails,
+  type CampaignEmail,
+  type CampaignAttachment,
+} from "@/server/integrations/resend";
+import { createPresignedUploadUrl, getObjectBytes } from "@/server/integrations/r2";
 import {
   createUnsubscribeToken,
   verifyUnsubscribeToken,
@@ -16,6 +21,8 @@ import {
   completeCampaignRecord,
   createCampaignRecord,
   getCampaignRecipients,
+  getCampaignSignature,
+  setCampaignSignature,
   suppressEmail,
 } from "@/features/admin/campaigns/queries";
 import {
@@ -34,15 +41,21 @@ const campaignSchema = z.object({
   audience: z.enum(campaignAudienceValues),
   intent: z.enum(["test", "send"]),
   confirm: z.string().optional(),
+  replyTo: z.string().email("Must be a valid email").optional().or(z.literal("")),
+  includeSignature: z.preprocess((v) => v === "on", z.boolean()),
+  attachmentR2Key: z.string().optional().or(z.literal("")),
+  attachmentFilename: z.string().optional().or(z.literal("")),
 });
 
 function buildEmail(
   recipient: CampaignRecipient,
   subjectTemplate: string,
-  bodyTemplate: string
+  bodyTemplate: string,
+  signature: string | null
 ): CampaignEmail {
   const unsubscribeUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/email-preferences/unsubscribe?email=${encodeURIComponent(recipient.email)}&token=${createUnsubscribeToken(recipient.email)}`;
-  const body = renderTemplate(bodyTemplate, recipient);
+  const rendered = renderTemplate(bodyTemplate, recipient);
+  const body = signature ? `${rendered}\n\n${signature}` : rendered;
 
   return {
     to: recipient.email,
@@ -51,6 +64,40 @@ function buildEmail(
     text: renderBodyText(body, unsubscribeUrl),
     unsubscribeUrl,
   };
+}
+
+// Campaign attachments upload to the same R2 bucket as resumes, under their
+// own prefix. Reuses the presigned-PUT pattern from candidates/actions.ts.
+const ATTACHMENT_MAX_BYTES = 10 * 1024 * 1024;
+
+export async function getCampaignAttachmentUploadUrl(
+  filename: string,
+  contentType: string
+): Promise<{ uploadUrl: string; key: string }> {
+  const session = await requireAdmin();
+  if (!session.success) throw new Error(session.error);
+
+  const safeFilename = filename.replace(/[^a-zA-Z0-9.-]/g, "_");
+  const key = `campaign-attachments/${Date.now()}-${safeFilename}`;
+
+  const { uploadUrl } = await createPresignedUploadUrl({ key, contentType });
+  return { uploadUrl, key };
+}
+
+export type SignatureFormState = { success: true } | { success: false; error: string };
+
+export async function updateCampaignSignature(
+  _prev: SignatureFormState | null,
+  formData: FormData
+): Promise<SignatureFormState> {
+  const session = await requireAdmin();
+  if (!session.success) return { success: false, error: session.error };
+
+  const signature = String(formData.get("signature") ?? "").trim();
+  await setCampaignSignature(signature || null);
+
+  revalidatePath("/admin/campaigns");
+  return { success: true };
 }
 
 export async function submitCampaign(
@@ -79,15 +126,45 @@ export async function submitCampaign(
     };
   }
 
-  const { subject, body, audience, intent, confirm } = parsed.data;
+  const {
+    subject,
+    body,
+    audience,
+    intent,
+    confirm,
+    replyTo,
+    includeSignature,
+    attachmentR2Key,
+    attachmentFilename,
+  } = parsed.data;
+
+  const signature = includeSignature ? await getCampaignSignature() : null;
+
+  let attachment: CampaignAttachment | undefined;
+  if (attachmentR2Key && attachmentFilename) {
+    const object = await getObjectBytes(attachmentR2Key);
+    if (!object) {
+      return { success: false, error: "The attachment upload didn't complete — please re-attach the file." };
+    }
+    if (object.bytes.byteLength > ATTACHMENT_MAX_BYTES) {
+      return { success: false, error: "Attachment is over the 10 MB limit — please attach a smaller file." };
+    }
+    attachment = { filename: attachmentFilename, content: Buffer.from(object.bytes) };
+  }
+
+  const sendOptions = {
+    ...(replyTo ? { replyTo } : {}),
+    ...(attachment ? { attachment } : {}),
+  };
 
   if (intent === "test") {
     const testEmail = buildEmail(
       { email: session.email, name: "Test Recipient", company: "Example Co" },
       `[Test] ${subject}`,
-      body
+      body,
+      signature
     );
-    const { sentCount } = await sendCampaignEmails([testEmail]);
+    const { sentCount } = await sendCampaignEmails([testEmail], sendOptions);
     if (sentCount === 0) {
       return { success: false, error: "Test email failed to send. Check the Resend configuration." };
     }
@@ -109,10 +186,14 @@ export async function submitCampaign(
     audience,
     recipientCount: recipients.length,
     createdBy: session.email,
+    replyTo: replyTo || null,
+    attachmentR2Key: attachmentR2Key || null,
+    attachmentFilename: attachmentFilename || null,
   });
 
   const { sentCount, failedCount } = await sendCampaignEmails(
-    recipients.map((recipient) => buildEmail(recipient, subject, body))
+    recipients.map((recipient) => buildEmail(recipient, subject, body, signature)),
+    sendOptions
   );
   await completeCampaignRecord(campaignId, {
     sentCount,

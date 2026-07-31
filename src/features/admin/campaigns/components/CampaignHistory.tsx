@@ -1,13 +1,20 @@
+import { PaperclipIcon } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import type { emailCampaigns } from "@/server/db/schema";
 
 type Campaign = typeof emailCampaigns.$inferSelect;
 
-const AUDIENCE_LABELS: Record<Campaign["audience"], string> = {
-  candidates: "Candidates",
-  clients: "Clients",
-  all: "All contacts",
-};
+function audienceLabel(audience: Campaign["audience"]): string {
+  if (audience === "candidates") return "All candidates";
+  if (audience === "clients") return "Clients";
+  if (audience === "general") return "Website enquiries";
+  if (audience === "all") return "All contacts";
+  if (audience.startsWith("candidates:")) {
+    return `Candidates — ${audience.slice("candidates:".length)}`;
+  }
+  return audience;
+}
 
 export function CampaignHistory({ campaigns }: { campaigns: Campaign[] }) {
   if (campaigns.length === 0) {
@@ -22,11 +29,18 @@ export function CampaignHistory({ campaigns }: { campaigns: Campaign[] }) {
             <div>
               <p className="font-medium">{campaign.subject}</p>
               <p className="text-xs text-muted-foreground">
-                {AUDIENCE_LABELS[campaign.audience]} · sent {campaign.sentCount}/
+                {audienceLabel(campaign.audience)} · sent {campaign.sentCount}/
                 {campaign.recipientCount}
                 {campaign.failedCount > 0 && ` (${campaign.failedCount} failed)`} ·{" "}
                 {campaign.createdAt.toLocaleDateString("en-AU")} by {campaign.createdBy}
+                {campaign.replyTo && <> · reply-to {campaign.replyTo}</>}
               </p>
+              {campaign.attachmentFilename && (
+                <p className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
+                  <PaperclipIcon className="size-3" aria-hidden="true" />
+                  {campaign.attachmentFilename}
+                </p>
+              )}
             </div>
             <Badge variant={campaign.status === "failed" ? "destructive" : "secondary"}>
               {campaign.status}

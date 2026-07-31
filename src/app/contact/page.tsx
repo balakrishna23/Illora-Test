@@ -15,9 +15,9 @@ const localBusinessJsonLd = {
   "@type": "LocalBusiness",
   name: "Illora",
   description: "First Nations-owned recruitment across seven specialist sectors including IT & Telecommunications, Construction, and Healthcare.",
-  telephone: "+61-2-9000-0000",
-  email: "hello@illora.com.au",
-  url: "https://illora.com.au",
+  telephone: "+61-2-6196-6999",
+  email: "info@illouraservices.com",
+  url: "https://illouraservices.com",
   address: {
     "@type": "PostalAddress",
     streetAddress: "30 Applebox Avenue",
@@ -58,8 +58,8 @@ export default function ContactPage() {
                 <PhoneIcon className="mt-0.5 size-5 shrink-0 text-accent" aria-hidden="true" />
                 <div>
                   <p className="font-medium">Phone</p>
-                  <a href="tel:+61290000000" className="text-sm text-muted-foreground hover:text-foreground">
-                    +61 2 9000 0000
+                  <a href="tel:+61261966999" className="text-sm text-muted-foreground hover:text-foreground">
+                    +61 2 6196 6999
                   </a>
                 </div>
               </div>
@@ -67,8 +67,8 @@ export default function ContactPage() {
                 <MailIcon className="mt-0.5 size-5 shrink-0 text-accent" aria-hidden="true" />
                 <div>
                   <p className="font-medium">Email</p>
-                  <a href="mailto:hello@illora.com.au" className="text-sm text-muted-foreground hover:text-foreground">
-                    hello@illora.com.au
+                  <a href="mailto:info@illouraservices.com" className="text-sm text-muted-foreground hover:text-foreground">
+                    info@illouraservices.com
                   </a>
                 </div>
               </div>

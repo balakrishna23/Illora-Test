@@ -6,12 +6,14 @@ import {
 } from "@/features/admin/campaigns/actions";
 import { requireAdmin } from "@/server/auth/session";
 import { sendCampaignEmails } from "@/server/integrations/resend";
+import { getObjectBytes } from "@/server/integrations/r2";
 import { checkRateLimit } from "@/server/lib/rate-limit-guard";
 import { createUnsubscribeToken } from "@/server/lib/unsubscribe-token";
 import {
   completeCampaignRecord,
   createCampaignRecord,
   getCampaignRecipients,
+  getCampaignSignature,
   suppressEmail,
 } from "@/features/admin/campaigns/queries";
 
@@ -24,6 +26,10 @@ vi.mock("next/navigation", () => ({
 }));
 vi.mock("@/server/auth/session", () => ({ requireAdmin: vi.fn() }));
 vi.mock("@/server/integrations/resend", () => ({ sendCampaignEmails: vi.fn() }));
+vi.mock("@/server/integrations/r2", () => ({
+  createPresignedUploadUrl: vi.fn(),
+  getObjectBytes: vi.fn(),
+}));
 vi.mock("@/server/lib/rate-limit-guard", () => ({
   checkRateLimit: vi.fn(),
   retryAfterMessage: vi.fn(),
@@ -32,6 +38,8 @@ vi.mock("@/features/admin/campaigns/queries", () => ({
   completeCampaignRecord: vi.fn(),
   createCampaignRecord: vi.fn(),
   getCampaignRecipients: vi.fn(),
+  getCampaignSignature: vi.fn(),
+  setCampaignSignature: vi.fn(),
   suppressEmail: vi.fn(),
 }));
 
@@ -137,6 +145,9 @@ describe("submitCampaign", () => {
       audience: "candidates",
       recipientCount: 2,
       createdBy: ADMIN.email,
+      replyTo: null,
+      attachmentR2Key: null,
+      attachmentFilename: null,
     });
     expect(completeCampaignRecord).toHaveBeenCalledWith("campaign-1", {
       sentCount: 2,
@@ -175,6 +186,87 @@ describe("submitCampaign", () => {
 
     expect(result?.success).toBe(false);
     expect(createCampaignRecord).not.toHaveBeenCalled();
+    expect(sendCampaignEmails).not.toHaveBeenCalled();
+  });
+
+  it("appends the shared signature only when includeSignature is checked", async () => {
+    vi.mocked(getCampaignSignature).mockResolvedValue("— The Illoura team");
+
+    await submitCampaign(null, campaignFormData({ includeSignature: "on" }));
+
+    expect(getCampaignSignature).toHaveBeenCalled();
+    const emails = vi.mocked(sendCampaignEmails).mock.calls[0][0];
+    expect(emails[0].text).toContain("— The Illoura team");
+  });
+
+  it("does not fetch or append a signature when unchecked", async () => {
+    await submitCampaign(null, campaignFormData());
+
+    expect(getCampaignSignature).not.toHaveBeenCalled();
+  });
+
+  it("passes reply-to through to sendCampaignEmails", async () => {
+    await submitCampaign(null, campaignFormData({ replyTo: "consultant@illouraservices.com" }));
+
+    const options = vi.mocked(sendCampaignEmails).mock.calls[0][1];
+    expect(options).toMatchObject({ replyTo: "consultant@illouraservices.com" });
+  });
+
+  it("attaches the uploaded file when an attachment key is present", async () => {
+    vi.mocked(getObjectBytes).mockResolvedValue({
+      bytes: new Uint8Array([1, 2, 3]),
+      contentType: "application/pdf",
+    });
+
+    await submitCampaign(
+      null,
+      campaignFormData({
+        attachmentR2Key: "campaign-attachments/123-brochure.pdf",
+        attachmentFilename: "brochure.pdf",
+      })
+    );
+
+    expect(getObjectBytes).toHaveBeenCalledWith("campaign-attachments/123-brochure.pdf");
+    const options = vi.mocked(sendCampaignEmails).mock.calls[0][1];
+    expect(options?.attachment).toMatchObject({ filename: "brochure.pdf" });
+    expect(createCampaignRecord).toHaveBeenCalledWith(
+      expect.objectContaining({
+        attachmentR2Key: "campaign-attachments/123-brochure.pdf",
+        attachmentFilename: "brochure.pdf",
+      })
+    );
+  });
+
+  it("rejects the send when the attachment upload never completed", async () => {
+    vi.mocked(getObjectBytes).mockResolvedValue(null);
+
+    const result = await submitCampaign(
+      null,
+      campaignFormData({
+        attachmentR2Key: "campaign-attachments/123-brochure.pdf",
+        attachmentFilename: "brochure.pdf",
+      })
+    );
+
+    expect(result?.success).toBe(false);
+    expect(sendCampaignEmails).not.toHaveBeenCalled();
+  });
+
+  it("rejects an oversized attachment", async () => {
+    vi.mocked(getObjectBytes).mockResolvedValue({
+      bytes: new Uint8Array(11 * 1024 * 1024),
+      contentType: "application/pdf",
+    });
+
+    const result = await submitCampaign(
+      null,
+      campaignFormData({
+        attachmentR2Key: "campaign-attachments/123-huge.pdf",
+        attachmentFilename: "huge.pdf",
+      })
+    );
+
+    expect(result?.success).toBe(false);
     expect(sendCampaignEmails).not.toHaveBeenCalled();
   });
 });
