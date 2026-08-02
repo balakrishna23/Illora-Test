@@ -9,7 +9,7 @@ import { NativeSelect as Select } from "@/components/ui/native-select";
 import { Button } from "@/components/ui/button";
 import {
   submitCv,
-  getR2UploadUrl,
+  getResumeUploadUrl,
   parseUploadedResume,
   type SubmitCvState,
 } from "@/features/candidates/actions";
@@ -43,7 +43,7 @@ function FileUploadField({
     setStatus("uploading");
     setFilename(file.name);
     try {
-      const { uploadUrl, key } = await getR2UploadUrl(file.name, file.type);
+      const { uploadUrl, key } = await getResumeUploadUrl(file.name, file.type);
       const response = await fetch(uploadUrl, {
         method: "PUT",
         body: file,

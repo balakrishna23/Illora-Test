@@ -14,8 +14,12 @@ import {
 import { isBotSubmission } from "@/lib/honeypot";
 import { checkRateLimit, retryAfterMessage } from "@/server/lib/rate-limit-guard";
 import { JOB_INDUSTRIES } from "@/server/integrations/jobadder";
-import { createPresignedUploadUrl, deleteObject, getObjectSize } from "@/server/integrations/r2";
-import { parseResumeFromR2, type ParsedResume } from "@/server/integrations/resume-parser";
+import {
+  createPresignedUploadUrl,
+  deleteObject,
+  getObjectSize,
+} from "@/server/integrations/supabase-storage";
+import { parseResumeFromStorage, type ParsedResume } from "@/server/integrations/resume-parser";
 import { sendCvConfirmationEmail } from "@/server/integrations/resend";
 
 const submitCvSchema = z.object({
@@ -39,15 +43,16 @@ export type SubmitCvState =
   | { success: false; error: string; fieldErrors?: Record<string, string[]> };
 
 const MAX_FILE_BYTES = 5 * 1024 * 1024;
-// Matches the key shape getR2UploadUrl generates: resumes/<timestamp>-<sanitized-filename>
-const R2_KEY_PATTERN = /^resumes\/\d+-[a-zA-Z0-9._-]+\.(pdf|docx)$/i;
+// Matches the key shape getResumeUploadUrl generates: resumes/<timestamp>-<sanitized-filename>
+const STORAGE_KEY_PATTERN = /^resumes\/\d+-[a-zA-Z0-9._-]+\.(pdf|docx)$/i;
 
 // A presigned PUT can't enforce a size cap at upload time (the file goes
-// browser→R2 directly, and R2 doesn't support presigned POST policies), so
-// the submission is the enforcement point: confirm the object really exists
-// and is within the limit before accepting the application.
+// browser→storage directly, and neither R2 nor Supabase Storage support
+// presigned POST policies), so the submission is the enforcement point:
+// confirm the object really exists and is within the limit before accepting
+// the application.
 async function validateUploadedFile(key: string): Promise<string | null> {
-  if (!R2_KEY_PATTERN.test(key)) {
+  if (!STORAGE_KEY_PATTERN.test(key)) {
     return "File upload is invalid — please re-upload the file.";
   }
 
@@ -131,16 +136,20 @@ export async function submitCv(
     if (existing) {
       await replaceApplication(existing.id, candidateId, {
         ...candidateData,
-        resumeR2Key: resumeKey,
+        resumeStorageKey: resumeKey,
       });
 
       // Best-effort cleanup of the superseded resume — an orphaned object in
       // the bucket is not worth failing the submission over.
-      if (existing.resumeR2Key && existing.resumeR2Key !== resumeKey) {
+      if (existing.resumeStorageKey && existing.resumeStorageKey !== resumeKey) {
         try {
-          await deleteObject(existing.resumeR2Key);
+          await deleteObject(existing.resumeStorageKey);
         } catch (error) {
-          console.error("submitCv: failed to delete replaced R2 object", existing.resumeR2Key, error);
+          console.error(
+            "submitCv: failed to delete replaced storage object",
+            existing.resumeStorageKey,
+            error
+          );
         }
       }
       replaced = true;
@@ -163,7 +172,7 @@ export async function submitCv(
       jobId: jobId || null,
       jobSlug: jobSlug || null,
       jobTitle: jobTitle || null,
-      resumeR2Key: resumeKey,
+      resumeStorageKey: resumeKey,
     });
   }
 
@@ -187,13 +196,13 @@ const ALLOWED_CONTENT_TYPES = [
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 ];
 
-export async function getR2UploadUrl(
+export async function getResumeUploadUrl(
   filename: string,
   contentType: string
 ): Promise<{ uploadUrl: string; key: string }> {
   // Higher ceiling than form submits — a single applicant may re-pick a file
   // a few times — but still bounded to stop scripted bucket-spam.
-  const rate = await checkRateLimit("getR2UploadUrl", { limit: 20 });
+  const rate = await checkRateLimit("getResumeUploadUrl", { limit: 20 });
   if (!rate.ok) {
     throw new Error("Too many upload attempts. Please wait a moment and try again.");
   }
@@ -224,9 +233,9 @@ export async function parseUploadedResume(
   const rate = await checkRateLimit("parseUploadedResume", { limit: 15 });
   if (!rate.ok) return { success: false };
 
-  if (!R2_KEY_PATTERN.test(key)) return { success: false };
+  if (!STORAGE_KEY_PATTERN.test(key)) return { success: false };
 
-  const data = await parseResumeFromR2(key);
+  const data = await parseResumeFromStorage(key);
   if (!data || Object.keys(data).length === 0) return { success: false };
 
   return { success: true, data };

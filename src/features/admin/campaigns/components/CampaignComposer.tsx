@@ -92,7 +92,7 @@ function AttachmentField() {
         )}
         {status === "error" && <span className="text-xs text-destructive">Upload failed — try again</span>}
       </div>
-      <input type="hidden" name="attachmentR2Key" value={key} />
+      <input type="hidden" name="attachmentStorageKey" value={key} />
       <input type="hidden" name="attachmentFilename" value={status === "done" ? filename : ""} />
     </div>
   );

@@ -133,8 +133,8 @@ export const applications = pgTable("applications", {
   securityClearance: text("security_clearance", { enum: securityClearanceValues })
     .notNull()
     .default("None"),
-  resumeR2Key: text("resume_r2_key"),
-  coverLetterR2Key: text("cover_letter_r2_key"),
+  resumeStorageKey: text("resume_storage_key"),
+  coverLetterStorageKey: text("cover_letter_storage_key"),
   // Explicit opt-in to marketing/campaign email at the point of submission.
   // The campaign mailer only sends to rows where this is true.
   marketingConsent: boolean("marketing_consent").notNull().default(false),
@@ -187,7 +187,7 @@ export const emailCampaigns = pgTable("email_campaigns", {
   failedCount: integer("failed_count").notNull().default(0),
   createdBy: text("created_by").notNull(),
   replyTo: text("reply_to"),
-  attachmentR2Key: text("attachment_r2_key"),
+  attachmentStorageKey: text("attachment_storage_key"),
   attachmentFilename: text("attachment_filename"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   completedAt: timestamp("completed_at"),

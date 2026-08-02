@@ -65,7 +65,7 @@ export async function replaceApplication(
     currentRole: string;
     linkedIn?: string;
     securityClearance: (typeof securityClearanceValues)[number];
-    resumeR2Key: string;
+    resumeStorageKey: string;
     marketingConsent: boolean;
   }
 ): Promise<void> {

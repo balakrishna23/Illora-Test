@@ -8,7 +8,7 @@ const MODEL = "gemini-2.5-flash";
 const SCHEMA_SUMMARY = `
 Tables:
 - jobs(id uuid, slug text, title text, location text, state text, type text, industry text, salary_range text, posted_date text, closing_date text, status text[active|closed], created_at, updated_at)
-- applications(id uuid, candidate_id uuid?, job_id uuid?, job_slug text?, job_title text?, name text, email text, phone text, target_industry text, current_role text, linked_in text?, resume_r2_key text?, cover_letter_r2_key text?, status text[submitted|under_review|interviewing|offered|rejected|withdrawn], submitted_at, updated_at)
+- applications(id uuid, candidate_id uuid?, job_id uuid?, job_slug text?, job_title text?, name text, email text, phone text, target_industry text, current_role text, linked_in text?, resume_storage_key text?, cover_letter_storage_key text?, status text[submitted|under_review|interviewing|offered|rejected|withdrawn], submitted_at, updated_at)
 - saved_jobs(id uuid, candidate_id uuid, job_id uuid, job_slug text, job_title text, saved_at)
 - candidates(id uuid, clerk_user_id text, email text, created_at)
 - job_alerts(id uuid, email text, industry text?, state text?, job_type text?, keyword text?, status text[active|unsubscribed], created_at)

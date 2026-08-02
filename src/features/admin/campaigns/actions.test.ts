@@ -6,7 +6,7 @@ import {
 } from "@/features/admin/campaigns/actions";
 import { requireAdmin } from "@/server/auth/session";
 import { sendCampaignEmails } from "@/server/integrations/resend";
-import { getObjectBytes } from "@/server/integrations/r2";
+import { getObjectBytes } from "@/server/integrations/supabase-storage";
 import { checkRateLimit } from "@/server/lib/rate-limit-guard";
 import { createUnsubscribeToken } from "@/server/lib/unsubscribe-token";
 import {
@@ -26,7 +26,7 @@ vi.mock("next/navigation", () => ({
 }));
 vi.mock("@/server/auth/session", () => ({ requireAdmin: vi.fn() }));
 vi.mock("@/server/integrations/resend", () => ({ sendCampaignEmails: vi.fn() }));
-vi.mock("@/server/integrations/r2", () => ({
+vi.mock("@/server/integrations/supabase-storage", () => ({
   createPresignedUploadUrl: vi.fn(),
   getObjectBytes: vi.fn(),
 }));
@@ -146,7 +146,7 @@ describe("submitCampaign", () => {
       recipientCount: 2,
       createdBy: ADMIN.email,
       replyTo: null,
-      attachmentR2Key: null,
+      attachmentStorageKey: null,
       attachmentFilename: null,
     });
     expect(completeCampaignRecord).toHaveBeenCalledWith("campaign-1", {
@@ -221,7 +221,7 @@ describe("submitCampaign", () => {
     await submitCampaign(
       null,
       campaignFormData({
-        attachmentR2Key: "campaign-attachments/123-brochure.pdf",
+        attachmentStorageKey: "campaign-attachments/123-brochure.pdf",
         attachmentFilename: "brochure.pdf",
       })
     );
@@ -231,7 +231,7 @@ describe("submitCampaign", () => {
     expect(options?.attachment).toMatchObject({ filename: "brochure.pdf" });
     expect(createCampaignRecord).toHaveBeenCalledWith(
       expect.objectContaining({
-        attachmentR2Key: "campaign-attachments/123-brochure.pdf",
+        attachmentStorageKey: "campaign-attachments/123-brochure.pdf",
         attachmentFilename: "brochure.pdf",
       })
     );
@@ -243,7 +243,7 @@ describe("submitCampaign", () => {
     const result = await submitCampaign(
       null,
       campaignFormData({
-        attachmentR2Key: "campaign-attachments/123-brochure.pdf",
+        attachmentStorageKey: "campaign-attachments/123-brochure.pdf",
         attachmentFilename: "brochure.pdf",
       })
     );
@@ -261,7 +261,7 @@ describe("submitCampaign", () => {
     const result = await submitCampaign(
       null,
       campaignFormData({
-        attachmentR2Key: "campaign-attachments/123-huge.pdf",
+        attachmentStorageKey: "campaign-attachments/123-huge.pdf",
         attachmentFilename: "huge.pdf",
       })
     );

@@ -10,7 +10,7 @@ import {
   type CampaignEmail,
   type CampaignAttachment,
 } from "@/server/integrations/resend";
-import { createPresignedUploadUrl, getObjectBytes } from "@/server/integrations/r2";
+import { createPresignedUploadUrl, getObjectBytes } from "@/server/integrations/supabase-storage";
 import {
   createUnsubscribeToken,
   verifyUnsubscribeToken,
@@ -43,7 +43,7 @@ const campaignSchema = z.object({
   confirm: z.string().optional(),
   replyTo: z.string().email("Must be a valid email").optional().or(z.literal("")),
   includeSignature: z.preprocess((v) => v === "on", z.boolean()),
-  attachmentR2Key: z.string().optional().or(z.literal("")),
+  attachmentStorageKey: z.string().optional().or(z.literal("")),
   attachmentFilename: z.string().optional().or(z.literal("")),
 });
 
@@ -66,8 +66,8 @@ function buildEmail(
   };
 }
 
-// Campaign attachments upload to the same R2 bucket as resumes, under their
-// own prefix. Reuses the presigned-PUT pattern from candidates/actions.ts.
+// Campaign attachments upload to the same storage bucket as resumes, under
+// their own prefix. Reuses the presigned-PUT pattern from candidates/actions.ts.
 const ATTACHMENT_MAX_BYTES = 10 * 1024 * 1024;
 
 export async function getCampaignAttachmentUploadUrl(
@@ -134,15 +134,15 @@ export async function submitCampaign(
     confirm,
     replyTo,
     includeSignature,
-    attachmentR2Key,
+    attachmentStorageKey,
     attachmentFilename,
   } = parsed.data;
 
   const signature = includeSignature ? await getCampaignSignature() : null;
 
   let attachment: CampaignAttachment | undefined;
-  if (attachmentR2Key && attachmentFilename) {
-    const object = await getObjectBytes(attachmentR2Key);
+  if (attachmentStorageKey && attachmentFilename) {
+    const object = await getObjectBytes(attachmentStorageKey);
     if (!object) {
       return { success: false, error: "The attachment upload didn't complete — please re-attach the file." };
     }
@@ -187,7 +187,7 @@ export async function submitCampaign(
     recipientCount: recipients.length,
     createdBy: session.email,
     replyTo: replyTo || null,
-    attachmentR2Key: attachmentR2Key || null,
+    attachmentStorageKey: attachmentStorageKey || null,
     attachmentFilename: attachmentFilename || null,
   });
 

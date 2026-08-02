@@ -132,7 +132,7 @@ export async function createCampaignRecord(input: {
   recipientCount: number;
   createdBy: string;
   replyTo?: string | null;
-  attachmentR2Key?: string | null;
+  attachmentStorageKey?: string | null;
   attachmentFilename?: string | null;
 }): Promise<string> {
   const [row] = await db

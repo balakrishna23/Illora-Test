@@ -13,8 +13,9 @@ export const metadata: Metadata = {
 export default async function AdminApplicationsPage() {
   const applications = await getAllApplications();
 
-  // Convert the R2 keys to booleans here so the actual keys never cross the
-  // server/client boundary — downloads are signed on demand, admin-gated.
+  // Convert the storage keys to booleans here so the actual keys never cross
+  // the server/client boundary — downloads/reviews are signed/run on demand,
+  // admin-gated.
   const rows: AdminApplicationRow[] = applications.map((application) => ({
     id: application.id,
     name: application.name,
@@ -26,8 +27,8 @@ export default async function AdminApplicationsPage() {
     submittedAt: application.submittedAt.toISOString(),
     jobSlug: application.liveJobSlug ?? application.jobSlug,
     jobTitle: application.liveJobTitle ?? application.jobTitle,
-    hasResume: Boolean(application.resumeR2Key),
-    hasCoverLetter: Boolean(application.coverLetterR2Key),
+    hasResume: Boolean(application.resumeStorageKey),
+    hasCoverLetter: Boolean(application.coverLetterStorageKey),
   }));
 
   return (

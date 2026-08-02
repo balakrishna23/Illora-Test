@@ -126,7 +126,7 @@ async function main() {
       currentRole: mock.currentRole,
       linkedIn: mock.linkedIn,
       status: mock.status,
-      resumeR2Key: `resumes/mock-${mock.name.toLowerCase().replace(/[^a-z]+/g, "-")}.pdf`,
+      resumeStorageKey: `resumes/mock-${mock.name.toLowerCase().replace(/[^a-z]+/g, "-")}.pdf`,
       jobId: matchedJob?.id ?? null,
       jobSlug: matchedJob?.slug ?? null,
       jobTitle: matchedJob?.title ?? null,

@@ -7,6 +7,7 @@ import { DownloadIcon, SearchIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ApplicationStatusSelect } from "@/features/admin/applications/components/ApplicationStatusSelect";
+import { ResumeReviewPanel } from "@/features/admin/applications/components/ResumeReviewPanel";
 import { getResumeDownloadUrl } from "@/features/admin/applications/actions";
 import type { applicationStatusValues } from "@/server/db/schema";
 
@@ -148,7 +149,13 @@ export function ApplicationsTable({ applications }: { applications: AdminApplica
                   <td className="px-4 py-3">
                     <div className="flex flex-col gap-2">
                       {application.hasResume ? (
-                        <FileButton kind="resume" applicationId={application.id} label="Resume" />
+                        <>
+                          <FileButton kind="resume" applicationId={application.id} label="Resume" />
+                          <ResumeReviewPanel
+                            applicationId={application.id}
+                            candidateName={application.name}
+                          />
+                        </>
                       ) : (
                         <span className="text-xs text-muted-foreground">No resume</span>
                       )}
