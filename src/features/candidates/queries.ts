@@ -12,8 +12,9 @@ function jobScope(jobId: string | null) {
 }
 
 // For a signed-in candidate: their own row, or an anonymous row they created
-// before signing up. The anonymous match uses the Clerk-verified session email
-// (never the form email) so one account can't claim another person's submission.
+// before signing up. The anonymous match uses the Supabase Auth-verified
+// session email (never the form email) so one account can't claim another
+// person's submission.
 export async function findExistingApplicationForCandidate(
   candidateId: string,
   sessionEmail: string,

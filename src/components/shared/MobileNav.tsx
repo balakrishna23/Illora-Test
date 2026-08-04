@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import { MenuIcon, ChevronDownIcon } from "lucide-react";
-import { Show } from "@clerk/nextjs";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -14,8 +13,15 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { NAV_ITEMS } from "@/lib/navigation";
+import { signOut } from "@/features/auth/actions";
 
-export function MobileNav() {
+export function MobileNav({
+  isSignedIn,
+  isAdmin,
+}: {
+  isSignedIn: boolean;
+  isAdmin: boolean;
+}) {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
 
@@ -105,23 +111,36 @@ export function MobileNav() {
           >
             Hire Talent
           </Link>
-          <Show when="signed-in">
-            <Link
-              href="/admin"
-              onClick={close}
-              className="rounded-lg border border-border bg-card px-4 py-2.5 text-center text-sm font-medium transition-colors hover:bg-muted"
-            >
-              Admin
-            </Link>
-            <Link
-              href="/portal"
-              onClick={close}
-              className="rounded-lg border border-border bg-card px-4 py-2.5 text-center text-sm font-medium transition-colors hover:bg-muted"
-            >
-              My Portal
-            </Link>
-          </Show>
-          <Show when="signed-out">
+          {isSignedIn ? (
+            <>
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  onClick={close}
+                  className="rounded-lg border border-border bg-card px-4 py-2.5 text-center text-sm font-medium transition-colors hover:bg-muted"
+                >
+                  Admin
+                </Link>
+              )}
+              <Link
+                href="/portal"
+                onClick={close}
+                className="rounded-lg border border-border bg-card px-4 py-2.5 text-center text-sm font-medium transition-colors hover:bg-muted"
+              >
+                My Portal
+              </Link>
+              <form action={signOut}>
+                <Button
+                  type="submit"
+                  variant="ghost"
+                  className="w-full justify-center"
+                  onClick={close}
+                >
+                  Sign out
+                </Button>
+              </form>
+            </>
+          ) : (
             <Link
               href="/sign-in"
               onClick={close}
@@ -129,7 +148,7 @@ export function MobileNav() {
             >
               Sign In
             </Link>
-          </Show>
+          )}
         </div>
       </SheetContent>
     </Sheet>

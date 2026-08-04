@@ -8,29 +8,29 @@ type Candidate = typeof candidates.$inferSelect;
 type SavedJob = typeof savedJobs.$inferSelect;
 type Application = typeof applications.$inferSelect;
 
-export async function getCandidateByClerkUserId(
-  clerkUserId: string
+export async function getCandidateByAuthUserId(
+  authUserId: string
 ): Promise<Candidate | null> {
   const [existing] = await db
     .select()
     .from(candidates)
-    .where(eq(candidates.clerkUserId, clerkUserId));
+    .where(eq(candidates.authUserId, authUserId));
 
   return existing ?? null;
 }
 
 export async function getOrCreateCandidate(
-  clerkUserId: string,
+  authUserId: string,
   email: string
 ): Promise<Candidate> {
   const [existing] = await db
     .select()
     .from(candidates)
-    .where(eq(candidates.clerkUserId, clerkUserId));
+    .where(eq(candidates.authUserId, authUserId));
 
   if (existing) return existing;
 
-  const [created] = await db.insert(candidates).values({ clerkUserId, email }).returning();
+  const [created] = await db.insert(candidates).values({ authUserId, email }).returning();
   return created;
 }
 

@@ -3,7 +3,6 @@ import { jsonLdString } from "@/lib/utils";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { MapPinIcon, BriefcaseIcon, CalendarIcon, HashIcon } from "lucide-react";
-import { auth } from "@clerk/nextjs/server";
 
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -11,7 +10,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { JobLocationMap } from "@/features/jobs/components/JobLocationMap";
 import { SaveJobButton } from "@/features/portal/components/SaveJobButton";
-import { getCandidateByClerkUserId, isJobSaved } from "@/features/portal/queries";
+import { getSessionUser } from "@/server/auth/session";
+import { getCandidateByAuthUserId, isJobSaved } from "@/features/portal/queries";
 import { getJobBySlug, getSimilarJobs, getAllJobs } from "@/server/integrations/jobadder";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
@@ -35,11 +35,11 @@ export async function generateStaticParams() {
 
 export default async function JobDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const [job, , { userId }] = await Promise.all([getJobBySlug(slug), getAllJobs(), auth()]);
+  const [job, , sessionUser] = await Promise.all([getJobBySlug(slug), getAllJobs(), getSessionUser()]);
   if (!job) notFound();
 
   const similar = await getSimilarJobs(job, 3);
-  const candidate = userId ? await getCandidateByClerkUserId(userId) : null;
+  const candidate = sessionUser ? await getCandidateByAuthUserId(sessionUser.userId) : null;
   const saved = candidate ? await isJobSaved(candidate.id, job.id) : false;
 
   const jobJsonLd = {
@@ -196,7 +196,7 @@ export default async function JobDetailPage({ params }: PageProps) {
                 <SaveJobButton
                   job={{ id: job.id, slug: job.slug, title: job.title }}
                   initialSaved={saved}
-                  isSignedIn={Boolean(userId)}
+                  isSignedIn={Boolean(sessionUser)}
                 />
               </div>
               <Separator className="my-4" />

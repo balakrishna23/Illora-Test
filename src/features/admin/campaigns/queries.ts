@@ -30,9 +30,9 @@ function parseAudience(
 }
 
 // Consent gate: only people who explicitly opted in to marketing at submission
-// (marketing_consent = true) are reachable. The plain `candidates` table (Clerk
-// sign-ups) has no consent capture point, so it is intentionally NOT a source —
-// including it would email people who never opted in (Spam Act 2003).
+// (marketing_consent = true) are reachable. The plain `candidates` table
+// (account sign-ups) has no consent capture point, so it is intentionally
+// NOT a source — including it would email people who never opted in (Spam Act 2003).
 async function getCandidateRows(industry?: string): Promise<CampaignRecipient[]> {
   const conditions = [eq(applications.marketingConsent, true)];
   if (industry) conditions.push(eq(applications.targetIndustry, industry));

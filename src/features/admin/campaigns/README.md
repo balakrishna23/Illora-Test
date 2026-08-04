@@ -16,7 +16,7 @@ contact base, sent via Resend's batch API.
   - **general** = contact-form submitters (`contact_messages`) who opted into
     marketing on the general Contact page
   - **all** = union of all three
-  The `candidates` table (Clerk sign-ups) is intentionally NOT a source — it
+  The `candidates` table (account sign-ups) is intentionally NOT a source — it
   has no consent capture point, so including it would email people who never
   opted in (Spam Act 2003). Recipients are deduped by email and filtered
   against `email_suppressions`.

@@ -43,7 +43,9 @@ export const jobAlertSendLog = pgTable("job_alert_send_log", {
 
 export const candidates = pgTable("candidates", {
   id: uuid("id").primaryKey().defaultRandom(),
-  clerkUserId: text("clerk_user_id").notNull().unique(),
+  // References auth.users.id (Supabase Auth) — a Supabase-managed schema
+  // outside Drizzle's ownership, so no cross-schema FK is declared here.
+  authUserId: uuid("auth_user_id").notNull().unique(),
   email: text("email").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 }).enableRLS();

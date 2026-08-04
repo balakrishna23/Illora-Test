@@ -13,7 +13,7 @@ This file is the single source of truth for how Claude (and any human) writes co
 | Language | TypeScript, strict mode, no `any` |
 | Styling | Tailwind v4 (CSS-first config, no `tailwind.config.js` unless v4 requires it) |
 | Components | shadcn/ui — extend, never fork core primitives |
-| Auth | Clerk |
+| Auth | Supabase Auth |
 | ORM | Drizzle ORM |
 | Database | PostgreSQL (via Supabase) |
 | CMS | None — Knowledge Hub articles, team profiles, and site stats are managed via a custom admin panel (`/admin/articles`, `/admin/team`, `/admin/settings`), stored in Postgres via Drizzle. Sanity was removed. |
@@ -42,7 +42,7 @@ This file is the single source of truth for how Claude (and any human) writes co
 
 ## 3. Architecture Rules
 
-- **Server Actions** are the default mutation mechanism. Use API routes only for webhooks (Clerk, JobAdder, Resend) or third-party callbacks that require a stable HTTP endpoint.
+- **Server Actions** are the default mutation mechanism. Use API routes only for webhooks (JobAdder, Resend) or third-party callbacks that require a stable HTTP endpoint.
 - **Data fetching** happens in Server Components or Server Actions — never fetch from the client unless it's a real-time/interactive case (e.g. live search), and even then prefer Server Actions over client-side `fetch`.
 - **Database access** only through Drizzle, only from server-side code (`server/`, Server Actions, API routes). Never import the DB client into a Client Component, ever.
 - **Sanity content** is fetched server-side via the Sanity client; no client-side GROQ queries unless building a live preview.
@@ -67,7 +67,7 @@ src/
     shared/                → cross-feature reusable components
   server/
     db/                   → drizzle schema, client, migrations
-    auth/                 → Clerk helpers, session utilities
+    auth/                 → Supabase Auth helpers, session utilities
     integrations/         → JobAdder, Resend, R2 clients
   lib/                     → pure utility functions, no side effects
   styles/
@@ -202,7 +202,7 @@ Rules:
 - Never `npm install` a new package without checking it isn't already covered by an existing dependency in the stack.
 - Never use `any` to silence a TypeScript error — fix the type.
 - Never fetch JobAdder/Resend/R2 directly from the client — always proxy through a Server Action or API route.
-- Never bypass Clerk's session checks with a custom auth hack.
+- Never bypass `requireUser()`/`requireAdmin()` with a custom auth hack — always go through `src/server/auth/session.ts`.
 - Never write raw SQL when a Drizzle query will do.
 - Never delete or alter a migration file that's already been applied — write a new migration.
 - Never assume a shadcn/ui component's API without checking the installed version's source in `components/ui/`.
@@ -214,7 +214,7 @@ Rules:
 
 These rules exist specifically to prevent common AI failure modes in this codebase:
 
-- **Do not invent APIs.** If unsure whether a Next.js 16, React 19, Drizzle, Clerk, or Sanity API exists as you're imagining it, say so and check with Context7 MCP before writing code that depends on it. Do not guess function signatures.
+- **Do not invent APIs.** If unsure whether a Next.js 16, React 19, Drizzle, or Supabase API exists as you're imagining it, say so and check with Context7 MCP before writing code that depends on it. Do not guess function signatures.
 - **Do not install packages speculatively.** Before adding any dependency, check if the existing stack (listed in Section 1) already solves the problem. If a new package genuinely seems required, name it and ask before installing.
 - **Match existing patterns.** Before writing a new feature, look at how a similar existing feature is structured in this repo and follow that pattern rather than introducing a new one.
 - **Don't refactor unrelated code** while completing a task, even if you notice something that could be improved — note it instead and ask.
@@ -227,6 +227,6 @@ These rules exist specifically to prevent common AI failure modes in this codeba
 
 ## 18. Project Context
 
-Illora is a recruitment/job-board platform connecting candidates and employers, with ATS integration via JobAdder. Core flows: candidate job search & application, employer job posting & candidate management, CMS-driven content (Sanity) for marketing pages, and authenticated dashboards for both user types (Clerk).
+Illora is a recruitment/job-board platform connecting candidates and employers, with ATS integration via JobAdder. Core flows: candidate job search & application, employer job posting & candidate management, admin-managed content for marketing pages, and authenticated dashboards for both user types (Supabase Auth).
 
 See `context/` for deeper detail on architecture, design system, roadmap, and conventions — this file is the summary; those files are the detail.

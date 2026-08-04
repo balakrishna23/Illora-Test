@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { SubmitCvForm } from "@/features/candidates/components/SubmitCvForm";
 import { findExistingApplicationForCandidate } from "@/features/candidates/queries";
-import { getCandidateByClerkUserId } from "@/features/portal/queries";
+import { getCandidateByAuthUserId } from "@/features/portal/queries";
 import { requireUser } from "@/server/auth/session";
 
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ export default async function SubmitCvPage({
   let existingSubmittedAt: string | undefined;
   const session = await requireUser();
   if (session.success) {
-    const candidate = await getCandidateByClerkUserId(session.userId);
+    const candidate = await getCandidateByAuthUserId(session.userId);
     if (candidate) {
       const existing = await findExistingApplicationForCandidate(
         candidate.id,

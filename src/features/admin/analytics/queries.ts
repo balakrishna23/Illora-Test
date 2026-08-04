@@ -1,7 +1,7 @@
 import { and, count, eq, gte } from "drizzle-orm";
-import { clerkClient } from "@clerk/nextjs/server";
 
 import { db } from "@/server/db/client";
+import { supabaseAdmin } from "@/server/integrations/supabase-admin";
 import {
   applications,
   contactMessages,
@@ -23,8 +23,14 @@ async function countRows(query: Promise<{ value: number }[]>): Promise<number> {
 }
 
 async function getTotalAccountsCreated(): Promise<number> {
-  const client = await clerkClient();
-  return client.users.getCount();
+  // perPage: 1 — only the `total` field from the pagination metadata is
+  // needed, not the actual user list.
+  const { data, error } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1 });
+  if (error) {
+    console.error("getTotalAccountsCreated: listUsers failed", error);
+    return 0;
+  }
+  return data.total;
 }
 
 export async function getAdminAnalytics() {

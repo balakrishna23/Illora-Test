@@ -1,8 +1,13 @@
 # Illora — Deployment Runbook (Hostinger VPS + Coolify + bravero.ai)
 
 Goal: a live site at **https://bravero.ai** where anyone, on any machine, can sign
-in and use the admin panel and candidate portal. This requires production Clerk
-keys on a real domain — it cannot be done on localhost or a tunnel.
+in and use the admin panel and candidate portal. Auth is Supabase Auth — unlike
+Clerk, there's no separate dev/prod key pair or domain-verified "production
+instance" to set up; the same Supabase project and keys used locally work in
+production too. What production does need: pointing Supabase's Auth URL
+configuration at the real domain, and (see Phase 3) a custom SMTP provider for
+auth emails, since Supabase's default email sender has a strict rate limit
+unsuitable for real traffic.
 
 Legend: 🧑 = you do it (dashboard/account actions I can't do) · 🤖 = I do it (code/config)
 
@@ -52,20 +57,22 @@ DNS takes a few minutes to a couple of hours to propagate.
 
 ---
 
-## Phase 3 — Production Clerk on bravero.ai 🧑 (Clerk dashboard)
+## Phase 3 — Supabase Auth production config 🧑 (Supabase dashboard)
 
-This is what fixes the "can't sign in from another machine" problem.
+No new keys or DNS records needed — `NEXT_PUBLIC_SUPABASE_URL`,
+`NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` are the same
+values already in your local `.env`. Just point Auth at the real domain and
+fix email deliverability:
 
-1. Clerk dashboard → create a **Production** instance for this app.
-2. Clerk will show DNS records (CNAMEs like `clerk`, `accounts`,
-   `clkmail`, plus DKIM entries) → **add them all to GoDaddy DNS** for bravero.ai.
-3. Wait for Clerk to verify the domain (green ticks).
-4. Copy the production keys: `pk_live_…` and `sk_live_…`.
-5. Put them in Coolify env as `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and
-   `CLERK_SECRET_KEY` (replacing the `pk_test`/`sk_test` dev values).
-6. Redeploy.
-
-Keep your **dev** keys in your local `.env` — production keys live only in Coolify.
+1. Supabase dashboard → **Authentication → URL Configuration** → set **Site
+   URL** to `https://bravero.ai` and add `https://bravero.ai/**` to
+   **Redirect URLs**.
+2. Supabase dashboard → **Authentication → Settings → SMTP Settings** →
+   configure custom SMTP using Resend (already set up for transactional mail
+   in this project). Without this, Supabase's default email sender hits its
+   rate limit after only a handful of sign-ups/password-resets per hour —
+   confirmed by testing during the auth migration.
+3. Redeploy.
 
 ---
 
@@ -89,10 +96,9 @@ Copy the **values** from your local `.env` unless noted. Never commit these.
 | Variable | Source / note |
 |---|---|
 | `DATABASE_URL` | Same Supabase **session pooler** URL as local (works fine on a VPS) |
-| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | **Production** `pk_live_…` (Phase 3) |
-| `CLERK_SECRET_KEY` | **Production** `sk_live_…` (Phase 3) |
-| `NEXT_PUBLIC_CLERK_SIGN_IN_URL` | `/sign-in` |
-| `NEXT_PUBLIC_CLERK_SIGN_UP_URL` | `/sign-up` |
+| `NEXT_PUBLIC_SUPABASE_URL` | Same as local (Phase 3) |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Same as local (Phase 3) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Same as local — server-only, never expose to the client (Phase 3) |
 | `ADMIN_EMAILS` | `sirish.kkumar@illouraservices.com` |
 | `NEXT_PUBLIC_SITE_URL` | `https://bravero.ai` |
 | `GEMINI_API_KEY` | Same as local (admin assistant) |
@@ -107,5 +113,8 @@ Copy the **values** from your local `.env` unless noted. Never commit these.
 
 ## Interim: what your boss CAN see today (no deploy)
 The tunnel link shows the **public pages** fine (home, jobs, industries, about,
-submit-CV, contact). Only **login-gated** pages (admin/portal) don't work through the
-tunnel — that's the dev-keys limitation this whole deploy solves.
+submit-CV, contact). Login-gated pages (admin/portal) previously didn't work
+through the tunnel due to Clerk's dev-instance domain restriction — that
+restriction doesn't apply to Supabase Auth (no dev/prod key split), so this
+may already work through the tunnel now. Worth re-testing before assuming
+Phase 0-3 are still required just to demo login.

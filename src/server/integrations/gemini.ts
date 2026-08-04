@@ -10,7 +10,7 @@ Tables:
 - jobs(id uuid, slug text, title text, location text, state text, type text, industry text, salary_range text, posted_date text, closing_date text, status text[active|closed], created_at, updated_at)
 - applications(id uuid, candidate_id uuid?, job_id uuid?, job_slug text?, job_title text?, name text, email text, phone text, target_industry text, current_role text, linked_in text?, resume_storage_key text?, cover_letter_storage_key text?, status text[submitted|under_review|interviewing|offered|rejected|withdrawn], submitted_at, updated_at)
 - saved_jobs(id uuid, candidate_id uuid, job_id uuid, job_slug text, job_title text, saved_at)
-- candidates(id uuid, clerk_user_id text, email text, created_at)
+- candidates(id uuid, auth_user_id uuid, email text, created_at)
 - job_alerts(id uuid, email text, industry text?, state text?, job_type text?, keyword text?, status text[active|unsubscribed], created_at)
 - job_alert_send_log(id uuid, job_alert_id uuid, sent_at, matched_job_ids jsonb)
 - vacancy_requests(id uuid, company_name text, contact_name text, email text, phone text, role_title text, employment_type text, location text, industry text, urgency text, message text, status text[new|contacted|closed], created_at)

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { auth, currentUser } from "@clerk/nextjs/server";
 
+import { requireUser } from "@/server/auth/session";
 import { getApplications, getOrCreateCandidate, getSavedJobs } from "@/features/portal/queries";
 import { SavedJobsList } from "@/features/portal/components/SavedJobsList";
 import { ApplicationStatusList } from "@/features/portal/components/ApplicationStatusList";
@@ -10,13 +10,16 @@ export const metadata: Metadata = {
 };
 
 export default async function PortalPage() {
-  const { userId } = await auth();
-  const user = await currentUser();
-  const email = user?.primaryEmailAddress?.emailAddress ?? user?.emailAddresses[0]?.emailAddress;
+  const session = await requireUser();
+  if (!session.success) {
+    // Unreachable in practice — the parent layout redirects unauthenticated
+    // visitors before this page renders, and proxy.ts already gates
+    // /portal(.*). Throwing (rather than a non-null assertion) keeps this
+    // page correct even if that guarantee ever changes.
+    throw new Error("PortalPage rendered without an authenticated session");
+  }
 
-  // userId/email are guaranteed here: the parent layout redirects unauthenticated
-  // visitors before this page renders, and proxy.ts already gates /portal(.*).
-  const candidate = await getOrCreateCandidate(userId!, email!);
+  const candidate = await getOrCreateCandidate(session.userId, session.email);
   const [savedJobs, applications] = await Promise.all([
     getSavedJobs(candidate.id),
     getApplications(candidate.id),

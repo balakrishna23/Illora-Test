@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { auth } from "@clerk/nextjs/server";
 import { jsonLdString } from "@/lib/utils";
 
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { JobsClient } from "@/features/jobs/components/JobsClient";
 import { getAllJobs } from "@/server/integrations/jobadder";
-import { getCandidateByClerkUserId, getSavedJobs } from "@/features/portal/queries";
+import { getSessionUser } from "@/server/auth/session";
+import { getCandidateByAuthUserId, getSavedJobs } from "@/features/portal/queries";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
@@ -18,9 +18,9 @@ export const metadata: Metadata = {
 type SearchParams = Promise<{ q?: string; industry?: string; state?: string }>;
 
 export default async function JobsPage({ searchParams }: { searchParams: SearchParams }) {
-  const [jobs, params, { userId }] = await Promise.all([getAllJobs(), searchParams, auth()]);
+  const [jobs, params, sessionUser] = await Promise.all([getAllJobs(), searchParams, getSessionUser()]);
 
-  const candidate = userId ? await getCandidateByClerkUserId(userId) : null;
+  const candidate = sessionUser ? await getCandidateByAuthUserId(sessionUser.userId) : null;
   const savedJobIds = candidate ? (await getSavedJobs(candidate.id)).map((j) => j.jobId) : [];
 
   const itemListJsonLd = {
@@ -60,7 +60,7 @@ export default async function JobsPage({ searchParams }: { searchParams: SearchP
           initialIndustry={params.industry ?? ""}
           initialState={params.state ?? ""}
           savedJobIds={savedJobIds}
-          isSignedIn={Boolean(userId)}
+          isSignedIn={Boolean(sessionUser)}
         />
       </div>
     </>

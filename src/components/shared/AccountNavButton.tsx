@@ -1,27 +1,38 @@
-"use client";
-
 import Link from "next/link";
-import { Show, UserButton } from "@clerk/nextjs";
 
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { signOut } from "@/features/auth/actions";
 
-export function AccountNavButton() {
+export function AccountNavButton({
+  isSignedIn,
+  isAdmin,
+}: {
+  isSignedIn: boolean;
+  isAdmin: boolean;
+}) {
+  if (!isSignedIn) {
+    return (
+      <Link href="/sign-in" className={buttonVariants({ variant: "outline", size: "sm" })}>
+        Sign In
+      </Link>
+    );
+  }
+
   return (
     <>
-      <Show when="signed-in">
+      {isAdmin && (
         <Link href="/admin" className={buttonVariants({ variant: "outline", size: "sm" })}>
           Admin
         </Link>
-        <Link href="/portal" className={buttonVariants({ variant: "outline", size: "sm" })}>
-          My Portal
-        </Link>
-        <UserButton />
-      </Show>
-      <Show when="signed-out">
-        <Link href="/sign-in" className={buttonVariants({ variant: "outline", size: "sm" })}>
-          Sign In
-        </Link>
-      </Show>
+      )}
+      <Link href="/portal" className={buttonVariants({ variant: "outline", size: "sm" })}>
+        My Portal
+      </Link>
+      <form action={signOut}>
+        <Button type="submit" variant="ghost" size="sm">
+          Sign out
+        </Button>
+      </form>
     </>
   );
 }
