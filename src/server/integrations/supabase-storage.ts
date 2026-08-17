@@ -20,10 +20,14 @@ if (
 }
 
 // Supabase Storage is S3-compatible (AWS SigV4), so the same client used for
-// R2 works unchanged — only the endpoint/credentials differ.
+// R2 works unchanged — only the endpoint/credentials differ. forcePathStyle
+// is required: Supabase's S3 gateway doesn't support virtual-hosted-style
+// addressing (bucket-as-subdomain), so without it the SDK builds a hostname
+// like <bucket>.<project-ref>.storage.supabase.co that fails TLS handshake.
 const s3Client = new S3Client({
   region: process.env.SUPABASE_STORAGE_REGION,
   endpoint: `https://${process.env.SUPABASE_PROJECT_REF}.storage.supabase.co/storage/v1/s3`,
+  forcePathStyle: true,
   credentials: {
     accessKeyId: process.env.SUPABASE_STORAGE_ACCESS_KEY_ID,
     secretAccessKey: process.env.SUPABASE_STORAGE_SECRET_ACCESS_KEY,
