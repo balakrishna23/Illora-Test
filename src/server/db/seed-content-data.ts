@@ -98,6 +98,18 @@ export const SEED_ARTICLES = [
     authorName: "Illora Team",
     authorRole: "Recruitment Insights",
   },
+  {
+    slug: "fashique-fashion-runway-2026",
+    title: "Backing First Nations Women on the Fashique Fashion Runway",
+    category: "Community Impact",
+    publishDate: "2026-08-17",
+    readingTimeMinutes: 4,
+    excerpt:
+      "How Illoura's support for Mahmi Guyamgan Bahna Consultancy and Blaklabel Dreaming helped five First Nations women take the stage at the 2026 Fashique Fashion Runway — building confidence, cultural pride, and a pathway to Tokyo Fashion Week.",
+    body: `In 2026, Illoura supported Mahmi Guyamgan Bahna Consultancy (MGBC), in partnership with Blaklabel Dreaming, to help five First Nations young women take part in the nationally recognised Fashique Fashion Runway in Brisbane. It's the kind of investment we're proud to make — not just in an event, but in the confidence, cultural identity, and leadership of the people involved.\n\n**More than a runway**\n\nThe opportunity extended well beyond the runway itself. Through mentoring, pre-event workshops, and professional industry experience, participants built leadership skills and personal wellbeing while proudly representing their communities on a national stage. Several have gone on to mentor emerging First Nations models, take part in further runway events, and have been invited to Tokyo Fashion Week in late November 2026 — a direct result of the platform this opportunity gave them.\n\n**Our partner on the ground**\n\n![Kathleen Bolt](/knowledge-hub/kathleen-bolt.jpg)\n\nKathleen Bolt is a proud Bundjalung woman from Lismore, Far North NSW, now living on Ngunnawal Country in Canberra. Through MGBC and Blaklabel Dreaming, Kathleen led the delivery of this program end to end — coordinating mentoring, workshops, and the runway experience itself. As she put it after the event: "Thank you and thank you and Lane again for your support with the models. They had a great time."\n\n**About Illoura**\n\n![Lane McEwan, Founder and Managing Director of Illoura Services](/knowledge-hub/lane-mcewan.png)\n\nLane McEwan is a proud Ngiyampaa Wayilwan and Wiradjuri man from Warren, NSW, and the Founder and Managing Director of Illoura. He founded Illoura with a vision to build a strong, sustainable Indigenous-owned business that delivers exceptional outcomes for clients while creating opportunities for people and communities — partnerships like this one are exactly why.\n\nYou can read more about Lane and the wider Illoura team on our About page.`,
+    authorName: "Illora Team",
+    authorRole: "Community & Partnerships",
+  },
 ] as const;
 
 export const SEED_TEAM = [

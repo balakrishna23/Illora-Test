@@ -99,6 +99,8 @@ export function ArticleForm({ article }: { article?: AdminArticle }) {
         <Textarea id="body" name="body" defaultValue={article?.body} rows={16} className="mt-1" required />
         <p className="mt-1 text-xs text-muted-foreground">
           Paragraphs separated by a blank line. Wrap a line in **asterisks** to render it as a subheading.
+          Use <code>![caption](/path/to/image.jpg)</code> on its own line to embed a photo — upload the file to{" "}
+          <code>public/knowledge-hub/</code> first.
         </p>
         <FieldError errors={fieldErrors.body} />
       </div>

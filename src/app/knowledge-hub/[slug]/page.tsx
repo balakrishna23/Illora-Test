@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { jsonLdString } from "@/lib/utils";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
 import { CalendarIcon, ClockIcon, ArrowLeftIcon } from "lucide-react";
 
@@ -89,9 +90,30 @@ export default async function ArticlePage({ params }: PageProps) {
 
         <Separator className="my-8" />
 
-        {/* Article body — real markdown-style content rendered as paragraphs */}
+        {/* Article body — real markdown-style content rendered as paragraphs.
+            A line of the form ![alt text](/path/to/image.jpg) renders as a figure. */}
         <article className="space-y-5 text-base leading-relaxed text-foreground/90">
           {article.body.split("\n\n").map((block, i) => {
+            const imageMatch = block.match(/^!\[(.*)\]\((.+)\)$/);
+            if (imageMatch) {
+              const [, alt, src] = imageMatch;
+              return (
+                <figure key={i} className="not-prose">
+                  <div className="relative aspect-3/4 w-full max-w-md overflow-hidden rounded-xl bg-muted">
+                    <Image
+                      src={src}
+                      alt={alt}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 448px"
+                      className="object-cover object-top"
+                    />
+                  </div>
+                  {alt && (
+                    <figcaption className="mt-2 text-sm text-muted-foreground">{alt}</figcaption>
+                  )}
+                </figure>
+              );
+            }
             if (block.startsWith("**") && block.endsWith("**")) {
               return <h2 key={i} className="text-lg font-semibold mt-8">{block.slice(2, -2)}</h2>;
             }

@@ -8,4 +8,5 @@ export const ARTICLE_CATEGORIES = [
   "Candidate Advice",
   "First Nations Procurement",
   "Industry Insights",
+  "Community Impact",
 ] as const;
