@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Illora's privacy policy — how we collect, store, and use your personal information.",
+  description: "Illora's privacy policy - how we collect, store, and use your personal information.",
 };
 
 const SECTIONS = [
@@ -19,7 +19,7 @@ By using our website or engaging our services, you consent to the collection and
     title: "2. What information we collect",
     content: `We collect personal information necessary to provide recruitment services. This includes:
 
-Candidate information: full name, contact details (email, phone, address), résumé and cover letter, employment history, qualifications, references, LinkedIn profile URL, and any other information you choose to provide.
+Candidate information: full name, contact details (email, phone, address), resume and cover letter, employment history, qualifications, references, LinkedIn profile URL, and any other information you choose to provide.
 
 Employer information: company name, contact name, role, email, phone, and information about roles you engage us to fill.
 
@@ -29,11 +29,11 @@ Website visitors: we collect standard server logs (IP address, browser type, pag
     title: "3. How we use your information",
     content: `We use personal information to:
 
-— Assess your suitability for roles and present your profile to prospective employers (with your consent)
-— Manage the recruitment process on behalf of employers
-— Communicate with you about roles, interviews, and placement outcomes
-— Send you marketing communications (market updates, hiring insights, Knowledge Hub content) — only where you have expressly opted in, and you may unsubscribe at any time
-— Comply with our legal obligations
+- Assess your suitability for roles and present your profile to prospective employers (with your consent)
+- Manage the recruitment process on behalf of employers
+- Communicate with you about roles, interviews, and placement outcomes
+- Send you marketing communications (market updates, hiring insights, Knowledge Hub content) - only where you have expressly opted in, and you may unsubscribe at any time
+- Comply with our legal obligations
 
 Transactional messages (for example, confirmation that we received your CV or enquiry) are part of providing our service and are sent regardless of marketing preferences.`,
   },
@@ -43,7 +43,7 @@ Transactional messages (for example, confirmation that we received your CV or en
 
 Prospective employers: we share candidate information only with your explicit consent for each role or employer.
 
-Sub-processors: we use the following services which may process your data — JobAdder Pty Ltd (ATS), Supabase Inc / Neon Technologies (database), Cloudflare Inc (file storage via R2), Resend Inc (email delivery). Each provider is bound by data processing agreements.
+Sub-processors: we use the following services which may process your data - JobAdder Pty Ltd (ATS), Supabase Inc (authentication, database, and file storage), Resend Inc (email delivery), and Hostinger (website hosting infrastructure). Each provider is bound by data processing agreements or equivalent contractual protections where applicable.
 
 Legal requirements: we will disclose information if required by law, court order, or regulatory authority.
 
@@ -55,7 +55,7 @@ We do not sell personal information to third parties.`,
   },
   {
     title: "6. Marketing communications",
-    content: `We only send marketing emails (such as role alerts, hiring insights, and news) to people who have expressly opted in — for example, by ticking the marketing consent box when submitting a CV, registering a vacancy, or contacting us. We rely on your consent, or an existing business relationship where permitted, as the basis for sending in accordance with the Spam Act 2003 (Cth).
+    content: `We only send marketing emails (such as role alerts, hiring insights, and news) to people who have expressly opted in - for example, by ticking the marketing consent box when submitting a CV, registering a vacancy, or contacting us. We rely on your consent, or an existing business relationship where permitted, as the basis for sending in accordance with the Spam Act 2003 (Cth).
 
 Every marketing email includes a working unsubscribe link, and unsubscribing takes effect immediately. Transactional messages relating to a service you have requested are not marketing and are handled separately. We do not add people to marketing lists without a lawful basis, and we do not sell or rent our mailing lists.`,
   },
@@ -63,16 +63,16 @@ Every marketing email includes a working unsubscribe link, and unsubscribing tak
     title: "7. Your rights",
     content: `Under the Privacy Act, you have the right to:
 
-— Access the personal information we hold about you
-— Request correction of inaccurate or outdated information
-— Request deletion of your information (subject to our legal obligations)
-— Opt out of marketing communications at any time
+- Access the personal information we hold about you
+- Request correction of inaccurate or outdated information
+- Request deletion of your information (subject to our legal obligations)
+- Opt out of marketing communications at any time
 
 To exercise any of these rights, contact us at privacy@illouraservices.com.`,
   },
   {
     title: "8. Security",
-    content: `We take reasonable steps to protect personal information from misuse, loss, and unauthorised access. Résumés and documents are stored in Cloudflare R2 with access controls. Database access is restricted to authorised personnel and encrypted in transit and at rest.`,
+    content: `We take reasonable steps to protect personal information from misuse, loss, and unauthorised access. Resumes and documents are stored in Supabase Storage with access controls. Database and authentication systems are restricted to authorised personnel and encrypted in transit and at rest.`,
   },
   {
     title: "9. Complaints",
@@ -106,10 +106,12 @@ export default function PrivacyPolicyPage() {
       <div className="space-y-10">
         {SECTIONS.map(({ title, content }) => (
           <div key={title}>
-            <h2 className="font-semibold text-lg">{title}</h2>
+            <h2 className="text-lg font-semibold">{title}</h2>
             <div className="mt-3 space-y-3">
               {content.split("\n\n").map((para, i) => (
-                <p key={i} className="text-sm text-muted-foreground leading-relaxed">{para}</p>
+                <p key={i} className="text-sm leading-relaxed text-muted-foreground">
+                  {para}
+                </p>
               ))}
             </div>
           </div>

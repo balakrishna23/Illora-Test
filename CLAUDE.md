@@ -18,7 +18,7 @@ This file is the single source of truth for how Claude (and any human) writes co
 | Database | PostgreSQL (via Supabase) |
 | CMS | None — Knowledge Hub articles, team profiles, and site stats are managed via a custom admin panel (`/admin/articles`, `/admin/team`, `/admin/settings`), stored in Postgres via Drizzle. Sanity was removed. |
 | ATS integration | JobAdder |
-| File storage | Cloudflare R2 |
+| File storage | Supabase Storage |
 | Email | Resend |
 | Testing | Playwright (E2E), Vitest (unit) |
 | Hosting | Hostinger KVM VPS running Coolify (self-hosted PaaS) |
@@ -45,9 +45,9 @@ This file is the single source of truth for how Claude (and any human) writes co
 - **Server Actions** are the default mutation mechanism. Use API routes only for webhooks (JobAdder, Resend) or third-party callbacks that require a stable HTTP endpoint.
 - **Data fetching** happens in Server Components or Server Actions — never fetch from the client unless it's a real-time/interactive case (e.g. live search), and even then prefer Server Actions over client-side `fetch`.
 - **Database access** only through Drizzle, only from server-side code (`server/`, Server Actions, API routes). Never import the DB client into a Client Component, ever.
-- **Sanity content** is fetched server-side via the Sanity client; no client-side GROQ queries unless building a live preview.
+- **Admin-managed content** (Knowledge Hub articles, team profiles, site stats) is read/written server-side via Drizzle, through the custom admin panel — no client-side data-fetching for this content.
 - **Auth checks** happen at the layout/page level (server) first, then defense-in-depth in Server Actions. Never trust client-side auth state for authorization decisions.
-- **File uploads** go directly to Cloudflare R2 via presigned URLs generated server-side. Never proxy large files through a Next.js API route.
+- **File uploads** go directly to Supabase Storage via presigned URLs generated server-side. Never proxy large files through a Next.js API route.
 
 ---
 
@@ -68,7 +68,7 @@ src/
   server/
     db/                   → drizzle schema, client, migrations
     auth/                 → Supabase Auth helpers, session utilities
-    integrations/         → JobAdder, Resend, R2 clients
+    integrations/         → JobAdder, Resend, Supabase Storage clients
   lib/                     → pure utility functions, no side effects
   styles/
 ```
@@ -201,7 +201,7 @@ Rules:
 - Never query the database from a Client Component.
 - Never `npm install` a new package without checking it isn't already covered by an existing dependency in the stack.
 - Never use `any` to silence a TypeScript error — fix the type.
-- Never fetch JobAdder/Resend/R2 directly from the client — always proxy through a Server Action or API route.
+- Never fetch JobAdder/Resend/Supabase Storage directly from the client — always proxy through a Server Action or API route.
 - Never bypass `requireUser()`/`requireAdmin()` with a custom auth hack — always go through `src/server/auth/session.ts`.
 - Never write raw SQL when a Drizzle query will do.
 - Never delete or alter a migration file that's already been applied — write a new migration.

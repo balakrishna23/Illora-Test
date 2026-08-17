@@ -23,8 +23,8 @@ test.describe("Homepage", () => {
       if (msg.type() === "error") errors.push(msg.text());
     });
     await page.goto("/");
-    // Clerk dev-key telemetry warnings are noise; assert no hard page errors.
-    const real = errors.filter((e) => !/clerk|telemetry/i.test(e));
+    // Ignore generic telemetry noise; assert no hard page errors.
+    const real = errors.filter((e) => !/telemetry/i.test(e));
     expect(real).toEqual([]);
   });
 });

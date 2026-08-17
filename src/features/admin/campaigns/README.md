@@ -34,7 +34,8 @@ contact base, sent via Resend's batch API.
 - `actions.ts` — `submitCampaign` (admin; `intent=test` sends only to the
   signed-in admin, `intent=send` requires the confirmation checkbox),
   `confirmCampaignUnsubscribe` (public, token-gated, rate-limited),
-  `getCampaignAttachmentUploadUrl` (presigned R2 upload for the attachment),
+  `getCampaignAttachmentUploadUrl` (presigned Supabase Storage upload for
+  the attachment),
   `updateCampaignSignature` (admin; edits the shared signature).
 - `queries.ts` — audience building + campaign records + signature storage
   (`campaign_settings`, a singleton row).

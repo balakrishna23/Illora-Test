@@ -4,10 +4,9 @@ import type { NextConfig } from "next";
 // Content-Security-Policy: only the directives that are safe without a full
 // per-service audit are set here. base-uri/object-src/frame-ancestors carry
 // real value (block base-tag hijacking, plugin injection, and clickjacking)
-// and don't touch script/connect/style, so they can't break Clerk sign-in,
-// Sanity Studio, or Next hydration. A full script-src (ideally nonce-based)
-// is deliberately deferred — it needs live testing against Clerk and the
-// embedded Studio before it can be enforced without silently killing auth.
+// and don't touch script/connect/style, so they can't break Supabase Auth
+// flows or Next hydration. A full script-src (ideally nonce-based) is
+// deliberately deferred until it can be live-tested against the current app.
 const contentSecurityPolicy = [
   "base-uri 'self'",
   "object-src 'none'",

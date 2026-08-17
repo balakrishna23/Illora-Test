@@ -47,8 +47,8 @@ const MAX_FILE_BYTES = 5 * 1024 * 1024;
 const STORAGE_KEY_PATTERN = /^resumes\/\d+-[a-zA-Z0-9._-]+\.(pdf|docx)$/i;
 
 // A presigned PUT can't enforce a size cap at upload time (the file goes
-// browser→storage directly, and neither R2 nor Supabase Storage support
-// presigned POST policies), so the submission is the enforcement point:
+// browser→storage directly, and Supabase Storage doesn't support presigned
+// POST policies), so the submission is the enforcement point:
 // confirm the object really exists and is within the limit before accepting
 // the application.
 async function validateUploadedFile(key: string): Promise<string | null> {
