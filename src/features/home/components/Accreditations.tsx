@@ -28,7 +28,7 @@ export function Accreditations() {
               Recognised where it matters
             </h2>
             <p className="mt-3 text-muted-foreground">
-              Illora is a First Nations-owned business, Supply Nation Registered
+              Illoura is a First Nations-owned business, Supply Nation Registered
               and an active member of Indigenous business networks and chambers
               across Australia — credentials that support government and
               corporate procurement obligations.

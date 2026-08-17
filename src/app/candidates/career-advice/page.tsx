@@ -43,7 +43,7 @@ const TIPS = [
   {
     title: "Use your consultant",
     description:
-      "Your Illora consultant has spoken with the hiring manager and knows what matters most to them. Ask for specific interview prep, not generic advice. We'll tell you what we know.",
+      "Your Illoura consultant has spoken with the hiring manager and knows what matters most to them. Ask for specific interview prep, not generic advice. We'll tell you what we know.",
   },
 ];
 

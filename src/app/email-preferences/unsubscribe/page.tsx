@@ -6,7 +6,7 @@ import { confirmCampaignUnsubscribe } from "@/features/admin/campaigns/actions";
 import { verifyUnsubscribeToken } from "@/server/lib/unsubscribe-token";
 
 export const metadata: Metadata = {
-  title: "Unsubscribe from Illora emails",
+  title: "Unsubscribe from Illoura emails",
   alternates: { canonical: "/email-preferences/unsubscribe" },
   robots: { index: false, follow: false },
 };
@@ -29,17 +29,17 @@ export default async function CampaignUnsubscribePage({
           <CheckCircleIcon className="size-10 text-green-600" aria-hidden="true" />
           <h1 className="text-xl font-semibold">You&apos;ve been unsubscribed</h1>
           <p className="text-sm text-muted-foreground">
-            You won&apos;t receive any more campaign emails from Illora. Job alerts you signed
+            You won&apos;t receive any more campaign emails from Illoura. Job alerts you signed
             up for are managed separately from the link in those emails.
           </p>
         </>
       ) : isValidLink ? (
         <>
           <MailXIcon className="size-10 text-muted-foreground" aria-hidden="true" />
-          <h1 className="text-xl font-semibold">Unsubscribe from Illora emails?</h1>
+          <h1 className="text-xl font-semibold">Unsubscribe from Illoura emails?</h1>
           <p className="text-sm text-muted-foreground">
             <span className="font-medium text-foreground">{email}</span> will stop receiving
-            campaign emails from Illora.
+            campaign emails from Illoura.
           </p>
           <form action={confirmCampaignUnsubscribe} className="mt-2">
             <input type="hidden" name="email" value={email} />

@@ -20,8 +20,8 @@ const FAQS = [
     a: "For most contract roles, we can present a shortlist within 24–48 hours and have a candidate on-site or on-contract within 5 business days, subject to background checks and induction requirements. For roles requiring security clearances, this extends accordingly.",
   },
   {
-    q: "Who employs the contractor — us or Illora?",
-    a: "Under our labour hire model, Illora is the employer of record. We manage payroll, superannuation, leave entitlements, and WorkCover obligations. You pay an agreed rate and manage the day-to-day work. This reduces your administrative burden and ensures full compliance.",
+    q: "Who employs the contractor — us or Illoura?",
+    a: "Under our labour hire model, Illoura is the employer of record. We manage payroll, superannuation, leave entitlements, and WorkCover obligations. You pay an agreed rate and manage the day-to-day work. This reduces your administrative burden and ensures full compliance.",
   },
   {
     q: "What WHS obligations do you manage?",
@@ -73,7 +73,7 @@ export default function ContractRecruitmentPage() {
                 overhead of a permanent headcount decision.
               </p>
               <p>
-                Illora provides compliant on-hire arrangements across IT &amp;
+                Illoura provides compliant on-hire arrangements across IT &amp;
                 Telecommunications, Construction, and Healthcare. We act as the
                 employer of record — managing payroll, superannuation, WHS compliance,
                 and all the administrative obligations — while you direct the work.
@@ -109,7 +109,7 @@ export default function ContractRecruitmentPage() {
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
                 A Tier 2 construction company needed four additional labourers and a
                 crane operator for a six-week commercial fitout. Their existing
-                subcontractor had pulled resources to a larger project. Illora mobilised
+                subcontractor had pulled resources to a larger project. Illoura mobilised
                 five workers within three business days — fully inducted, with compliant
                 SWMS in place — and the project finished on programme.
               </p>

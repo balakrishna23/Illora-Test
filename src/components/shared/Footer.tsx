@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { PhoneIcon, MailIcon, MapPinIcon, ExternalLinkIcon } from "lucide-react";
 
-import { IlloraLogo } from "@/components/shared/IlloraLogo";
+import { IllouraLogo } from "@/components/shared/IllouraLogo";
 import { DotDivider } from "@/components/shared/DotDivider";
 import { footerLinks } from "@/lib/navigation";
 import { Separator } from "@/components/ui/separator";
@@ -68,7 +68,7 @@ export function Footer() {
           {/* ── Brand + Acknowledgement ── */}
           <div>
             <Link href="/" className="flex items-center gap-2.5">
-              <IlloraLogo className="h-12 w-12 shrink-0" />
+              <IllouraLogo className="h-12 w-12 shrink-0" />
               <span className="text-base font-semibold tracking-tight text-foreground">
                 Illoura Services
               </span>

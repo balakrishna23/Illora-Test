@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Illora's privacy policy - how we collect, store, and use your personal information.",
+  description: "Illoura's privacy policy - how we collect, store, and use your personal information.",
   alternates: { canonical: "/privacy-policy" },
 };
 

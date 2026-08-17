@@ -1,4 +1,4 @@
-# CLAUDE.md — Illora Engineering Constitution
+# CLAUDE.md — Illoura Engineering Constitution
 
 This file is the single source of truth for how Claude (and any human) writes code in this repository. It is read before every task. If something here conflicts with a request, flag the conflict instead of silently picking one side.
 
@@ -227,6 +227,6 @@ These rules exist specifically to prevent common AI failure modes in this codeba
 
 ## 18. Project Context
 
-Illora is a recruitment/job-board platform connecting candidates and employers, with ATS integration via JobAdder. Core flows: candidate job search & application, employer job posting & candidate management, admin-managed content for marketing pages, and authenticated dashboards for both user types (Supabase Auth).
+Illoura is a recruitment/job-board platform connecting candidates and employers, with ATS integration via JobAdder. Core flows: candidate job search & application, employer job posting & candidate management, admin-managed content for marketing pages, and authenticated dashboards for both user types (Supabase Auth).
 
 See `context/` for deeper detail on architecture, design system, roadmap, and conventions — this file is the summary; those files are the detail.

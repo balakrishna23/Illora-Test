@@ -9,7 +9,7 @@ import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 export const metadata: Metadata = {
   title: "First Nations Partnership",
   description:
-    "Illora's First Nations partnership commitments, Supply Nation registration, and Indigenous procurement credentials.",
+    "Illoura's First Nations partnership commitments, Supply Nation registration, and Indigenous procurement credentials.",
   alternates: { canonical: "/about/first-nations-partnership" },
 };
 
@@ -17,7 +17,7 @@ const CERTIFICATIONS = [
   {
     name: "Supply Nation Registered",
     description:
-      "Supply Nation is Australia's peak body for Indigenous business supplier diversity. As a Registered business, Illora is confirmed as at least 50% Aboriginal or Torres Strait Islander owned and listed in Supply Nation's directory of Indigenous businesses.",
+      "Supply Nation is Australia's peak body for Indigenous business supplier diversity. As a Registered business, Illoura is confirmed as at least 50% Aboriginal or Torres Strait Islander owned and listed in Supply Nation's directory of Indigenous businesses.",
     verifyText: "Verify on Supply Nation directory",
     verifyHref: "https://www.supplynation.org.au/search",
     renewalNote: "Registration current. Reviewed annually.",
@@ -25,7 +25,7 @@ const CERTIFICATIONS = [
   {
     name: "Black Business Finder",
     description:
-      "Illora is listed on the Black Business Finder — Australia's online marketplace and directory of Aboriginal and Torres Strait Islander businesses.",
+      "Illoura is listed on the Black Business Finder — Australia's online marketplace and directory of Aboriginal and Torres Strait Islander businesses.",
     verifyText: "View on Black Business Finder",
     verifyHref: "https://blackbusinessfinder.com.au",
     renewalNote: "Listing current.",
@@ -36,12 +36,12 @@ const COMMITMENTS = [
   {
     title: "Procurement policy",
     description:
-      "Illora directs at least 20% of our own procurement spend to other Supply Nation certified or Indigenous-owned businesses, including professional services, technology, and operational suppliers.",
+      "Illoura directs at least 20% of our own procurement spend to other Supply Nation certified or Indigenous-owned businesses, including professional services, technology, and operational suppliers.",
   },
   {
     title: "Community give-back",
     description:
-      "A portion of Illora's annual profit is directed to community programs supporting Indigenous youth employment and vocational pathways. Recipients are disclosed in our annual impact report.",
+      "A portion of Illoura's annual profit is directed to community programs supporting Indigenous youth employment and vocational pathways. Recipients are disclosed in our annual impact report.",
   },
   {
     title: "Cultural protocols",
@@ -74,7 +74,7 @@ export default function FirstNationsPartnershipPage() {
           Verifiable credentials. Real commitment.
         </h1>
         <p className="mt-4 max-w-2xl text-muted-foreground leading-relaxed">
-          Illora is a First Nations-owned and operated business, founded by Lane
+          Illoura is a First Nations-owned and operated business, founded by Lane
           McEwan — a proud Wiradjuri and Ngiyampaa Wayilwan man. Our
           First Nations identity isn&apos;t a procurement angle. It&apos;s who we are
           and why we exist.
@@ -85,7 +85,7 @@ export default function FirstNationsPartnershipPage() {
       <div className="mt-10 rounded-xl border border-border bg-muted/40 p-6">
         <h2 className="font-semibold text-lg">Acknowledgement of Country</h2>
         <p className="mt-3 text-muted-foreground leading-relaxed">
-          Illora acknowledges the Traditional Owners of the lands on which we
+          Illoura acknowledges the Traditional Owners of the lands on which we
           work and live across Australia. We pay our deepest respects to Elders
           past, present and emerging, and to the ongoing living cultures of
           Aboriginal and Torres Strait Islander peoples. We recognise that

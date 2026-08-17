@@ -11,7 +11,7 @@ import { getReviews, getAggregateRating } from "@/server/integrations/reviews";
 export const metadata: Metadata = {
   title: "Testimonials",
   description:
-    "Client and candidate reviews of Illora. 4.9/5 from 62 verified reviews on Google and Sourcr.",
+    "Client and candidate reviews of Illoura. 4.9/5 from 62 verified reviews on Google and Sourcr.",
   alternates: { canonical: "/testimonials" },
 };
 
@@ -38,7 +38,7 @@ export default async function TestimonialsPage() {
   const aggregateJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Illora",
+    name: "Illoura",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: aggregate.averageRating,

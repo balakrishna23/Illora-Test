@@ -1,4 +1,4 @@
-# Illora — Deployment Runbook (Hostinger VPS + Coolify + illouraservices.com)
+# Illoura — Deployment Runbook (Hostinger VPS + Coolify + illouraservices.com)
 
 Goal: a live site at **https://illouraservices.com** where anyone, on any machine, can sign
 in and use the admin panel and candidate portal. Auth is Supabase Auth, so the

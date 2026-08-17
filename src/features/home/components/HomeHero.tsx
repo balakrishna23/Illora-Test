@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
-import { IlloraLogo } from "@/components/shared/IlloraLogo";
+import { IllouraLogo } from "@/components/shared/IllouraLogo";
 import type { SiteStats } from "@/features/home/queries";
 
 export function HomeHero({ stats }: { stats: SiteStats }) {
@@ -62,7 +62,7 @@ export function HomeHero({ stats }: { stats: SiteStats }) {
             />
           ))}
           <div className="relative z-10 rounded-full p-2 ring-4 ring-accent/30 shadow-[0_0_60px_20px_rgba(0,0,0,0.25)] animate-float">
-            <IlloraLogo className="w-80 h-80" />
+            <IllouraLogo className="w-80 h-80" />
           </div>
         </div>
       </div>

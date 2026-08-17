@@ -10,7 +10,7 @@ import { VacancyForm } from "@/features/employers/components/VacancyForm";
 export const metadata: Metadata = {
   title: "Embedded / RPO Recruitment",
   description:
-    "An embedded Illora recruiter inside your business for high-volume or ongoing hiring — specialist expertise without the internal overhead.",
+    "An embedded Illoura recruiter inside your business for high-volume or ongoing hiring — specialist expertise without the internal overhead.",
   alternates: { canonical: "/employers/embedded-rpo" },
 };
 
@@ -69,7 +69,7 @@ export default function EmbeddedRpoPage() {
               <p>
                 If your business hires regularly or in volume, an embedded recruitment
                 model gives you specialist capability without the overhead of building
-                an internal talent function. An Illora consultant works as part of your
+                an internal talent function. An Illoura consultant works as part of your
                 team — aligned to your brand, your ATS, and your culture — but with the
                 network, systems, and expertise of a specialist agency behind them.
               </p>
@@ -92,7 +92,7 @@ export default function EmbeddedRpoPage() {
               {[
                 "Named dedicated consultant (full-time or part-time capacity)",
                 "Full employer-brand alignment and EVP integration",
-                "Embedded access to your ATS or use of Illora's platform",
+                "Embedded access to your ATS or use of Illoura's platform",
                 "End-to-end process from brief to placement",
                 "Monthly pipeline reporting and KPI dashboards",
                 "Scalable capacity — ramp up/down as volumes change",
@@ -109,7 +109,7 @@ export default function EmbeddedRpoPage() {
               <h2 className="font-semibold">Outcome example</h2>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
                 A healthcare provider operating 12 aged care facilities across Victoria
-                engaged Illora under an embedded RPO model to manage their nursing
+                engaged Illoura under an embedded RPO model to manage their nursing
                 recruitment. Previously, nursing vacancies were filled through multiple
                 agencies with no consistency in candidate quality or cultural fit.
                 Within six months of the embedded engagement, average time-to-fill

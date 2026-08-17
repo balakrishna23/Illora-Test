@@ -7,7 +7,7 @@ import { SITE_URL } from "@/lib/site";
 export const ORGANIZATION_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Illora",
+  name: "Illoura",
   description:
     "First Nations-owned recruitment delivering real outcomes across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling.",
   url: SITE_URL,

@@ -21,7 +21,7 @@ const MOCK_REVIEWS: Review[] = [
     reviewerRole: "Candidate",
     rating: 5,
     date: "2026-05-18",
-    body: "Illora placed me in a Senior Network Engineer role within three weeks. The team was honest about timelines, prepped me thoroughly for the interview, and followed up after I started. Best recruitment experience I've had in 15 years.",
+    body: "Illoura placed me in a Senior Network Engineer role within three weeks. The team was honest about timelines, prepped me thoroughly for the interview, and followed up after I started. Best recruitment experience I've had in 15 years.",
     platform: "Google",
   },
   {
@@ -30,7 +30,7 @@ const MOCK_REVIEWS: Review[] = [
     reviewerRole: "Client",
     rating: 5,
     date: "2026-05-02",
-    body: "We've used Illora for three consecutive hires in our IT infrastructure team. What sets them apart is that they actually understand the roles they're filling — they don't just keyword-match. Every candidate they've submitted has been genuinely suitable.",
+    body: "We've used Illoura for three consecutive hires in our IT infrastructure team. What sets them apart is that they actually understand the roles they're filling — they don't just keyword-match. Every candidate they've submitted has been genuinely suitable.",
     platform: "Sourcr",
   },
   {
@@ -39,7 +39,7 @@ const MOCK_REVIEWS: Review[] = [
     reviewerRole: "Candidate",
     rating: 5,
     date: "2026-04-15",
-    body: "Relocated from Perth for a construction management role Illora found for me. They negotiated the relocation package, kept me informed throughout the process, and even checked in three months after I started. Genuinely above and beyond.",
+    body: "Relocated from Perth for a construction management role Illoura found for me. They negotiated the relocation package, kept me informed throughout the process, and even checked in three months after I started. Genuinely above and beyond.",
     platform: "Google",
   },
   {
@@ -48,7 +48,7 @@ const MOCK_REVIEWS: Review[] = [
     reviewerRole: "Client",
     rating: 5,
     date: "2026-03-30",
-    body: "As a healthcare provider, finding quality nursing staff is our biggest operational challenge. Illora consistently delivers candidates who are not only clinically qualified but genuinely aligned with our values. Our retention rate with Illora-placed nurses is significantly higher than with other agencies.",
+    body: "As a healthcare provider, finding quality nursing staff is our biggest operational challenge. Illoura consistently delivers candidates who are not only clinically qualified but genuinely aligned with our values. Our retention rate with Illoura-placed nurses is significantly higher than with other agencies.",
     platform: "Sourcr",
   },
   {
@@ -57,7 +57,7 @@ const MOCK_REVIEWS: Review[] = [
     reviewerRole: "Candidate",
     rating: 5,
     date: "2026-03-10",
-    body: "After being made redundant, I was anxious about the job market. Illora's team gave me an honest picture of where I sat, helped me update how I was positioning myself, and had me in interviews within two weeks. Landed a role 10% above my previous salary.",
+    body: "After being made redundant, I was anxious about the job market. Illoura's team gave me an honest picture of where I sat, helped me update how I was positioning myself, and had me in interviews within two weeks. Landed a role 10% above my previous salary.",
     platform: "Google",
   },
   {

@@ -24,7 +24,7 @@ export default async function UnsubscribePage({
           <CheckCircleIcon className="size-10 text-green-600" aria-hidden="true" />
           <h1 className="text-xl font-semibold">You&apos;ve been unsubscribed</h1>
           <p className="text-sm text-muted-foreground">
-            You won&apos;t receive any more job alert emails from Illora.
+            You won&apos;t receive any more job alert emails from Illoura.
           </p>
         </>
       ) : (

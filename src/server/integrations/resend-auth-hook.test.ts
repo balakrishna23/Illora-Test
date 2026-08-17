@@ -46,26 +46,26 @@ describe("sendAuthHookEmail", () => {
   it("sends a signup-specific subject for the signup action type", async () => {
     await sendAuthHookEmail(payload({ email_action_type: "signup" }));
 
-    expect(send.mock.calls[0][0].subject).toBe("Confirm your account — Illora");
+    expect(send.mock.calls[0][0].subject).toBe("Confirm your account — Illoura");
   });
 
   it("sends an email-change-specific subject for the email_change action type", async () => {
     await sendAuthHookEmail(payload({ email_action_type: "email_change" }));
 
-    expect(send.mock.calls[0][0].subject).toBe("Confirm your new email — Illora");
+    expect(send.mock.calls[0][0].subject).toBe("Confirm your new email — Illoura");
   });
 
   it("sends a recovery-specific subject for the recovery action type", async () => {
     await sendAuthHookEmail(payload({ email_action_type: "recovery" }));
 
-    expect(send.mock.calls[0][0].subject).toBe("Reset your password — Illora");
+    expect(send.mock.calls[0][0].subject).toBe("Reset your password — Illoura");
   });
 
   it("falls back to a generic template for an unhandled action type instead of erroring", async () => {
     await sendAuthHookEmail(payload({ email_action_type: "magiclink" }));
 
     expect(send).toHaveBeenCalled();
-    expect(send.mock.calls[0][0].subject).toBe("Action required — Illora");
+    expect(send.mock.calls[0][0].subject).toBe("Action required — Illoura");
   });
 
   it("throws when Resend rejects the send, so the caller (route handler) can surface a failure", async () => {

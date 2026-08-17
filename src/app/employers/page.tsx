@@ -52,7 +52,7 @@ const SERVICES = [
     icon: BuildingIcon,
     title: "Embedded / RPO",
     description:
-      "A dedicated Illora recruiter embedded within your business for high-volume or ongoing hiring. You get specialist expertise without the overhead of an internal team.",
+      "A dedicated Illoura recruiter embedded within your business for high-volume or ongoing hiring. You get specialist expertise without the overhead of an internal team.",
     includes: [
       "Dedicated on-site or virtual recruiter",
       "Full employer-brand alignment",

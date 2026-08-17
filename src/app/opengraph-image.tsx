@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
-export const alt = "Illora — First Nations-Owned Recruitment";
+export const alt = "Illoura — First Nations-Owned Recruitment";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -29,7 +29,7 @@ export default async function Image() {
           <img src={logoSrc} width={220} height={220} alt="" />
           <div style={{ display: "flex", flexDirection: "column", maxWidth: 620 }}>
             <div style={{ display: "flex", fontSize: 66, fontWeight: 700, color: "#6B2A1D", lineHeight: 1.05 }}>
-              Illora
+              Illoura
             </div>
             <div style={{ display: "flex", marginTop: 18, fontSize: 30, fontWeight: 500, color: "#B8894F" }}>
               First Nations-Owned Recruitment

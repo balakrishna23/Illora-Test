@@ -9,7 +9,7 @@ import { askAdminAssistant } from "@/features/admin/assistant/actions";
 
 type Message = { role: "user" | "assistant"; text: string };
 
-const STORAGE_KEY = "illora-admin-assistant-messages";
+const STORAGE_KEY = "illoura-admin-assistant-messages";
 
 export function AssistantChat() {
   const [messages, setMessages] = useState<Message[]>([]);

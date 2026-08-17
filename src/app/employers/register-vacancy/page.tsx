@@ -5,7 +5,7 @@ import { VacancyForm } from "@/features/employers/components/VacancyForm";
 
 export const metadata: Metadata = {
   title: "Register a Vacancy",
-  description: "Register a vacancy with Illora. A consultant will respond within one business day.",
+  description: "Register a vacancy with Illoura. A consultant will respond within one business day.",
   alternates: { canonical: "/employers/register-vacancy" },
 };
 

@@ -12,7 +12,7 @@ import { getTeam } from "@/features/about/queries";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn about Illora's founding story, leadership team, and the values that guide how we recruit.",
+    "Learn about Illoura's founding story, leadership team, and the values that guide how we recruit.",
   alternates: { canonical: "/about" },
 };
 
@@ -72,10 +72,10 @@ export default async function AboutPage() {
             </h1>
             <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                Illora was founded in 2018 by Lane McEwan — a proud Wiradjuri
+                Illoura was founded in 2018 by Lane McEwan — a proud Wiradjuri
                 and Ngiyampaa Wayilwan man with more than a decade of
                 recruitment experience across IT, construction, and healthcare.
-                Lane established Illora because he saw a market with no shortage
+                Lane established Illoura because he saw a market with no shortage
                 of recruiters and a persistent shortage of genuine expertise,
                 accountability, and follow-through.
               </p>
@@ -88,7 +88,7 @@ export default async function AboutPage() {
                 decision we make.
               </p>
               <p>
-                Since 2018, Illora has placed over 1,200 candidates, partnered
+                Since 2018, Illoura has placed over 1,200 candidates, partnered
                 with more than 80 employers across Australia, and maintained a
                 94% client retention rate. We are Supply Nation Registered
                 and listed on the Black Business Finder — credentials

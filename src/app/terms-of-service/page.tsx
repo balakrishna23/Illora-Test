@@ -5,24 +5,24 @@ import { Separator } from "@/components/ui/separator";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
-  description: "Illora's terms of service for website visitors and users of our recruitment services.",
+  description: "Illoura's terms of service for website visitors and users of our recruitment services.",
   alternates: { canonical: "/terms-of-service" },
 };
 
 const SECTIONS = [
   {
     title: "1. Acceptance of terms",
-    content: `By accessing or using the Illora website (illouraservices.com) or our recruitment services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our website or services.
+    content: `By accessing or using the Illoura website (illouraservices.com) or our recruitment services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our website or services.
 
 Note: These terms should be reviewed and finalised by a qualified solicitor before they are relied upon commercially. They are provided here as a structural placeholder.`,
   },
   {
     title: "2. Services",
-    content: `Illora provides recruitment and labour hire services to employers and career support services to candidates. The specific terms of any recruitment engagement are set out in a separate Service Agreement or Candidate Registration Agreement provided to you directly.`,
+    content: `Illoura provides recruitment and labour hire services to employers and career support services to candidates. The specific terms of any recruitment engagement are set out in a separate Service Agreement or Candidate Registration Agreement provided to you directly.`,
   },
   {
     title: "3. Use of website",
-    content: `You agree to use the Illora website only for lawful purposes and in a manner consistent with these terms. You must not:
+    content: `You agree to use the Illoura website only for lawful purposes and in a manner consistent with these terms. You must not:
 
 — Use the website in any way that is unlawful or fraudulent
 — Transmit unsolicited commercial communications
@@ -31,28 +31,28 @@ Note: These terms should be reviewed and finalised by a qualified solicitor befo
   },
   {
     title: "4. Intellectual property",
-    content: `All content on the Illora website — including text, logos, design, and other materials — is owned by or licensed to Illora Services Pty Ltd and is protected by Australian copyright law. You may not reproduce, distribute, or create derivative works from this content without our written permission.`,
+    content: `All content on the Illoura website — including text, logos, design, and other materials — is owned by or licensed to Illoura Services Pty Ltd and is protected by Australian copyright law. You may not reproduce, distribute, or create derivative works from this content without our written permission.`,
   },
   {
     title: "5. Candidate terms",
-    content: `By submitting your résumé or registering with Illora:
+    content: `By submitting your résumé or registering with Illoura:
 
 — You confirm that all information provided is accurate and up to date
-— You authorise Illora to present your details to prospective employers, subject to your consent for each opportunity
-— You understand that Illora does not guarantee employment outcomes
+— You authorise Illoura to present your details to prospective employers, subject to your consent for each opportunity
+— You understand that Illoura does not guarantee employment outcomes
 — You agree to inform us promptly if you accept employment through another channel while we are actively representing you`,
   },
   {
     title: "6. Employer terms",
-    content: `By engaging Illora's recruitment services:
+    content: `By engaging Illoura's recruitment services:
 
 — You agree to provide accurate and complete information about roles and organisational requirements
 — You agree not to engage candidates we introduce to you outside of the terms of our Service Agreement for a period of 12 months from introduction
-— You understand that candidate shortlists represent Illora's professional recommendation but final hiring decisions remain solely your responsibility`,
+— You understand that candidate shortlists represent Illoura's professional recommendation but final hiring decisions remain solely your responsibility`,
   },
   {
     title: "7. Limitation of liability",
-    content: `To the extent permitted by law, Illora's liability for any claim arising from use of our website or services is limited to the fees paid to Illora in the three months preceding the claim. We are not liable for indirect, consequential, or speculative losses.`,
+    content: `To the extent permitted by law, Illoura's liability for any claim arising from use of our website or services is limited to the fees paid to Illoura in the three months preceding the claim. We are not liable for indirect, consequential, or speculative losses.`,
   },
   {
     title: "8. Governing law",
@@ -65,7 +65,7 @@ Note: These terms should be reviewed and finalised by a qualified solicitor befo
   {
     title: "10. Contact",
     content: `For questions about these terms: legal@illouraservices.com
-Illora Services Pty Ltd
+Illoura Services Pty Ltd
 Level 12, 20 Martin Place, Sydney NSW 2000`,
   },
 ];

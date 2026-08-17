@@ -7,14 +7,14 @@ import { ContactForm } from "@/features/contact/components/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Get in touch with the Illora team — employer, candidate, general, or media enquiries.",
+  description: "Get in touch with the Illoura team — employer, candidate, general, or media enquiries.",
   alternates: { canonical: "/contact" },
 };
 
 const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  name: "Illora",
+  name: "Illoura",
   description: "First Nations-owned recruitment across seven specialist sectors including IT & Telecommunications, Construction, and Healthcare.",
   telephone: "+61-2-6196-6999",
   email: "info@illouraservices.com",

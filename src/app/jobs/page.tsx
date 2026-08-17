@@ -26,7 +26,7 @@ export default async function JobsPage({ searchParams }: { searchParams: SearchP
   const itemListJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Illora Live Job Listings",
+    name: "Illoura Live Job Listings",
     itemListElement: jobs.map((job, index) => ({
       "@type": "ListItem",
       position: index + 1,

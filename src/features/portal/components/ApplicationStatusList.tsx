@@ -37,7 +37,7 @@ export function ApplicationStatusList({ applications }: { applications: Applicat
       <div className="rounded-xl border border-dashed border-border py-12 text-center">
         <p className="font-medium">No applications yet</p>
         <p className="mt-2 text-sm text-muted-foreground">
-          Applications you submit through Illora will appear here.
+          Applications you submit through Illoura will appear here.
         </p>
       </div>
     );

@@ -19,10 +19,10 @@ import { DualCtaBand } from "@/features/home/components/DualCtaBand";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Illora — First Nations-Owned Recruitment Across Australia",
+    absolute: "Illoura — First Nations-Owned Recruitment Across Australia",
   },
   description:
-    "Illora connects candidates and employers across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling. Supply Nation Registered.",
+    "Illoura connects candidates and employers across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling. Supply Nation Registered.",
   alternates: { canonical: "/" },
 };
 

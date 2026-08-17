@@ -133,7 +133,7 @@ export function VacancyForm({ serviceType }: { serviceType?: string }) {
             className="mt-0.5 rounded border-border"
           />
           <span className="text-sm text-muted-foreground">
-            Keep me updated with hiring insights and news from Illora. You can
+            Keep me updated with hiring insights and news from Illoura. You can
             unsubscribe at any time. (Optional)
           </span>
         </label>

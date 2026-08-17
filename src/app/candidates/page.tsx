@@ -9,7 +9,7 @@ import { getAllJobs, JOB_INDUSTRIES } from "@/server/integrations/jobadder";
 export const metadata: Metadata = {
   title: "For Candidates",
   description:
-    "Browse live jobs or submit your CV. Illora supports candidates through every step — sourcing, interview prep, and beyond.",
+    "Browse live jobs or submit your CV. Illoura supports candidates through every step — sourcing, interview prep, and beyond.",
   alternates: { canonical: "/candidates" },
 };
 
