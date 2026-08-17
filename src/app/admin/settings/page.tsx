@@ -5,6 +5,7 @@ import { SettingsForm } from "@/features/admin/settings/components/SettingsForm"
 
 export const metadata: Metadata = {
   title: "Admin — Site Settings",
+  robots: { index: false, follow: false },
 };
 
 export default async function AdminSettingsPage() {

@@ -8,6 +8,7 @@ import { JobRowActions } from "@/features/admin/jobs/components/JobRowActions";
 
 export const metadata: Metadata = {
   title: "Admin — Jobs",
+  robots: { index: false, follow: false },
 };
 
 export default async function AdminJobsPage() {

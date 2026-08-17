@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "First Nations Partnership",
   description:
     "Illora's First Nations partnership commitments, Supply Nation registration, and Indigenous procurement credentials.",
+  alternates: { canonical: "/about/first-nations-partnership" },
 };
 
 const CERTIFICATIONS = [

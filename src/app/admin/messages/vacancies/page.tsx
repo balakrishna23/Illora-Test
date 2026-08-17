@@ -5,6 +5,7 @@ import { VacancyRequestStatusSelect } from "@/features/admin/messages/components
 
 export const metadata: Metadata = {
   title: "Admin — Vacancy Requests",
+  robots: { index: false, follow: false },
 };
 
 export default async function AdminVacancyRequestsPage() {

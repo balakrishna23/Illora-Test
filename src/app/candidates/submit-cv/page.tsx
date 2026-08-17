@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "Submit Your CV",
   description:
     "Submit your CV to Illora and be considered for upcoming roles across our seven specialist sectors, including IT & Telecommunications, Construction, and Healthcare.",
+  alternates: { canonical: "/candidates/submit-cv" },
 };
 
 type SearchParams = Promise<{ jobId?: string; jobSlug?: string; jobTitle?: string }>;

@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "For Candidates",
   description:
     "Browse live jobs or submit your CV. Illora supports candidates through every step — sourcing, interview prep, and beyond.",
+  alternates: { canonical: "/candidates" },
 };
 
 const SUPPORT_ITEMS = [

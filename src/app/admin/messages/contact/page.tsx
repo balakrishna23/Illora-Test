@@ -5,6 +5,7 @@ import { ContactMessageStatusSelect } from "@/features/admin/messages/components
 
 export const metadata: Metadata = {
   title: "Admin — Contact Messages",
+  robots: { index: false, follow: false },
 };
 
 export default async function AdminContactMessagesPage() {

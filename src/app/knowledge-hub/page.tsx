@@ -5,7 +5,8 @@ import { CalendarIcon, ClockIcon, ArrowRightIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
-import { cn } from "@/lib/utils";
+import { cn, jsonLdString } from "@/lib/utils";
+import { SITE_URL } from "@/lib/site";
 import {
   getAllArticles,
   ARTICLE_CATEGORIES,
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
   title: "Knowledge Hub",
   description:
     "Hiring trends, candidate advice, First Nations procurement insights, and industry news from the Illora team.",
+  alternates: { canonical: "/knowledge-hub" },
 };
 
 type PageProps = {
@@ -38,8 +40,24 @@ export default async function KnowledgeHubPage({ searchParams }: PageProps) {
   const featured = !activeCategory ? articles[0] : null;
   const rest = featured ? articles.slice(1) : articles;
 
+  const itemListJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Illora Knowledge Hub",
+    itemListElement: articles.map((article, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: `${SITE_URL}/knowledge-hub/${article.slug}`,
+      name: article.title,
+    })),
+  };
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdString(itemListJsonLd) }}
+      />
       <Breadcrumbs
         items={[
           { label: "Home", href: "/" },

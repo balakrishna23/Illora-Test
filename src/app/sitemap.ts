@@ -2,12 +2,11 @@ import type { MetadataRoute } from "next";
 
 import { getAllJobs } from "@/server/integrations/jobadder";
 import { getAllArticles } from "@/features/knowledge-hub/queries";
+import { SITE_URL } from "@/lib/site";
 
 // Served on demand rather than prerendered — building it would open DB
 // connections from every build worker and can exhaust the Supabase pool.
 export const dynamic = "force-dynamic";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 const STATIC_ROUTES = [
   "",

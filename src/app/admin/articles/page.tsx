@@ -8,6 +8,7 @@ import { ArticleRowActions } from "@/features/admin/articles/components/ArticleR
 
 export const metadata: Metadata = {
   title: "Admin — Articles",
+  robots: { index: false, follow: false },
 };
 
 export default async function AdminArticlesPage() {

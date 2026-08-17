@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { jsonLdString } from "@/lib/utils";
+import { ORGANIZATION_JSON_LD } from "@/lib/organization-schema";
 import Link from "next/link";
 import { ExternalLinkIcon } from "lucide-react";
 
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
   title: "About",
   description:
     "Learn about Illora's founding story, leadership team, and the values that guide how we recruit.",
+  alternates: { canonical: "/about" },
 };
 
 const VALUES = [
@@ -41,18 +43,6 @@ const VALUES = [
   },
 ];
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Illora",
-  foundingDate: "2018",
-  description: "First Nations-owned recruitment partner delivering real outcomes across seven specialist sectors, including IT & Telecommunications, Construction, and Healthcare.",
-  founder: {
-    "@type": "Person",
-    name: "Lane McEwan",
-    jobTitle: "Founder & Managing Director",
-  },
-};
 
 export default async function AboutPage() {
   const team = await getTeam();
@@ -61,7 +51,7 @@ export default async function AboutPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLdString(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdString(ORGANIZATION_JSON_LD) }}
       />
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
         <Breadcrumbs

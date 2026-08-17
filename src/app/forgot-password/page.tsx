@@ -4,6 +4,8 @@ import { ForgotPasswordForm } from "@/features/auth/components/ForgotPasswordFor
 
 export const metadata: Metadata = {
   title: "Reset your password",
+  alternates: { canonical: "/forgot-password" },
+  robots: { index: false, follow: false },
 };
 
 export default function ForgotPasswordPage() {

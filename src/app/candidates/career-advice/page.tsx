@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Career Advice",
   description:
     "Practical career advice for candidates — CV tips, interview preparation, and how to navigate the job market in 2026.",
+  alternates: { canonical: "/candidates/career-advice" },
 };
 
 const TIPS = [

@@ -4,6 +4,7 @@ import { ArticleForm } from "@/features/admin/articles/components/ArticleForm";
 
 export const metadata: Metadata = {
   title: "Admin — New Article",
+  robots: { index: false, follow: false },
 };
 
 export default function AdminNewArticlePage() {

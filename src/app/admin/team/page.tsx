@@ -7,6 +7,7 @@ import { TeamRowActions } from "@/features/admin/team/components/TeamRowActions"
 
 export const metadata: Metadata = {
   title: "Admin — Team",
+  robots: { index: false, follow: false },
 };
 
 export default async function AdminTeamPage() {

@@ -8,6 +8,8 @@ import { ResetPasswordForm } from "@/features/auth/components/ResetPasswordForm"
 
 export const metadata: Metadata = {
   title: "Set a new password",
+  alternates: { canonical: "/reset-password" },
+  robots: { index: false, follow: false },
 };
 
 // Only reachable with a valid (recovery-scoped) session — established by

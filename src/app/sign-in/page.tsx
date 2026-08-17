@@ -4,6 +4,8 @@ import { SignInForm } from "@/features/auth/components/SignInForm";
 
 export const metadata: Metadata = {
   title: "Sign in",
+  alternates: { canonical: "/sign-in" },
+  robots: { index: false, follow: false },
 };
 
 export default async function SignInPage({

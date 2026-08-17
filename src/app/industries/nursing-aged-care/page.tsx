@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Nursing & Aged Care",
   description:
     "Specialist nursing recruitment for residential aged care and rural and remote postings across Australia, with visa and migration support for international candidates.",
+  alternates: { canonical: "/industries/nursing-aged-care" },
 };
 
 const OVERVIEW = [

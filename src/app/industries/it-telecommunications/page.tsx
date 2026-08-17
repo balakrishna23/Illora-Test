@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "IT & Telecommunications",
   description:
     "Specialist IT & Telecommunications recruitment across network engineering, DevOps, cybersecurity, and digital health for enterprise, government, and high-growth organisations.",
+  alternates: { canonical: "/industries/it-telecommunications" },
 };
 
 const OVERVIEW = [

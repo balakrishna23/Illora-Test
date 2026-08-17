@@ -4,6 +4,7 @@ import { TeamForm } from "@/features/admin/team/components/TeamForm";
 
 export const metadata: Metadata = {
   title: "Admin — New Team Member",
+  robots: { index: false, follow: false },
 };
 
 export default function AdminNewTeamMemberPage() {

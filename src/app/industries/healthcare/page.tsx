@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Healthcare",
   description:
     "Specialist healthcare recruitment for registered nurses, allied health professionals, and clinical leaders across aged care, acute, and community health settings.",
+  alternates: { canonical: "/industries/healthcare" },
 };
 
 const OVERVIEW = [

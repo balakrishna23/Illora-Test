@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { jsonLdString } from "@/lib/utils";
+import { ORGANIZATION_JSON_LD } from "@/lib/organization-schema";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { MapPinIcon, BriefcaseIcon, CalendarIcon, HashIcon } from "lucide-react";
@@ -14,8 +15,6 @@ import { getSessionUser } from "@/server/auth/session";
 import { getCandidateByAuthUserId, isJobSaved } from "@/features/portal/queries";
 import { getJobBySlug, getSimilarJobs, getAllJobs } from "@/server/integrations/jobadder";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-
 type PageProps = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -25,6 +24,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: job.title,
     description: job.teaser,
+    alternates: { canonical: `/jobs/${slug}` },
   };
 }
 
@@ -50,10 +50,18 @@ export default async function JobDetailPage({ params }: PageProps) {
     datePosted: job.postedDate,
     validThrough: job.closingDate,
     employmentType: job.type.toUpperCase(),
+    identifier: {
+      "@type": "PropertyValue",
+      name: ORGANIZATION_JSON_LD.name,
+      value: job.referenceNumber,
+    },
+    directApply: true,
     hiringOrganization: {
       "@type": "Organization",
-      name: "Illora",
-      sameAs: SITE_URL,
+      name: ORGANIZATION_JSON_LD.name,
+      url: ORGANIZATION_JSON_LD.url,
+      logo: ORGANIZATION_JSON_LD.logo,
+      sameAs: ORGANIZATION_JSON_LD.sameAs,
     },
     jobLocation: {
       "@type": "Place",

@@ -7,6 +7,8 @@ import { ApplicationStatusList } from "@/features/portal/components/ApplicationS
 
 export const metadata: Metadata = {
   title: "My Portal",
+  alternates: { canonical: "/portal" },
+  robots: { index: false, follow: false },
 };
 
 export default async function PortalPage() {

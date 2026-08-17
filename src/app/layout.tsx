@@ -5,6 +5,7 @@ import "./globals.css";
 import { Header } from "@/components/shared/Header";
 import { Footer } from "@/components/shared/Footer";
 import { Chatbot } from "@/components/shared/Chatbot";
+import { SITE_URL } from "@/lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,12 +18,16 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Illora — First Nations-Owned Recruitment",
     template: "%s | Illora",
   },
   description:
     "Illora is a First Nations-owned recruitment partner connecting candidates and employers across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling.",
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({

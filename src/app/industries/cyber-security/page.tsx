@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Cyber Security",
   description:
     "Specialist Cyber Security recruitment for SOC analysts, penetration testers, and security leaders across Australia.",
+  alternates: { canonical: "/industries/cyber-security" },
 };
 
 const OVERVIEW = [

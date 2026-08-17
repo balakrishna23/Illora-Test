@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Embedded / RPO Recruitment",
   description:
     "An embedded Illora recruiter inside your business for high-volume or ongoing hiring — specialist expertise without the internal overhead.",
+  alternates: { canonical: "/employers/embedded-rpo" },
 };
 
 const FAQS = [

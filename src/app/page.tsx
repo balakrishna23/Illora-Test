@@ -1,5 +1,8 @@
+import type { Metadata } from "next";
+
 import { getRecentJobs } from "@/server/integrations/jobadder";
 import { jsonLdString } from "@/lib/utils";
+import { ORGANIZATION_JSON_LD } from "@/lib/organization-schema";
 import { getRecentArticles } from "@/features/knowledge-hub/queries";
 import { getSiteStats } from "@/features/home/queries";
 import { getReviews } from "@/server/integrations/reviews";
@@ -14,20 +17,13 @@ import { TestimonialsCarousel } from "@/features/home/components/TestimonialsCar
 import { KnowledgeHubPreview } from "@/features/home/components/KnowledgeHubPreview";
 import { DualCtaBand } from "@/features/home/components/DualCtaBand";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-
-const orgJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Illoura Services",
+export const metadata: Metadata = {
+  title: {
+    absolute: "Illora — First Nations-Owned Recruitment Across Australia",
+  },
   description:
-    "First Nations-owned recruitment delivering real outcomes across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling.",
-  url: SITE_URL,
-  logo: `${SITE_URL}/logo.png`,
-  sameAs: [
-    "https://www.facebook.com/illouraservices",
-    "https://www.linkedin.com/company/illouraservices",
-  ],
+    "Illora connects candidates and employers across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling. Supply Nation Registered.",
+  alternates: { canonical: "/" },
 };
 
 export default async function Home() {
@@ -42,7 +38,7 @@ export default async function Home() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLdString(orgJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdString(ORGANIZATION_JSON_LD) }}
       />
       <HomeHero stats={stats} />
       <JobTicker jobs={jobs} />

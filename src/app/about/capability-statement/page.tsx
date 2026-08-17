@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "Capability Statement",
   description:
     "Download Illora's capability statement — covering our service offering, accreditations, and sector expertise.",
+  alternates: { canonical: "/about/capability-statement" },
 };
 
 export default function CapabilityStatementPage() {

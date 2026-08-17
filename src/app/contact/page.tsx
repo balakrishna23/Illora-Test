@@ -8,6 +8,7 @@ import { ContactForm } from "@/features/contact/components/ContactForm";
 export const metadata: Metadata = {
   title: "Contact",
   description: "Get in touch with the Illora team — employer, candidate, general, or media enquiries.",
+  alternates: { canonical: "/contact" },
 };
 
 const localBusinessJsonLd = {

@@ -9,8 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { getArticleBySlug, getAllArticles, getRecentArticles } from "@/features/knowledge-hub/queries";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+import { SITE_URL } from "@/lib/site";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -21,6 +20,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: article.title,
     description: article.excerpt,
+    alternates: { canonical: `/knowledge-hub/${slug}` },
   };
 }
 

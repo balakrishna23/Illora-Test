@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Data Science",
   description:
     "Specialist Data Science recruitment for data scientists, ML engineers, and data engineers across Australia.",
+  alternates: { canonical: "/industries/data-science" },
 };
 
 const OVERVIEW = [

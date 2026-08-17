@@ -6,6 +6,8 @@ import { ChangeEmailForm } from "@/features/portal/components/ChangeEmailForm";
 
 export const metadata: Metadata = {
   title: "Account settings",
+  alternates: { canonical: "/portal/account" },
+  robots: { index: false, follow: false },
 };
 
 export default async function AccountPage() {

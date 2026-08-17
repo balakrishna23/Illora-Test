@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Permanent Recruitment",
   description:
     "End-to-end permanent recruitment across our seven specialist sectors, including IT & Telecommunications, Construction, and Healthcare, across Australia.",
+  alternates: { canonical: "/employers/permanent" },
 };
 
 const FAQS = [

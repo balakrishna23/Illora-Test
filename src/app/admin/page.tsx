@@ -5,6 +5,7 @@ import { getAdminAnalytics } from "@/features/admin/analytics/queries";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard",
+  robots: { index: false, follow: false },
 };
 
 function StatCard({ label, value, sublabel }: { label: string; value: number; sublabel?: string }) {

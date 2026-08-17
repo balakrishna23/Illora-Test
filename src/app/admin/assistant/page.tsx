@@ -4,6 +4,7 @@ import { AssistantChat } from "@/features/admin/assistant/components/AssistantCh
 
 export const metadata: Metadata = {
   title: "Admin — Assistant",
+  robots: { index: false, follow: false },
 };
 
 export default function AdminAssistantPage() {

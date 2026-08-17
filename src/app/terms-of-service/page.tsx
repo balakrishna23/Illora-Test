@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description: "Illora's terms of service for website visitors and users of our recruitment services.",
+  alternates: { canonical: "/terms-of-service" },
 };
 
 const SECTIONS = [

@@ -4,6 +4,7 @@ import { JobForm } from "@/features/admin/jobs/components/JobForm";
 
 export const metadata: Metadata = {
   title: "Admin — New Job",
+  robots: { index: false, follow: false },
 };
 
 export default function AdminNewJobPage() {

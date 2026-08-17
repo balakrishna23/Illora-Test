@@ -7,6 +7,8 @@ import { verifyUnsubscribeToken } from "@/server/lib/unsubscribe-token";
 
 export const metadata: Metadata = {
   title: "Unsubscribe from Illora emails",
+  alternates: { canonical: "/email-preferences/unsubscribe" },
+  robots: { index: false, follow: false },
 };
 
 // The GET render only verifies the link and shows a confirm button; the

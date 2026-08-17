@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   title: "Contract & Labour Hire",
   description:
     "Flexible contract and labour hire staffing across our seven specialist sectors, including IT & Telecommunications, Construction, and Healthcare.",
+  alternates: { canonical: "/employers/contract" },
 };
 
 const FAQS = [

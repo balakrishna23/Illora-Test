@@ -11,6 +11,7 @@ import { CampaignSignatureForm } from "@/features/admin/campaigns/components/Cam
 
 export const metadata: Metadata = {
   title: "Admin — Email Campaigns",
+  robots: { index: false, follow: false },
 };
 
 export default async function AdminCampaignsPage() {

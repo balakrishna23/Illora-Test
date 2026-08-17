@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "EV Waste & Recycling",
   description:
     "Specialist recruitment for Australia's battery and EV waste circular economy — technicians, compliance, and sustainability leaders.",
+  alternates: { canonical: "/industries/ev-waste" },
 };
 
 const OVERVIEW = [

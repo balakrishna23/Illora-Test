@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "Industries",
   description:
     "Specialist recruitment across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling.",
+  alternates: { canonical: "/industries" },
 };
 
 export default async function IndustriesPage() {

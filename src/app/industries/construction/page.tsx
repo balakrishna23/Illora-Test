@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Construction",
   description:
     "Specialist construction recruitment for site managers, estimators, schedulers, and WHS professionals across commercial, civil, and government infrastructure.",
+  alternates: { canonical: "/industries/construction" },
 };
 
 const OVERVIEW = [

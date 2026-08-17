@@ -8,6 +8,7 @@ type PageProps = { params: Promise<{ id: string }> };
 
 export const metadata: Metadata = {
   title: "Admin — Edit Job",
+  robots: { index: false, follow: false },
 };
 
 export default async function AdminEditJobPage({ params }: PageProps) {

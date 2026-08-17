@@ -5,6 +5,8 @@ import { unsubscribeFromJobAlert } from "@/features/job-alerts/actions";
 
 export const metadata: Metadata = {
   title: "Unsubscribe from job alerts",
+  alternates: { canonical: "/job-alerts/unsubscribe" },
+  robots: { index: false, follow: false },
 };
 
 export default async function UnsubscribePage({

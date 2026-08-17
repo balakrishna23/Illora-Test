@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   title: "For Employers",
   description:
     "Permanent, contract, and embedded RPO recruitment services across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling.",
+  alternates: { canonical: "/employers" },
 };
 
 const SERVICES = [
