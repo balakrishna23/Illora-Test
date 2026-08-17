@@ -15,6 +15,12 @@ export const metadata: Metadata = {
 
 type SearchParams = Promise<{ jobId?: string; jobSlug?: string; jobTitle?: string }>;
 
+// Calls requireUser(), which round-trips to Supabase Auth — never
+// prerenderable. Without this, Next attempts that network call during the
+// build's static-generation pass, which hangs if the build host can't reach
+// Supabase and takes the whole build down with it (see admin/layout.tsx).
+export const dynamic = "force-dynamic";
+
 export default async function SubmitCvPage({
   searchParams,
 }: {

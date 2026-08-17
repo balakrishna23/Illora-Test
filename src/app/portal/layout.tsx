@@ -2,6 +2,12 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { requireUser } from "@/server/auth/session";
 
+// Every route under here reads cookies and calls Supabase Auth — never
+// prerenderable. Without this, Next attempts to execute that auth/DB work
+// during the build's static-generation pass, which hangs if the build
+// host's network can't reach Supabase and takes the whole build down with it.
+export const dynamic = "force-dynamic";
+
 export default async function PortalLayout({ children }: { children: React.ReactNode }) {
   const session = await requireUser();
   if (!session.success) {
