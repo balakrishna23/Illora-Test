@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "powershell -ExecutionPolicy Bypass -File scripts/agent-postbuild.ps1",
+    "postbuild": "node scripts/agent-postbuild.mjs",
     "start": "next start",
     "lint": "eslint",
     "agent:send": "node scripts/agent-bridge.mjs send",
