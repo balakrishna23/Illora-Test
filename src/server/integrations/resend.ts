@@ -217,6 +217,86 @@ export async function sendCapabilityStatementEmail(input: {
   return { success: !error };
 }
 
+// Payload shape Supabase POSTs to the Auth "Send Email" hook
+// (src/app/api/auth/send-email/route.ts). Only the fields this app actually
+// uses are typed — see Supabase's Send Email Hook docs for the full shape.
+export type SendEmailHookPayload = {
+  user: { email: string };
+  email_data: {
+    token_hash: string;
+    redirect_to: string;
+    email_action_type: string;
+  };
+};
+
+// Points at this app's own /auth/confirm route handler, not Supabase's
+// project domain directly. This app is entirely server-side Supabase Auth
+// (Server Actions + cookie-based server client, no browser client anywhere
+// — see src/server/auth/supabase-server.ts), so a link straight to GoTrue's
+// /auth/v1/verify would redirect back with the session as a URL *hash*
+// fragment (implicit-flow style), which never reaches the server and has no
+// client-side JS here to read it — the session would silently never get
+// established. /auth/confirm instead calls verifyOtp() server-side, which
+// sets the session cookie directly, then redirects to `next` already
+// authenticated. This is Supabase's own documented pattern for SSR apps.
+function buildVerifyUrl(tokenHash: string, type: string, redirectTo: string): string {
+  const params = new URLSearchParams({ token_hash: tokenHash, type, next: redirectTo });
+  return `${process.env.NEXT_PUBLIC_SITE_URL}/auth/confirm?${params.toString()}`;
+}
+
+// Replaces Supabase's built-in SMTP relay for auth emails (signup
+// confirmation, email change confirmation, password recovery) — invoked by
+// the Send Email Auth Hook instead of GoTrue's own SMTP client, which proved
+// unreliable in testing (intermittent bare 500s talking to smtp.resend.com).
+// Sends via Resend's HTTP API instead, which was 100% reliable across all
+// testing.
+//
+// "signup", "email_change", and "recovery" are customized — the three action
+// types this app's own flows trigger. Anything else (invite, magiclink,
+// reauthentication, the *_notification types) falls back to a generic
+// template so the hook never errors out just because of an unhandled type.
+export async function sendAuthHookEmail(payload: SendEmailHookPayload): Promise<void> {
+  const { user, email_data } = payload;
+  const { token_hash, redirect_to, email_action_type: type } = email_data;
+  const url = buildVerifyUrl(token_hash, type, redirect_to);
+  const resend = new Resend(process.env.RESEND_API_KEY);
+
+  const content =
+    type === "signup"
+      ? {
+          subject: "Confirm your account — Illora",
+          html: `<p>Click below to confirm your account and sign in:</p><p><a href="${url}">${url}</a></p>`,
+          text: `Confirm your account: ${url}`,
+        }
+      : type === "email_change"
+        ? {
+            subject: "Confirm your new email — Illora",
+            html: `<p>Click below to confirm this email address for your Illora account:</p><p><a href="${url}">${url}</a></p>`,
+            text: `Confirm your new email: ${url}`,
+          }
+        : type === "recovery"
+          ? {
+              subject: "Reset your password — Illora",
+              html: `<p>Click below to set a new password for your Illora account. If you didn't request this, you can safely ignore this email.</p><p><a href="${url}">${url}</a></p>`,
+              text: `Reset your password: ${url}\n\nIf you didn't request this, you can safely ignore this email.`,
+            }
+          : {
+              subject: "Action required — Illora",
+              html: `<p>Click below to continue:</p><p><a href="${url}">${url}</a></p>`,
+              text: `Continue: ${url}`,
+            };
+
+  const { error } = await resend.emails.send({
+    from: FROM_EMAIL,
+    to: user.email,
+    ...content,
+  });
+
+  if (error) {
+    throw new Error(`sendAuthHookEmail: Resend rejected the send (${error.name}): ${error.message}`);
+  }
+}
+
 export async function sendContactConfirmationEmail(input: {
   to: string;
   name: string;
