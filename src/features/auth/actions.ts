@@ -72,6 +72,14 @@ export type SignUpState =
   | { success: false; error: string; fieldErrors?: Record<string, string[]> }
   | null;
 
+function getSignUpErrorMessage(error: { code?: string; status?: number }): string {
+  if (error.code === "over_email_send_rate_limit" || error.status === 429) {
+    return "Too many signup emails have been sent. Please try again a little later.";
+  }
+
+  return "Could not create your account. Please try again.";
+}
+
 export async function signUp(_prev: SignUpState, formData: FormData): Promise<SignUpState> {
   const rate = await checkRateLimit("signUp", { limit: 5 });
   if (!rate.ok) {
@@ -106,7 +114,7 @@ export async function signUp(_prev: SignUpState, formData: FormData): Promise<Si
       status: error.status,
       message: error.message,
     });
-    return { success: false, error: "Could not create your account. Please try again." };
+    return { success: false, error: getSignUpErrorMessage(error) };
   }
 
   // With email confirmation on, sign-up never returns a session — including

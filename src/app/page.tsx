@@ -4,7 +4,6 @@ import { getRecentJobs } from "@/server/integrations/jobadder";
 import { jsonLdString } from "@/lib/utils";
 import { ORGANIZATION_JSON_LD } from "@/lib/organization-schema";
 import { getRecentArticles } from "@/features/knowledge-hub/queries";
-import { getSiteStats } from "@/features/home/queries";
 import { getReviews } from "@/server/integrations/reviews";
 
 import { HomeHero } from "@/features/home/components/HomeHero";
@@ -27,8 +26,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const [stats, jobs, articles, reviews] = await Promise.all([
-    getSiteStats(),
+  const [jobs, articles, reviews] = await Promise.all([
     getRecentJobs(4),
     getRecentArticles(3),
     getReviews(6),
@@ -40,7 +38,7 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLdString(ORGANIZATION_JSON_LD) }}
       />
-      <HomeHero stats={stats} />
+      <HomeHero />
       <JobTicker jobs={jobs} />
       <IndustryTiles />
       <Accreditations />
