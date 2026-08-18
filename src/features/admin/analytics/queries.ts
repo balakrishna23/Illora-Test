@@ -22,11 +22,29 @@ async function countRows(query: Promise<{ value: number }[]>): Promise<number> {
   return row?.value ?? 0;
 }
 
+const ACCOUNTS_COUNT_TIMEOUT_MS = 8_000;
+
 async function getTotalAccountsCreated(): Promise<number> {
   // perPage: 1 — only the `total` field from the pagination metadata is
   // needed, not the actual user list.
-  const { data, error } = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1 });
-  if (error) {
+  // Race against a timeout: this is the one dashboard stat that calls
+  // Supabase's Auth Admin API rather than our own Postgres connection, and
+  // a slow/hung call here would otherwise block the entire page (it's
+  // awaited inside a Promise.all with everything else) until the host's
+  // own gateway timeout kicks in, well before this component gets a
+  // chance to catch and fall back to 0 like it does for a normal error.
+  const timeout = new Promise<{ data: null; error: Error }>((resolve) =>
+    setTimeout(
+      () => resolve({ data: null, error: new Error("listUsers timed out") }),
+      ACCOUNTS_COUNT_TIMEOUT_MS
+    )
+  );
+
+  const { data, error } = await Promise.race([
+    supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1 }),
+    timeout,
+  ]);
+  if (error || !data) {
     console.error("getTotalAccountsCreated: listUsers failed", error);
     return 0;
   }
