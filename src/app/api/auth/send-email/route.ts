@@ -24,9 +24,9 @@ export async function POST(request: Request) {
   try {
     verifyStandardWebhook({
       secret,
-      id: request.headers.get("svix-id"),
-      timestamp: request.headers.get("svix-timestamp"),
-      signature: request.headers.get("svix-signature"),
+      id: request.headers.get("webhook-id"),
+      timestamp: request.headers.get("webhook-timestamp"),
+      signature: request.headers.get("webhook-signature"),
       body,
     });
   } catch (error) {
