@@ -32,13 +32,34 @@ export default async function proxy(request: NextRequest) {
 
   const {
     data: { user },
+    error,
   } = await supabase.auth.getUser();
 
   const isProtected = PROTECTED_PREFIXES.some((prefix) =>
     request.nextUrl.pathname.startsWith(prefix)
   );
 
-  if (isProtected && !user) {
+  // Only redirect on a *confirmed* absence of a session (no error, just no
+  // user) — not when the auth check itself failed (network hiccup, etc).
+  // Each protected layout re-checks via requireUser() anyway (defense in
+  // depth, see comment above), so middleware doesn't need to be the sole
+  // enforcer here. Failing open on a flaky auth call avoids redirecting an
+  // actually-signed-in admin, which was itself hitting an unrelated
+  // Next.js/hosting-proxy bug where that redirect response fails to
+  // resolve ("failed to get redirect response TypeError: fetch failed").
+  if (isProtected && error) {
+    // Evidence log, not a guess: confirms (or disproves) whether this
+    // middleware's own auth check is what's failing on /admin — remove
+    // once that's settled.
+    console.error("proxy: getUser() failed, letting request through instead of redirecting", {
+      path: request.nextUrl.pathname,
+      name: error.name,
+      message: error.message,
+      status: error.status,
+    });
+  }
+
+  if (isProtected && !user && !error) {
     const signInUrl = new URL("/sign-in", request.url);
     signInUrl.searchParams.set("redirect_url", request.nextUrl.pathname);
     return NextResponse.redirect(signInUrl);
