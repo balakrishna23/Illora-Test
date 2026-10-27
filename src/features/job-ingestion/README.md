@@ -33,3 +33,6 @@ before they appear on the public `/jobs` page.
 - Every source is capped to a handful of pages/one API call per run (see
   each adapter's own comment in `external-jobs/`) — this is an incremental
   "catch new postings each run" model, not a full historical sync.
+- The APS Jobs source needs headless Chromium, which production (Hostinger
+  shared hosting) can't run — it fails on its own each run while the other
+  sources continue. See DEPLOYMENT.md.

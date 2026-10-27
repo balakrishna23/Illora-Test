@@ -93,7 +93,7 @@ scripts/        Local automation and agent helpers
 
 ## Deployment
 
-Deployment notes live in [DEPLOYMENT.md](DEPLOYMENT.md). The current production target is `illouraservices.com` on Hostinger VPS + Coolify.
+Deployment notes live in [DEPLOYMENT.md](DEPLOYMENT.md). Production is `illouraservices.com`, a Node.js app on Hostinger Business Web Hosting, built on Hostinger with `npm run build:hostinger` (webpack — Turbopack builds fail on Hostinger's build machine).
 
 ## Current Caveats
 

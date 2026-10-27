@@ -1,55 +1,114 @@
-# Illoura — Deployment Runbook (Hostinger VPS + Coolify + illouraservices.com)
+# Illoura — Deployment Runbook (Hostinger Business Web Hosting + illouraservices.com)
 
-Goal: a live site at **https://illouraservices.com** where anyone, on any machine, can sign
-in and use the admin panel and candidate portal. Auth is Supabase Auth, so the
-same Supabase project and keys used locally can also be used in production.
-What production does need: pointing Supabase's Auth URL
-configuration at the real domain, and (see Phase 3) a Send Email Hook so auth
-emails go through Resend's HTTP API — Supabase's default email sender has a
-strict rate limit unsuitable for real traffic, and (see below) its built-in
-SMTP relay proved unreliable even with a correctly configured custom SMTP
-provider.
+Production is live at **https://illouraservices.com**, running as a managed
+Node.js app on Hostinger's **Business Web Hosting** (shared) plan. Auth is
+Supabase Auth and the database is Supabase Postgres — production uses the
+same Supabase project as local development, so **local and prod share one
+database**. Anything that touches the schema (migrations, seeds) affects the
+live site immediately.
 
-Legend: 🧑 = you do it (dashboard/account actions I can't do) · 🤖 = I do it (code/config)
+The earlier plan of a Hostinger KVM VPS running Coolify was never set up and
+has been dropped — there is no VPS on the account.
+
+Legend: 🧑 = you do it (dashboard/account actions) · 🤖 = Claude can do it (code/config, or via the Hostinger MCP connector)
 
 ---
 
-## 🚧 New: government job ingestion pipeline — deployment requirements (2026-08-31)
+## Current production setup
 
-`/features/job-ingestion` pulls in new postings from 8 Australian government
-job boards on a schedule and lands them in `/admin/jobs` as **pending** for
-an admin to approve before they show on the public `/jobs` page. Three things
-are needed before this works in prod, beyond the code already merged:
+| Setting | Value |
+|---|---|
+| Hostinger plan | Business Web Hosting (shared), account user `u153188888` |
+| Website | `illouraservices.com` (website type: Node.js) |
+| Node.js version | 22 |
+| App type | `next` |
+| Build script | **`build:hostinger`** (`next build --webpack`) — see below for why |
+| Output directory | `.next` |
+| Source | uploaded archive `illora-deploy.zip` in `public_html` |
+| Last deploy | 2026-10-27, commit `aeadc68` (branch `feat/team-photos-job-ingestion`) |
 
-1. 🧑 **Apply the pending migration** (`0009_last_terrax.sql`) — adds
-   `source`/`source_label`/`external_id`/`external_url`/`imported_at` columns
-   to `jobs` plus a dedup unique constraint. Purely additive, no data loss
-   risk. Run `npm run db:migrate` against the production `DATABASE_URL` (or
-   however migrations are applied in your workflow) before deploying this
-   feature — the build itself will fail on `/jobs/[slug]` static generation
-   until these columns exist (confirmed locally: `column "source" does not
-   exist`).
-2. 🧑 **Install headless Chromium in the build/runtime image.** One source
-   (APS Jobs) needs a real browser to read data its own frontend loads via
-   JavaScript — see `src/server/integrations/external-jobs/aps-jobs.ts`'s
-   module comment for why. Add `npx playwright install --with-deps chromium`
-   as a build step (Coolify's Nixpacks build pack runs `npm install` then
-   `npm run build`; this needs to run somewhere in between, e.g. a
-   `postinstall` script, or switch this app's build pack to a Dockerfile if
-   Nixpacks doesn't give a hook for it). This adds real weight — expect
-   ~300-400MB extra image size and correspondingly more RAM/CPU used *during*
-   each ingestion run (not constantly).
-3. 🧑 **Set `JOB_INGEST_CRON_SECRET`** (generate a new random string, same
-   pattern as `JOB_ALERTS_CRON_SECRET` below) and **add a Coolify scheduled
-   task** that does the equivalent of:
+Env vars live in hPanel → **Websites → illouraservices.com → Node.js →
+Environment variables** (full list at the bottom of this file).
+
+---
+
+## How to deploy
+
+1. 🤖 **Check locally first**: `npx tsc --noEmit`, `npm run lint`, `npm test`,
+   then `npm run build:hostinger`. The build queries the database (static
+   page data), so it fails if a pending migration hasn't been applied yet.
+2. 🤖/🧑 **Apply migrations before deploying** code that depends on them:
+   `npm run db:migrate`. Because local and prod share the database, this is
+   a production change — keep migrations additive (new nullable/defaulted
+   columns) so the currently-live build keeps working until the new one is up.
+3. 🤖 **Build the archive from a commit, not the working tree** — this
+   guarantees `.env`, `node_modules/` and `.next/` are never uploaded:
    ```
-   curl -H "Authorization: Bearer $JOB_INGEST_CRON_SECRET" https://illouraservices.com/api/cron/job-ingest
+   git archive -o illora-deploy.zip HEAD
    ```
-   every few hours (there's no hard requirement on cadence — new postings on
-   these sites don't appear faster than that). A single run can take a
-   couple of minutes (sequential requests across 8 sources, with
-   courtesy delays respecting a couple of the sources' published
-   crawl-delay); this is normal, not a hang.
+4. 🤖 **Upload** `illora-deploy.zip` to `public_html` (hPanel File Manager, or
+   the Hostinger API's upload URL + TUS upload), overwriting the old one.
+5. 🤖 **Start the build** (hPanel → Node.js → Build, or the API's
+   `hosting_nodejs_start-build`) with the settings in the table above —
+   **build script `build:hostinger`**. Hostinger runs `npm install` and then
+   the build; a full run takes ~3–5 minutes.
+6. 🤖 **Verify**: the old version keeps serving until the new build succeeds,
+   so a failed build does not take the site down. Afterwards check `/`,
+   `/about`, `/jobs`, a job detail page, `/sign-in`, `/sitemap.xml`,
+   `/favicon.ico`, and that `/admin` redirects (307) to sign-in.
+
+**Rollback**: check out the previous good commit, repeat steps 3–5.
+
+### Why `build:hostinger` uses webpack
+
+Since 2026-10-27, every Turbopack build (`npm run build`) on Hostinger fails at
+`src/app/globals.css` with `node process exited before we could connect to it`:
+Turbopack runs PostCSS (Tailwind) in a child Node process, and the shared build
+machine kills it. Nothing in the CSS toolchain changed — the same config built
+fine in August. Webpack runs PostCSS in-process, so `build:hostinger` builds
+with `next build --webpack`. Local development and `npm run build` stay on
+Turbopack.
+
+---
+
+## Scheduled jobs (cron) — not configured yet
+
+There are **no cron jobs** on the Hostinger account, so neither scheduled
+route is running in production yet:
+
+| Route | Secret env var | Suggested schedule |
+|---|---|---|
+| `/api/cron/job-alerts` | `JOB_ALERTS_CRON_SECRET` (set in prod) | daily |
+| `/api/cron/job-ingest` | `JOB_INGEST_CRON_SECRET` (**not set in prod yet**) | every few hours |
+
+🧑 To add one: hPanel → **Advanced → Cron Jobs** → custom command, e.g.
+```
+curl -s -H "Authorization: Bearer <secret>" https://illouraservices.com/api/cron/job-ingest
+```
+Both routes fail closed: without the secret env var set, they return 401 and
+do nothing.
+
+---
+
+## Government job ingestion pipeline (2026-08-31, deployed 2026-10-27)
+
+`src/features/job-ingestion` pulls new postings from 8 Australian government
+job boards and lands them in `/admin/jobs` as **pending** for an admin to
+approve before they show on the public `/jobs` page.
+
+- ✅ **Migration `0009_last_terrax.sql` applied** (2026-10-27) — adds
+  `source`/`source_label`/`external_id`/`external_url`/`imported_at` to
+  `jobs` plus a dedup unique constraint.
+- ✅ **Code deployed** — `/api/cron/job-ingest` is live and returns 401.
+- 🧑 **Still needed**: generate a random string, add it as
+  `JOB_INGEST_CRON_SECRET` in the Hostinger env vars, rebuild, then add the
+  cron job above. A single run can take a couple of minutes (sequential
+  requests with courtesy delays); this is normal, not a hang.
+- ⚠️ **APS Jobs will not work on shared hosting.** That source launches
+  headless Chromium via `playwright-core`
+  (`src/server/integrations/external-jobs/aps-jobs.ts`), and a browser can't
+  be installed on this plan. Ingestion handles failures per source, so APS
+  just reports an error and the other sources still run.
 
 **Not included, and why:** NSW is excluded — actively bot-protected
 (Cloudflare challenge) and its own usage policy is reference-only anyway. SA
@@ -61,184 +120,97 @@ against it; see the comment in `workforce-australia.ts`.
 
 ---
 
+## Site icons and the Google search result icon
+
+Google shows the site's **favicon** next to search results (not the
+Organization `logo` in the JSON-LD). Icons are Next.js file conventions in
+`src/app/`: `favicon.ico` (16/32/48px), `icon.png` (192px) and
+`apple-icon.png` (180px), all made from `public/logo.png`. After changing
+them, 🧑 request indexing of the home page in Google Search Console — Google
+updates the icon on its own schedule (days to a couple of weeks).
+
+---
+
 ## ✅ Resolved: Supabase Storage is connected (2026-08-06)
 
-Storage is now on Supabase Storage (S3-compatible endpoint) —
-`src/server/integrations/supabase-storage.ts`. This is now
-fully configured and verified: bucket `illora-resumes` created (private, 10
-MB limit), all five env vars set in local `.env`
-(`SUPABASE_PROJECT_REF`, `SUPABASE_STORAGE_REGION`,
-`SUPABASE_STORAGE_ACCESS_KEY_ID`, `SUPABASE_STORAGE_SECRET_ACCESS_KEY`,
-`SUPABASE_STORAGE_BUCKET_NAME`), and a live upload → read → presigned-download
-→ delete round trip confirmed working. Also fixed a real bug found along the
-way: the S3 client was missing `forcePathStyle: true`, which Supabase's S3
-gateway requires (without it, the AWS SDK builds a virtual-hosted-style
-hostname that fails TLS handshake against Supabase's cert). `npm run build`
-now succeeds with these vars set.
+Storage is on Supabase Storage (S3-compatible endpoint) —
+`src/server/integrations/supabase-storage.ts`. Bucket `illora-resumes`
+(private, 10 MB limit); all five storage env vars are set locally and in
+prod. The S3 client needs `forcePathStyle: true`, which Supabase's S3 gateway
+requires (without it, the AWS SDK builds a virtual-hosted-style hostname that
+fails the TLS handshake against Supabase's cert).
 
-Still needed for **prod** specifically: add these same 5 vars to Coolify at
-deploy time (see the env var table below), and the Supabase Storage CORS
-step in Phase 4.
+🧑 Prod check: the bucket's allowed origins in Supabase should include
+`https://illouraservices.com` (alongside `http://localhost:3000`) so resume
+uploads work in prod.
 
 ---
 
 ## ✅ Resolved: Resend domain verification is complete (2026-08-17)
 
 `illouraservices.com` is verified in Resend and ready to send from addresses
-on that domain (for example `noreply@illouraservices.com`).
+on that domain (for example `noreply@illouraservices.com`). This domain also
+has live mailboxes — when touching its DNS zone, never replace the existing MX
+records, and merge any new SPF `include:` into the single existing SPF `TXT`
+record rather than adding a second one.
 
 ---
 
-## ✅ Resolved: auth emails now go through a Send Email Hook, not Supabase's SMTP relay (2026-08-17)
+## ✅ Resolved: auth emails go through a Send Email Hook, not Supabase's SMTP relay (2026-08-17)
 
-Supabase Auth's built-in custom-SMTP relay to `smtp.resend.com` was
-diagnosed and found unreliable: correct credentials, correct host, both port
-465 and 587 all confirmed working via a raw SMTP handshake test, yet
-sign-up still intermittently returned a bare HTTP 500 /
-`AuthRetryableFetchError` from GoTrue itself — confirmed via Supabase's own
-Auth Logs, which showed clusters of failures alternating with clusters of
-clean successes on the *identical* config (a signature of a transient
-backend/connection issue, not a settings problem). Switching SMTP port
-465→587 did not fix it, because the port was never the actual cause.
+Supabase Auth's built-in custom-SMTP relay to `smtp.resend.com` proved
+unreliable (intermittent bare HTTP 500 / `AuthRetryableFetchError` from
+GoTrue on an otherwise correct config). The fix bypasses it:
+`src/app/api/auth/send-email/route.ts` is a Supabase **Send Email Hook**
+target that sends auth emails through Resend's **HTTP API**
+(`sendAuthHookEmail` in `src/server/integrations/resend.ts`). Requests are
+verified via HMAC signature (`src/server/auth/verify-webhook.ts`, Standard
+Webhooks spec) before anything is sent.
 
-**Fix**: bypass Supabase's SMTP relay entirely. `src/app/api/auth/send-email/route.ts`
-is a Supabase **Send Email Hook** target — Supabase POSTs auth-email
-requests (signup confirmation, email change, etc.) to this endpoint instead
-of sending them itself, and the endpoint sends via Resend's **HTTP API**
-(`src/server/integrations/resend.ts`'s `sendAuthHookEmail`), which was 100%
-reliable across all testing today, unlike the SMTP path. Webhook requests
-are verified via HMAC signature (`src/server/auth/verify-webhook.ts`,
-Standard Webhooks spec) before anything is sent.
-
-🧑 **To activate**: Supabase Dashboard → **Authentication → Hooks** → add a
-**"Send Email"** hook → type **HTTPS** → URL =
-`https://illouraservices.com/api/auth/send-email` (must be publicly
-reachable — this can't be tested against `localhost`). Saving the hook
-generates a signing secret starting `v1,whsec_...` — copy it into
-`SEND_EMAIL_HOOK_SECRET` (local `.env` and Coolify). Once this is
-configured, the custom-SMTP settings under Authentication → Settings → SMTP
-Settings become unused and can be left as-is or disabled.
+🧑 Setup: Supabase Dashboard → **Authentication → Hooks** → **"Send Email"**
+hook → type **HTTPS** → URL `https://illouraservices.com/api/auth/send-email`.
+Saving generates a `v1,whsec_...` secret → set it as `SEND_EMAIL_HOOK_SECRET`
+(local `.env` and the Hostinger env vars).
 
 ---
 
-## Phase 0 — Buy the VPS 🧑  ← START HERE (everything is blocked on this)
+## Supabase Auth production config 🧑 (Supabase dashboard)
 
-1. Hostinger → buy a **KVM 2 VPS** (2 vCPU, 8 GB RAM — Next.js builds OOM on smaller).
-2. When choosing the OS/template, pick the **Coolify** application template.
-3. After it provisions, note the **VPS public IP address** (e.g. `203.0.113.10`).
-4. Coolify's dashboard will be at `http://<VPS_IP>:8000` — open it and create the
-   admin login. (This is Coolify's own account, separate from everything else.)
-
-Tell me the VPS IP once you have it and I'll walk you through each following step live.
+1. **Authentication → URL Configuration**: Site URL
+   `https://illouraservices.com`, and `https://illouraservices.com/**` in
+   Redirect URLs.
+2. The Send Email Hook above — without it Supabase falls back to its default
+   sender, which hits a strict rate limit after a handful of emails per hour.
 
 ---
 
-## Phase 1 — Point illouraservices.com at the VPS 🧑 (Hostinger DNS)
+## Environment variables (Hostinger)
 
-DNS for `illouraservices.com` is managed in Hostinger's hPanel (same account as
-the VPS) — **Domains → illouraservices.com → DNS / Nameservers → DNS Zone
-Editor**. Add:
+Set in hPanel → **Websites → illouraservices.com → Node.js → Environment
+variables**. Never commit these.
 
-| Type | Name | Value | Notes |
-|---|---|---|---|
-| A | `@` | `<VPS_IP>` | root domain → server |
-| A | `www` | `<VPS_IP>` | www → server |
-
-⚠️ **This domain already has live email** (`sirish.kkumar@illouraservices.com`,
-`bala.krishna@illouraservices.com` are real inboxes people use today). A/CNAME
-records for the website don't conflict with the existing MX records for
-email — different record types — so this step alone is safe. But **before
-touching anything else in this zone, note what's already there** (especially
-the MX records and any existing SPF `TXT` record), so Phase 4's Resend setup
-doesn't accidentally replace them. Resend's DKIM/verification records go on
-their own subdomain/selector and shouldn't touch the root MX, but an SPF
-`TXT` record is trickier — a domain can only have *one* SPF record, so if one
-already exists for the current email provider, Resend's `include:` needs to
-be merged into it rather than added as a second, competing TXT record.
-
-DNS takes a few minutes to a couple of hours to propagate.
-
----
-
-## Phase 2 — Deploy the app in Coolify 🧑 (I guide each click)
-
-1. In Coolify: **+ New → Application → Public/Private GitHub repo**.
-2. Connect the repo `balakrishna23/Illora-Test`.
-3. Branch: **`feat/backend-and-hardening`** (this session's work) — or `main` after
-   you merge the PR.
-4. Build pack: **Nixpacks** (auto-detects Next.js). Build = `npm run build`,
-   start = `npm run start`, port `3000`.
-5. Domain: set **`illouraservices.com`** → Coolify auto-provisions Let's Encrypt HTTPS.
-6. Paste the environment variables (full list in the last section) — **do NOT commit
-   these; paste them into Coolify's env UI only**.
-7. Deploy.
-
----
-
-## Phase 3 — Supabase Auth production config 🧑 (Supabase dashboard)
-
-No new keys or DNS records needed — `NEXT_PUBLIC_SUPABASE_URL`,
-`NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` are the same
-values already in your local `.env`. Just point Auth at the real domain and
-fix email deliverability:
-
-1. Supabase dashboard → **Authentication → URL Configuration** → set **Site
-   URL** to `https://illouraservices.com` and add `https://illouraservices.com/**` to
-   **Redirect URLs**.
-2. Configure the **Send Email Hook** — see the resolved section above for
-   exact steps. This is what makes auth emails work at all in prod; without
-   it, Supabase falls back to its own default sender, which hits a strict
-   rate limit after only a handful of sign-ups/password-resets per hour.
-3. Redeploy.
-
----
-
-## Phase 4 — Finalize 🤖 + 🧑
-
-1. 🧑 **Supabase Storage CORS**: in the Supabase dashboard, add
-   `https://illouraservices.com` to the storage bucket's allowed origins (alongside
-   `http://localhost:3000`), so resume uploads work in prod.
-2. Coolify env: set `NEXT_PUBLIC_SITE_URL=https://illouraservices.com`.
-3. 🧑 **Resend**: add `illouraservices.com` as a domain in the Resend dashboard,
-   add the DKIM/SPF/MX records it generates to the Hostinger DNS zone (see the
-   SPF-merge caution in Phase 1 — this domain already has an email provider),
-   verify, then set `RESEND_FROM_EMAIL` to an address on that domain (e.g.
-   `noreply@illouraservices.com`). Until this is done, confirmation/job-alert/
-   campaign emails fail (confirmed via a live test send — Resend rejects any
-   real recipient domain while `RESEND_FROM_EMAIL` is still the
-   `onboarding@resend.dev` sandbox sender) — the site still works, the emails
-   just never arrive.
-4. Redeploy, then test: open `https://illouraservices.com/sign-in` from a *different* machine,
-   sign in, reach `/admin`. This is the proof for your boss.
-
----
-
-## Environment variables to set in Coolify
-
-Copy the **values** from your local `.env` unless noted. Never commit these.
+- Adding or editing one variable in hPanel is safe. The Hostinger **API**
+  call (`hosting_nodejs_replace-environment-variables`) replaces the *whole*
+  set and values can't be read back — only use it with every value in hand.
+- Saving restarts the app, but Next.js bakes some values in at build time
+  (all `NEXT_PUBLIC_*`), so **rebuild after changing env vars**.
 
 | Variable | Source / note |
 |---|---|
-| `DATABASE_URL` | Same Supabase **session pooler** URL as local (works fine on a VPS) |
-| `NEXT_PUBLIC_SUPABASE_URL` | Same as local (Phase 3) |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Same as local (Phase 3) |
-| `SUPABASE_SERVICE_ROLE_KEY` | Same as local — server-only, never expose to the client (Phase 3) |
+| `DATABASE_URL` | Supabase **session pooler** URL — same database as local |
+| `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Same as local |
+| `SUPABASE_SERVICE_ROLE_KEY` | Same as local — server-only, never expose to the client |
 | `ADMIN_EMAILS` | `sirish.kkumar@illouraservices.com` |
+| `ADMIN_DOMAINS` | Optional; defaults to `illouraservices.com` (not set in prod) |
 | `NEXT_PUBLIC_SITE_URL` | `https://illouraservices.com` |
 | `GEMINI_API_KEY` | Same as local (admin assistant) |
 | `ADMIN_ASSISTANT_DATABASE_URL` | Same read-only role URL as local |
 | `SUPABASE_PROJECT_REF` / `SUPABASE_STORAGE_REGION` / `SUPABASE_STORAGE_ACCESS_KEY_ID` / `SUPABASE_STORAGE_SECRET_ACCESS_KEY` / `SUPABASE_STORAGE_BUCKET_NAME` | Same as local |
 | `RESEND_API_KEY` / `RESEND_FROM_EMAIL` | Same as local |
-| `SEND_EMAIL_HOOK_SECRET` | Generated by Supabase when you save the Send Email Hook (Phase 3) — not known until then |
-| `JOB_ALERTS_CRON_SECRET` | Generate a new random string for prod |
-| `JOB_INGEST_CRON_SECRET` | Generate a new random string for prod — see the job ingestion section above |
-| `CAMPAIGN_UNSUBSCRIBE_SECRET` | Generate a new random string for prod |
+| `SEND_EMAIL_HOOK_SECRET` | Generated by Supabase when the Send Email Hook is saved |
+| `JOB_ALERTS_CRON_SECRET` | Random string, prod-specific |
+| `JOB_INGEST_CRON_SECRET` | Random string, prod-specific — **not set in prod yet** |
+| `CAMPAIGN_UNSUBSCRIBE_SECRET` | Random string, prod-specific; rotating it breaks unsubscribe links in sent emails |
 
----
-
-## Interim: what your boss CAN see today (no deploy)
-The tunnel link shows the **public pages** fine (home, jobs, industries, about,
-submit-CV, contact). Since auth is now on Supabase rather than a provider with
-dev-instance domain restrictions, login-gated pages may also work through the
-tunnel. Worth re-testing before assuming Phase 0-3 are still required just to
-demo login.
+Prod also has `SUPABASE_URL` and `SUPABASE_API_KEY` set; no code reads them,
+so they are leftovers and can be removed.

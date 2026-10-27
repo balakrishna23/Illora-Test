@@ -21,9 +21,9 @@ This file is the single source of truth for how Claude (and any human) writes co
 | File storage | Supabase Storage |
 | Email | Resend |
 | Testing | Playwright (E2E), Vitest (unit) |
-| Hosting | Hostinger KVM VPS running Coolify (self-hosted PaaS) |
-| CI/CD | GitHub → Coolify (git-push deploy, auto Let's Encrypt SSL) |
-| MCP tools available | Context7, GitHub, Playwright, Sequential Thinking |
+| Hosting | Hostinger Business Web Hosting (shared plan, managed Node.js app) — no VPS |
+| CI/CD | Manual: `git archive` → upload to Hostinger → Hostinger builds with `npm run build:hostinger` (webpack). See `DEPLOYMENT.md` |
+| MCP tools available | Context7, GitHub, Playwright, Sequential Thinking, Hostinger |
 
 **Never** introduce a new package, ORM, auth provider, CMS, or styling system not listed above without asking first. If a task seems to require something outside this stack, stop and ask rather than installing it.
 
