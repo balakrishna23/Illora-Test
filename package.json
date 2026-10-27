@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:hostinger": "next build --webpack",
     "postbuild": "node scripts/agent-postbuild.mjs",
     "start": "next start",
     "lint": "eslint",
