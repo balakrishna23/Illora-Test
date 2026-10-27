@@ -54,31 +54,60 @@ export const candidates = pgTable("candidates", {
 // per CLAUDE.md's server/db boundary; keep in sync with the Zod schemas in
 // src/features/*/actions.ts that reference the same values.
 export const jobTypeValues = ["Permanent", "Contract", "Casual"] as const;
-export const jobStatusValues = ["active", "closed"] as const;
+export const jobStatusValues = ["active", "closed", "pending", "rejected"] as const;
 
-export const jobs = pgTable("jobs", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  slug: text("slug").notNull().unique(),
-  title: text("title").notNull(),
-  location: text("location").notNull(),
-  state: text("state").notNull(),
-  latitude: doublePrecision("latitude").notNull(),
-  longitude: doublePrecision("longitude").notNull(),
-  type: text("type", { enum: jobTypeValues }).notNull(),
-  industry: text("industry").notNull(),
-  salaryRange: text("salary_range"),
-  postedDate: text("posted_date").notNull(),
-  closingDate: text("closing_date").notNull(),
-  referenceNumber: text("reference_number").notNull(),
-  teaser: text("teaser").notNull(),
-  description: text("description").notNull(),
-  responsibilities: jsonb("responsibilities").$type<string[]>().notNull().default([]),
-  requirements: jsonb("requirements").$type<string[]>().notNull().default([]),
-  benefits: jsonb("benefits").$type<string[]>().notNull().default([]),
-  status: text("status", { enum: jobStatusValues }).notNull().default("active"),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
-}).enableRLS();
+// "illoura" = admin-authored via /admin/jobs. All other values are ingested
+// externally by the job-ingestion pipeline (src/features/job-ingestion) from
+// the corresponding government job board — see external-jobs/ for the
+// per-source adapters and each source's compliance notes.
+export const jobSourceValues = [
+  "illoura",
+  "aps_jobs",
+  "workforce_australia",
+  "vic",
+  "qld",
+  "wa",
+  "tas",
+  "act",
+  "nt",
+] as const;
+
+export const jobs = pgTable(
+  "jobs",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    slug: text("slug").notNull().unique(),
+    title: text("title").notNull(),
+    location: text("location").notNull(),
+    state: text("state").notNull(),
+    latitude: doublePrecision("latitude").notNull(),
+    longitude: doublePrecision("longitude").notNull(),
+    type: text("type", { enum: jobTypeValues }).notNull(),
+    industry: text("industry").notNull(),
+    salaryRange: text("salary_range"),
+    postedDate: text("posted_date").notNull(),
+    closingDate: text("closing_date").notNull(),
+    referenceNumber: text("reference_number").notNull(),
+    teaser: text("teaser").notNull(),
+    description: text("description").notNull(),
+    responsibilities: jsonb("responsibilities").$type<string[]>().notNull().default([]),
+    requirements: jsonb("requirements").$type<string[]>().notNull().default([]),
+    benefits: jsonb("benefits").$type<string[]>().notNull().default([]),
+    status: text("status", { enum: jobStatusValues }).notNull().default("active"),
+    // Ingestion metadata — all null for admin-authored ("illoura") jobs.
+    source: text("source", { enum: jobSourceValues }).notNull().default("illoura"),
+    sourceLabel: text("source_label"),
+    externalId: text("external_id"),
+    externalUrl: text("external_url"),
+    importedAt: timestamp("imported_at"),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  },
+  // Dedup key for the ingestion pipeline's upsert. Postgres treats each NULL
+  // as distinct for uniqueness purposes, so native "illoura" rows (externalId
+  // always null) never collide with each other or with ingested rows.
+  (table) => [unique().on(table.source, table.externalId)]
+).enableRLS();
 
 export const savedJobs = pgTable(
   "saved_jobs",

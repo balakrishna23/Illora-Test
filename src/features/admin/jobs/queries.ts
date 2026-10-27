@@ -13,3 +13,7 @@ export async function getJobByIdAdmin(id: string): Promise<AdminJob | null> {
   const [row] = await db.select().from(jobs).where(eq(jobs.id, id));
   return row ?? null;
 }
+
+export async function getPendingJobsAdmin(): Promise<AdminJob[]> {
+  return db.select().from(jobs).where(eq(jobs.status, "pending")).orderBy(desc(jobs.importedAt));
+}

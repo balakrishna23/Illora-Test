@@ -105,20 +105,6 @@ export default function EmbeddedRpoPage() {
               ))}
             </ul>
 
-            <div className="mt-10 rounded-xl bg-muted/50 p-6">
-              <h2 className="font-semibold">Outcome example</h2>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                A healthcare provider operating 12 aged care facilities across Victoria
-                engaged Illoura under an embedded RPO model to manage their nursing
-                recruitment. Previously, nursing vacancies were filled through multiple
-                agencies with no consistency in candidate quality or cultural fit.
-                Within six months of the embedded engagement, average time-to-fill
-                dropped from 34 days to 18 days, and first-year attrition reduced by
-                28% — a result the organisation attributed directly to improved
-                screening and cultural alignment during the recruitment process.
-              </p>
-            </div>
-
             <h2 className="mt-12 text-xl font-semibold">Frequently asked questions</h2>
             <Accordion className="mt-4">
               {FAQS.map(({ q, a }, i) => (

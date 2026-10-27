@@ -11,7 +11,7 @@ import { getReviews, getAggregateRating } from "@/server/integrations/reviews";
 export const metadata: Metadata = {
   title: "Testimonials",
   description:
-    "Client and candidate reviews of Illoura. 4.9/5 from 62 verified reviews on Google and Sourcr.",
+    "Client and candidate reviews of Illoura from Google and Sourcr.",
   alternates: { canonical: "/testimonials" },
 };
 
@@ -35,7 +35,7 @@ export default async function TestimonialsPage() {
     getAggregateRating(),
   ]);
 
-  const aggregateJsonLd = {
+  const aggregateJsonLd = aggregate && {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Illoura",
@@ -50,10 +50,12 @@ export default async function TestimonialsPage() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLdString(aggregateJsonLd) }}
-      />
+      {aggregateJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdString(aggregateJsonLd) }}
+        />
+      )}
       <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
         <Breadcrumbs
           items={[
@@ -66,15 +68,21 @@ export default async function TestimonialsPage() {
         <div className="mt-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-3xl font-semibold tracking-tight">Testimonials</h1>
-            <div className="mt-3 flex items-center gap-3">
-              <p className="text-4xl font-semibold">{aggregate.averageRating}</p>
-              <div>
-                <StarRating rating={Math.round(aggregate.averageRating)} />
-                <p className="mt-0.5 text-sm text-muted-foreground">
-                  {aggregate.totalReviews} verified reviews · {aggregate.platform}
-                </p>
+            {aggregate ? (
+              <div className="mt-3 flex items-center gap-3">
+                <p className="text-4xl font-semibold">{aggregate.averageRating}</p>
+                <div>
+                  <StarRating rating={Math.round(aggregate.averageRating)} />
+                  <p className="mt-0.5 text-sm text-muted-foreground">
+                    {aggregate.totalReviews} {aggregate.totalReviews === 1 ? "review" : "reviews"} · {aggregate.platform}
+                  </p>
+                </div>
               </div>
-            </div>
+            ) : (
+              <p className="mt-3 text-muted-foreground">
+                We&apos;re a young business, and reviews from the people we work with will appear here.
+              </p>
+            )}
           </div>
           <a
             href="https://g.page/r/illora/review"

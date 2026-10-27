@@ -10,7 +10,7 @@ export const SEED_ARTICLES = [
     readingTimeMinutes: 6,
     excerpt:
       "The Commonwealth Indigenous Procurement Policy (IPP) mandates that federal agencies set targets for spending with Indigenous businesses. Here's what that means for procurement teams in 2026.",
-    body: `The Commonwealth Indigenous Procurement Policy (IPP) has been in place since 2015, but the 2025 amendments raised mandatory set-aside thresholds significantly. Agencies must now direct at least 3% of all contracts to Supply Nation certified businesses — up from 1% previously.\n\nFor procurement teams, this isn't simply a compliance checkbox. Research by the Minderoo Foundation shows that every dollar spent with an Indigenous business generates approximately $4.41 in social value through employment, community investment, and economic participation.\n\nAt Illoura, we see this shift playing out in real terms. Clients in the federal government, mining, and healthcare sectors have increased their engagement with us not just because of procurement targets, but because they've seen the quality of candidates we place and the depth of our sector knowledge.\n\nIf your organisation is still treating IPP compliance as a procurement line item rather than a genuine partnership opportunity, 2026 is the year to change that approach.`,
+    body: `The Commonwealth Indigenous Procurement Policy (IPP) has been in place since 2015, but the 2025 amendments raised mandatory set-aside thresholds significantly. Agencies must now direct at least 3% of all contracts to Supply Nation certified businesses — up from 1% previously.\n\nFor procurement teams, this isn't simply a compliance checkbox. Research by the Minderoo Foundation shows that every dollar spent with an Indigenous business generates approximately $4.41 in social value through employment, community investment, and economic participation.\n\nIf your organisation is still treating IPP compliance as a procurement line item rather than a genuine partnership opportunity, 2026 is the year to change that approach.`,
     authorName: "Illoura Team",
     authorRole: "Recruitment Insights",
   },
@@ -117,22 +117,23 @@ export const SEED_TEAM = [
     name: "Lane McEwan",
     role: "Founder & Managing Director",
     culturalConnection: "Wiradjuri and Ngiyampaa Wayilwan",
-    bio: "Lane founded Illoura in 2018 after 12 years in recruitment across IT, construction, and healthcare. As a proud Wiradjuri and Ngiyampaa Wayilwan man, Lane established Illoura with a clear mandate: to build a recruitment business that delivers real outcomes for both clients and candidates, while creating economic opportunity in First Nations communities. Under his leadership, Illoura has placed over 1,200 candidates and partnered with more than 80 employers.",
-    linkedIn: "https://www.linkedin.com/",
+    bio: "Lane McEwan is a proud Ngiyampaa Wayilwan and Wiradjuri man from Warren, NSW, and the Founder and Managing Director of Illoura. He founded Illoura in 2024 with a vision to build a strong, sustainable Indigenous-owned business that delivers exceptional outcomes for clients while creating opportunities for people and communities.",
+    linkedIn: null,
     sortOrder: 1,
   },
   {
-    name: "Sarah Williams",
-    role: "Director — Operations & Client Partnerships",
-    bio: "Sarah brings 15 years of operational leadership across professional services. She oversees Illoura's delivery capability, ensures service quality across all placements, and leads strategic partnerships with major employers. Sarah is passionate about building hiring practices that are genuinely inclusive at every stage of the recruitment process.",
-    linkedIn: "https://www.linkedin.com/",
+    name: "Sarah Bolt",
+    role: "Freelance Consultant",
+    bio: "Sarah Bolt works with Illoura as a freelance consultant.",
+    linkedIn: null,
     sortOrder: 2,
   },
 ] as const;
 
 export const SEED_STATS = {
-  yearsOperating: 8,
-  candidatesPlaced: 1200,
-  clientRetentionPct: 94,
-  activeEmployers: 80,
+  yearsOperating: 2,
+  candidatesPlaced: 2,
+  // Not yet measured; keep at 0 until there is a real figure to report.
+  clientRetentionPct: 0,
+  activeEmployers: 0,
 };

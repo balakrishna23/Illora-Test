@@ -43,7 +43,7 @@ export default async function Home() {
       <IndustryTiles />
       <Accreditations />
       <Clients />
-      <TestimonialsCarousel reviews={reviews} />
+      {reviews.length > 0 && <TestimonialsCarousel reviews={reviews} />}
       <NameMeaning />
       <KnowledgeHubPreview articles={articles} />
       <DualCtaBand />

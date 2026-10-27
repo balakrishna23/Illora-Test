@@ -121,6 +121,32 @@ export async function closeJob(id: string): Promise<{ success: boolean }> {
   return { success: true };
 }
 
+// Publishes an ingested job (features/job-ingestion) to the public /jobs
+// listing. Native "illoura" jobs never pass through "pending", so this only
+// ever applies to externally-sourced rows.
+export async function approveJob(id: string): Promise<{ success: boolean }> {
+  const session = await requireAdmin();
+  if (!session.success) return { success: false };
+
+  await db.update(jobs).set({ status: "active", updatedAt: new Date() }).where(eq(jobs.id, id));
+
+  revalidatePath("/admin/jobs");
+  revalidatePath("/jobs");
+
+  return { success: true };
+}
+
+export async function rejectJob(id: string): Promise<{ success: boolean }> {
+  const session = await requireAdmin();
+  if (!session.success) return { success: false };
+
+  await db.update(jobs).set({ status: "rejected", updatedAt: new Date() }).where(eq(jobs.id, id));
+
+  revalidatePath("/admin/jobs");
+
+  return { success: true };
+}
+
 export async function deleteJob(id: string): Promise<{ success: boolean }> {
   const session = await requireAdmin();
   if (!session.success) return { success: false };

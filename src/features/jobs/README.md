@@ -24,4 +24,12 @@ there's nothing to mutate here (applying is a separate flow under
   feed grows large enough that shipping the whole list to the client is
   wasteful.
 - `JobLocationMap` needs `latitude`/`longitude` on the job record (admin-set
-  in `features/admin/jobs`) — jobs without coordinates won't render a map.
+  in `features/admin/jobs`, or geocoded approximately by
+  `features/job-ingestion` for external jobs) — jobs without coordinates
+  won't render a map.
+- `Job.source !== "illoura"` means the row came from a government job board
+  via `features/job-ingestion`, not one of Illoura's own client vacancies.
+  `JobListCard` shows a source badge for these; `app/jobs/[slug]/page.tsx`
+  routes "Apply" to the original posting instead of Illoura's own candidate
+  pipeline in that case — don't treat `job.source`/`sourceLabel`/
+  `externalUrl` as optional metadata when touching either of those files.

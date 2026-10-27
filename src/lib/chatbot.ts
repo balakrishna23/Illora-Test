@@ -46,11 +46,11 @@ const REPLIES: Record<string, ChatReply> = {
     ],
   },
   industries: {
-    text: "We've built deep specialist networks across seven sectors — IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling. Each has a dedicated consultant who actually knows the industry, not just the job title.",
+    text: "We've built deep specialist networks across seven sectors — IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling.",
     links: [{ label: "Explore our industries →", href: "/industries" }],
   },
   about: {
-    text: "Illoura Services is a proud First Nations-owned recruitment business, Supply Nation Registered, and we've been connecting great people with great employers since 2018. We operate across all of Australia and put relationships before transactions — every time.",
+    text: "Illoura Services is a proud First Nations-owned recruitment business, Supply Nation Registered, and we've been connecting great people with great employers since 2024. We operate across all of Australia and put relationships before transactions — every time.",
     links: [{ label: "Learn more about us →", href: "/about" }],
   },
   salary: {

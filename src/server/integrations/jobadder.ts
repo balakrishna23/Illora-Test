@@ -29,6 +29,14 @@ export type Job = {
   responsibilities: string[];
   requirements: string[];
   benefits: string[];
+  // "illoura" = one of Illoura's own client vacancies. Any other value means
+  // this job was ingested from an external government job board (see
+  // features/job-ingestion) — sourceLabel/externalUrl are only ever set in
+  // that case. Callers use this to route "Apply" to the original posting
+  // instead of Illoura's own candidate pipeline.
+  source: string;
+  sourceLabel?: string;
+  externalUrl?: string;
 };
 
 type JobRow = typeof jobsTable.$inferSelect;
@@ -53,6 +61,9 @@ function toJob(row: JobRow): Job {
     responsibilities: row.responsibilities,
     requirements: row.requirements,
     benefits: row.benefits,
+    source: row.source,
+    sourceLabel: row.sourceLabel ?? undefined,
+    externalUrl: row.externalUrl ?? undefined,
   };
 }
 

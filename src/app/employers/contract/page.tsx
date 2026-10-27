@@ -104,17 +104,6 @@ export default function ContractRecruitmentPage() {
               ))}
             </ul>
 
-            <div className="mt-10 rounded-xl bg-muted/50 p-6">
-              <h2 className="font-semibold">Outcome example</h2>
-              <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                A Tier 2 construction company needed four additional labourers and a
-                crane operator for a six-week commercial fitout. Their existing
-                subcontractor had pulled resources to a larger project. Illoura mobilised
-                five workers within three business days — fully inducted, with compliant
-                SWMS in place — and the project finished on programme.
-              </p>
-            </div>
-
             <h2 className="mt-12 text-xl font-semibold">Frequently asked questions</h2>
             <Accordion className="mt-4">
               {FAQS.map(({ q, a }, i) => (
