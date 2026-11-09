@@ -7,12 +7,12 @@ import { SITE_URL } from "@/lib/site";
 export const ORGANIZATION_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Illora",
+  name: "Illoura",
   description:
-    "First Nations-owned recruitment delivering real outcomes across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling.",
+    "First Nations-owned recruitment delivering real outcomes in AI Engineering, Cyber Security, and Data Analytics.",
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
-  foundingDate: "2018",
+  foundingDate: "2024",
   founder: {
     "@type": "Person",
     name: "Lane McEwan",

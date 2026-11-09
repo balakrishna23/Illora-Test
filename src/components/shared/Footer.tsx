@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { PhoneIcon, MailIcon, MapPinIcon, ExternalLinkIcon } from "lucide-react";
+import { MailIcon, MapPinIcon, ExternalLinkIcon } from "lucide-react";
 
-import { IlloraLogo } from "@/components/shared/IlloraLogo";
+import { IllouraLogo } from "@/components/shared/IllouraLogo";
 import { DotDivider } from "@/components/shared/DotDivider";
 import { footerLinks } from "@/lib/navigation";
 import { Separator } from "@/components/ui/separator";
@@ -21,7 +21,7 @@ const MAIN_MENU = [
 
 const SERVICES = [
   { label: "Permanent Recruitment", href: "/employers/permanent" },
-  { label: "Contract & Labour Hire", href: "/employers/contract" },
+  { label: "IT Contract Recruitment", href: "/employers/contract" },
   { label: "Embedded / RPO", href: "/employers/embedded-rpo" },
   { label: "Register a Vacancy", href: "/employers/register-vacancy" },
   { label: "Submit Your CV", href: "/candidates/submit-cv" },
@@ -29,13 +29,9 @@ const SERVICES = [
 ];
 
 const INDUSTRIES = [
-  { label: "IT & Telecommunications", href: "/industries/it-telecommunications" },
-  { label: "Construction", href: "/industries/construction" },
-  { label: "Healthcare", href: "/industries/healthcare" },
-  { label: "Nursing & Aged Care", href: "/industries/nursing-aged-care" },
-  { label: "Data Science", href: "/industries/data-science" },
+  { label: "AI Engineering", href: "/industries/ai-engineering" },
   { label: "Cyber Security", href: "/industries/cyber-security" },
-  { label: "EV Waste & Recycling", href: "/industries/ev-waste" },
+  { label: "Data Analytics", href: "/industries/data-analytics" },
 ];
 
 const OFFICES = [
@@ -68,7 +64,7 @@ export function Footer() {
           {/* ── Brand + Acknowledgement ── */}
           <div>
             <Link href="/" className="flex items-center gap-2.5">
-              <IlloraLogo className="h-12 w-12 shrink-0" />
+              <IllouraLogo className="h-12 w-12 shrink-0" />
               <span className="text-base font-semibold tracking-tight text-foreground">
                 Illoura Services
               </span>
@@ -171,15 +167,6 @@ export function Footer() {
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-primary">Contact</p>
             <ul className="mt-4 space-y-3">
-              <li>
-                <a
-                  href="tel:+61261966999"
-                  className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
-                >
-                  <PhoneIcon className="size-3.5 shrink-0 text-primary" aria-hidden="true" />
-                  +61 2 6196 6999
-                </a>
-              </li>
               <li>
                 <a
                   href="mailto:info@illouraservices.com"

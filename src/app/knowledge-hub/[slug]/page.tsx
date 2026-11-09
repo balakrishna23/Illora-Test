@@ -43,10 +43,10 @@ export default async function ArticlePage({ params }: PageProps) {
     headline: article.title,
     description: article.excerpt,
     datePublished: article.publishDate,
-    author: { "@type": "Organization", name: "Illora" },
+    author: { "@type": "Organization", name: "Illoura" },
     publisher: {
       "@type": "Organization",
-      name: "Illora",
+      name: "Illoura",
       logo: { "@type": "ImageObject", url: `${SITE_URL}/logo.png` },
     },
   };

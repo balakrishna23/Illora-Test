@@ -54,7 +54,7 @@ test.describe("Campaign unsubscribe page", () => {
 
     // GET render must NOT unsubscribe (link scanners prefetch these URLs).
     await expect(
-      page.getByRole("heading", { name: /unsubscribe from illora emails\?/i })
+      page.getByRole("heading", { name: /unsubscribe from illoura emails\?/i })
     ).toBeVisible();
 
     await page.getByRole("button", { name: /unsubscribe/i }).click();

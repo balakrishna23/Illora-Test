@@ -13,7 +13,7 @@ vi.mock("@/server/integrations/resend", () => ({ sendAuthHookEmail: vi.fn() }));
 function request(body: string, headers: Record<string, string> = {}): Request {
   return new Request("https://illouraservices.com/api/auth/send-email", {
     method: "POST",
-    headers: { "svix-id": "id1", "svix-timestamp": "123", "svix-signature": "v1,sig", ...headers },
+    headers: { "webhook-id": "id1", "webhook-timestamp": "123", "webhook-signature": "v1,sig", ...headers },
     body,
   });
 }
@@ -59,7 +59,7 @@ describe("POST /api/auth/send-email", () => {
   });
 
   it("passes the exact headers and raw body to the verifier", async () => {
-    await POST(request(VALID_PAYLOAD, { "svix-id": "custom-id", "svix-timestamp": "999", "svix-signature": "v1,xyz" }));
+    await POST(request(VALID_PAYLOAD, { "webhook-id": "custom-id", "webhook-timestamp": "999", "webhook-signature": "v1,xyz" }));
 
     expect(verifyStandardWebhook).toHaveBeenCalledWith({
       secret: "v1,whsec_test",

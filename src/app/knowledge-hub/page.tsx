@@ -16,7 +16,7 @@ import {
 export const metadata: Metadata = {
   title: "Knowledge Hub",
   description:
-    "Hiring trends, candidate advice, First Nations procurement insights, and industry news from the Illora team.",
+    "Hiring trends, candidate advice, First Nations procurement insights, and industry news from the Illoura team.",
   alternates: { canonical: "/knowledge-hub" },
 };
 
@@ -43,7 +43,7 @@ export default async function KnowledgeHubPage({ searchParams }: PageProps) {
   const itemListJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Illora Knowledge Hub",
+    name: "Illoura Knowledge Hub",
     itemListElement: articles.map((article, index) => ({
       "@type": "ListItem",
       position: index + 1,

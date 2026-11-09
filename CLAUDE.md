@@ -1,4 +1,4 @@
-# CLAUDE.md — Illora Engineering Constitution
+# CLAUDE.md — Illoura Engineering Constitution
 
 This file is the single source of truth for how Claude (and any human) writes code in this repository. It is read before every task. If something here conflicts with a request, flag the conflict instead of silently picking one side.
 
@@ -21,9 +21,9 @@ This file is the single source of truth for how Claude (and any human) writes co
 | File storage | Supabase Storage |
 | Email | Resend |
 | Testing | Playwright (E2E), Vitest (unit) |
-| Hosting | Hostinger KVM VPS running Coolify (self-hosted PaaS) |
-| CI/CD | GitHub → Coolify (git-push deploy, auto Let's Encrypt SSL) |
-| MCP tools available | Context7, GitHub, Playwright, Sequential Thinking |
+| Hosting | Hostinger Business Web Hosting (shared plan, managed Node.js app) — no VPS |
+| CI/CD | Manual: `git archive` → upload to Hostinger → Hostinger builds with `npm run build:hostinger` (webpack). See `DEPLOYMENT.md` |
+| MCP tools available | Context7, GitHub, Playwright, Sequential Thinking, Hostinger |
 
 **Never** introduce a new package, ORM, auth provider, CMS, or styling system not listed above without asking first. If a task seems to require something outside this stack, stop and ask rather than installing it.
 
@@ -227,6 +227,6 @@ These rules exist specifically to prevent common AI failure modes in this codeba
 
 ## 18. Project Context
 
-Illora is a recruitment/job-board platform connecting candidates and employers, with ATS integration via JobAdder. Core flows: candidate job search & application, employer job posting & candidate management, admin-managed content for marketing pages, and authenticated dashboards for both user types (Supabase Auth).
+Illoura is a recruitment/job-board platform connecting candidates and employers, with ATS integration via JobAdder. Core flows: candidate job search & application, employer job posting & candidate management, admin-managed content for marketing pages, and authenticated dashboards for both user types (Supabase Auth).
 
 See `context/` for deeper detail on architecture, design system, roadmap, and conventions — this file is the summary; those files are the detail.

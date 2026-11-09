@@ -26,7 +26,7 @@ function vacancyFormData(overrides: Record<string, string> = {}): FormData {
     roleTitle: "Site Supervisor",
     employmentType: "Permanent",
     location: "Sydney",
-    industry: "Construction",
+    industry: "Cyber Security",
     urgency: "ASAP",
     message: "We need someone to start within the month.",
     marketingConsent: "on",

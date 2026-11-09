@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 import { jsonLdString } from "@/lib/utils";
 import { ORGANIZATION_JSON_LD } from "@/lib/organization-schema";
 import Link from "next/link";
-import { ExternalLinkIcon } from "lucide-react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { getTeam } from "@/features/about/queries";
+import { TeamMemberCard } from "@/features/about/components/TeamMemberCard";
 
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Learn about Illora's founding story, leadership team, and the values that guide how we recruit.",
+    "Learn about Illoura's founding story, team, and the values that guide how we recruit.",
   alternates: { canonical: "/about" },
 };
 
@@ -72,12 +72,11 @@ export default async function AboutPage() {
             </h1>
             <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                Illora was founded in 2018 by Lane McEwan — a proud Wiradjuri
-                and Ngiyampaa Wayilwan man with more than a decade of
-                recruitment experience across IT, construction, and healthcare.
-                Lane established Illora because he saw a market with no shortage
-                of recruiters and a persistent shortage of genuine expertise,
-                accountability, and follow-through.
+                Illoura was founded in 2024 by Lane McEwan, a proud Ngiyampaa
+                Wayilwan and Wiradjuri man from Warren, NSW. Lane started
+                Illoura with a vision to build a strong, sustainable
+                Indigenous-owned business that delivers exceptional outcomes for
+                clients while creating opportunities for people and communities.
               </p>
               <p>
                 The business was built around a simple conviction: that
@@ -88,9 +87,7 @@ export default async function AboutPage() {
                 decision we make.
               </p>
               <p>
-                Since 2018, Illora has placed over 1,200 candidates, partnered
-                with more than 80 employers across Australia, and maintained a
-                94% client retention rate. We are Supply Nation Registered
+                We are Supply Nation Registered
                 and listed on the Black Business Finder — credentials
                 that reflect who we are, not just what we do.
               </p>
@@ -102,12 +99,10 @@ export default async function AboutPage() {
             </p>
             <dl className="mt-6 space-y-4">
               {[
-                ["Founded", "2018"],
+                ["Founded", "2024"],
                 ["Headquarters", "Sydney, NSW (operates nationally)"],
-                ["Sectors", "7 specialist sectors, Australia-wide"],
+                ["Sectors", "AI Engineering, Cyber Security, Data Analytics"],
                 ["Registrations", "Supply Nation Registered · Black Business Finder"],
-                ["Candidates Placed", "1,200+"],
-                ["Client Retention", "94%"],
               ].map(([label, value]) => (
                 <div key={label} className="flex justify-between border-b border-border pb-3 last:border-0 last:pb-0">
                   <dt className="text-sm text-muted-foreground">{label}</dt>
@@ -120,40 +115,12 @@ export default async function AboutPage() {
 
         <Separator className="my-16" />
 
-        {/* Leadership */}
+        {/* Team */}
         <div>
-          <h2 className="text-2xl font-semibold tracking-tight">Leadership</h2>
+          <h2 className="text-2xl font-semibold tracking-tight">Our Team</h2>
           <div className="mt-8 grid gap-8 sm:grid-cols-2">
             {team.map((member) => (
-              <div key={member.name} className="rounded-xl border border-border bg-card p-6">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h3 className="font-semibold text-lg">{member.name}</h3>
-                    <p className="text-sm text-primary font-medium mt-0.5">
-                      {member.role}
-                    </p>
-                    {member.culturalConnection && (
-                      <p className="text-xs text-muted-foreground mt-1">
-                        {member.culturalConnection}
-                      </p>
-                    )}
-                  </div>
-                  {member.linkedIn && (
-                    <a
-                      href={member.linkedIn}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${member.name} on LinkedIn`}
-                      className="text-muted-foreground hover:text-primary transition-colors"
-                    >
-                      <ExternalLinkIcon className="size-4" />
-                    </a>
-                  )}
-                </div>
-                <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-                  {member.bio}
-                </p>
-              </div>
+              <TeamMemberCard key={member.id} member={member} />
             ))}
           </div>
         </div>

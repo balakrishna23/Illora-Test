@@ -1,4 +1,4 @@
-import { and, desc, eq, ne } from "drizzle-orm";
+import { and, desc, eq, inArray, ne } from "drizzle-orm";
 
 import { db } from "@/server/db/client";
 import { jobs as jobsTable } from "@/server/db/schema";
@@ -9,6 +9,10 @@ export { AU_STATES, JOB_INDUSTRIES, JOB_TYPES };
 // Deliberately DB-backed via Drizzle against the `jobs` table, pending a real
 // JobAdder API integration. Function names/signatures are kept stable so
 // call sites don't need to change when that integration eventually lands.
+
+// Every public query is limited to the current specialisms, so jobs left over
+// from retired sectors never reach the public site, even by direct link.
+const inCurrentIndustries = inArray(jobsTable.industry, [...JOB_INDUSTRIES]);
 
 export type Job = {
   id: string;
@@ -29,6 +33,14 @@ export type Job = {
   responsibilities: string[];
   requirements: string[];
   benefits: string[];
+  // "illoura" = one of Illoura's own client vacancies. Any other value means
+  // this job was ingested from an external government job board (see
+  // features/job-ingestion) — sourceLabel/externalUrl are only ever set in
+  // that case. Callers use this to route "Apply" to the original posting
+  // instead of Illoura's own candidate pipeline.
+  source: string;
+  sourceLabel?: string;
+  externalUrl?: string;
 };
 
 type JobRow = typeof jobsTable.$inferSelect;
@@ -53,6 +65,9 @@ function toJob(row: JobRow): Job {
     responsibilities: row.responsibilities,
     requirements: row.requirements,
     benefits: row.benefits,
+    source: row.source,
+    sourceLabel: row.sourceLabel ?? undefined,
+    externalUrl: row.externalUrl ?? undefined,
   };
 }
 
@@ -60,7 +75,7 @@ export async function getRecentJobs(count = 4): Promise<Job[]> {
   const rows = await db
     .select()
     .from(jobsTable)
-    .where(eq(jobsTable.status, "active"))
+    .where(and(eq(jobsTable.status, "active"), inCurrentIndustries))
     .orderBy(desc(jobsTable.postedDate))
     .limit(count);
 
@@ -71,7 +86,7 @@ export async function getAllJobs(): Promise<Job[]> {
   const rows = await db
     .select()
     .from(jobsTable)
-    .where(eq(jobsTable.status, "active"))
+    .where(and(eq(jobsTable.status, "active"), inCurrentIndustries))
     .orderBy(desc(jobsTable.postedDate));
 
   return rows.map(toJob);
@@ -81,7 +96,10 @@ export async function getJobBySlug(slug: string): Promise<Job | null> {
   // Returns the job regardless of status (including closed) so a direct
   // link still resolves; the caller branches on status to show a
   // "no longer accepting applications" state instead of a 404.
-  const [row] = await db.select().from(jobsTable).where(eq(jobsTable.slug, slug));
+  const [row] = await db
+    .select()
+    .from(jobsTable)
+    .where(and(eq(jobsTable.slug, slug), inCurrentIndustries));
   return row ? toJob(row) : null;
 }
 

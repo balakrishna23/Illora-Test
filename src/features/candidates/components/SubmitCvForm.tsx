@@ -295,7 +295,7 @@ export function SubmitCvForm({ jobId, jobSlug, jobTitle, existingSubmittedAt }: 
             aria-describedby="consent-desc"
           />
           <span id="consent-desc" className="text-sm text-muted-foreground">
-            I consent to Illora storing and using my information for recruitment
+            I consent to Illoura storing and using my information for recruitment
             purposes in accordance with the{" "}
             <a href="/privacy-policy" className="underline hover:text-foreground">
               Privacy Policy
@@ -315,7 +315,7 @@ export function SubmitCvForm({ jobId, jobSlug, jobTitle, existingSubmittedAt }: 
           />
           <span className="text-sm text-muted-foreground">
             Keep me updated with relevant roles, hiring insights, and news from
-            Illora. You can unsubscribe at any time. (Optional)
+            Illoura. You can unsubscribe at any time. (Optional)
           </span>
         </label>
       </div>

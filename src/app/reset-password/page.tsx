@@ -12,6 +12,12 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+// Calls requireUser(), which round-trips to Supabase Auth — never
+// prerenderable. Without this, Next attempts that network call during the
+// build's static-generation pass, which hangs if the build host can't reach
+// Supabase and takes the whole build down with it (see admin/layout.tsx).
+export const dynamic = "force-dynamic";
+
 // Only reachable with a valid (recovery-scoped) session — established by
 // /auth/confirm verifying the emailed reset link. Checked here at the page
 // level too, not just inside the resetPassword Server Action, so someone

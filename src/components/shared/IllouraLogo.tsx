@@ -2,7 +2,7 @@ type Props = {
   className?: string;
 };
 
-export function IlloraLogo({ className }: Props) {
+export function IllouraLogo({ className }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

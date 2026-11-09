@@ -42,6 +42,12 @@ export default async function JobDetailPage({ params }: PageProps) {
   const candidate = sessionUser ? await getCandidateByAuthUserId(sessionUser.userId) : null;
   const saved = candidate ? await isJobSaved(candidate.id, job.id) : false;
 
+  // Jobs ingested from a government job board (features/job-ingestion) are
+  // not Illoura's own vacancies — Illoura isn't the hiring organisation and
+  // isn't handling applications, so both the apply flow and the structured
+  // data below must point at the original source, not Illoura.
+  const isExternal = job.source !== "illoura";
+
   const jobJsonLd = {
     "@context": "https://schema.org",
     "@type": "JobPosting",
@@ -52,17 +58,19 @@ export default async function JobDetailPage({ params }: PageProps) {
     employmentType: job.type.toUpperCase(),
     identifier: {
       "@type": "PropertyValue",
-      name: ORGANIZATION_JSON_LD.name,
+      name: isExternal ? job.sourceLabel : ORGANIZATION_JSON_LD.name,
       value: job.referenceNumber,
     },
-    directApply: true,
-    hiringOrganization: {
-      "@type": "Organization",
-      name: ORGANIZATION_JSON_LD.name,
-      url: ORGANIZATION_JSON_LD.url,
-      logo: ORGANIZATION_JSON_LD.logo,
-      sameAs: ORGANIZATION_JSON_LD.sameAs,
-    },
+    directApply: !isExternal,
+    hiringOrganization: isExternal
+      ? { "@type": "Organization", name: job.sourceLabel, url: job.externalUrl }
+      : {
+          "@type": "Organization",
+          name: ORGANIZATION_JSON_LD.name,
+          url: ORGANIZATION_JSON_LD.url,
+          logo: ORGANIZATION_JSON_LD.logo,
+          sameAs: ORGANIZATION_JSON_LD.sameAs,
+        },
     jobLocation: {
       "@type": "Place",
       address: {
@@ -191,15 +199,27 @@ export default async function JobDetailPage({ params }: PageProps) {
             <div className="sticky top-24 rounded-xl border border-border bg-card p-6 shadow-sm">
               <h2 className="font-semibold">Apply for this role</h2>
               <p className="mt-2 text-sm text-muted-foreground">
-                Submit your details and a consultant will be in touch to discuss
-                the role and next steps.
+                {isExternal
+                  ? `This role is advertised by ${job.sourceLabel}, not Illoura — apply directly on their site.`
+                  : "Submit your details and a consultant will be in touch to discuss the role and next steps."}
               </p>
-              <Link
-                href={`/candidates/submit-cv?jobId=${job.id}&jobSlug=${job.slug}&jobTitle=${encodeURIComponent(job.title)}`}
-                className={buttonVariants({ variant: "accent", className: "mt-4 w-full" })}
-              >
-                Apply Now
-              </Link>
+              {isExternal ? (
+                <a
+                  href={job.externalUrl}
+                  target="_blank"
+                  rel="noopener"
+                  className={buttonVariants({ variant: "accent", className: "mt-4 w-full" })}
+                >
+                  View &amp; apply on {job.sourceLabel}
+                </a>
+              ) : (
+                <Link
+                  href={`/candidates/submit-cv?jobId=${job.id}&jobSlug=${job.slug}&jobTitle=${encodeURIComponent(job.title)}`}
+                  className={buttonVariants({ variant: "accent", className: "mt-4 w-full" })}
+                >
+                  Apply Now
+                </Link>
+              )}
               <div className="mt-2 flex justify-center">
                 <SaveJobButton
                   job={{ id: job.id, slug: job.slug, title: job.title }}

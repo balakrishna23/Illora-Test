@@ -31,6 +31,9 @@ export function JobListCard({ job, isSaved, isSignedIn }: Props) {
               {job.title}
             </Link>
             <Badge variant="secondary" className="text-xs shrink-0">{job.type}</Badge>
+            {job.source !== "illoura" && (
+              <Badge variant="outline" className="text-xs shrink-0">{job.sourceLabel}</Badge>
+            )}
           </div>
 
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">

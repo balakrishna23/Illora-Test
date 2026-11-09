@@ -3,7 +3,7 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { MobileNav } from "@/components/shared/MobileNav";
 import { DesktopNav } from "@/components/shared/DesktopNav";
-import { IlloraLogo } from "@/components/shared/IlloraLogo";
+import { IllouraLogo } from "@/components/shared/IllouraLogo";
 import { AccountNavButton } from "@/components/shared/AccountNavButton";
 import { getSessionUser, isAdminEmail } from "@/server/auth/session";
 
@@ -22,7 +22,7 @@ export async function Header() {
       </div>
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2.5">
-          <IlloraLogo className="h-10 w-10 shrink-0" />
+          <IllouraLogo className="h-10 w-10 shrink-0" />
           <span className="text-base font-semibold tracking-tight text-foreground">Illoura Services</span>
           <span className="hidden rounded-full bg-accent/15 px-2 py-0.5 text-xs text-accent font-medium sm:block">Supply Nation Registered</span>
         </Link>

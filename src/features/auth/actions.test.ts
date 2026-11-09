@@ -147,6 +147,29 @@ describe("signUp", () => {
     });
   });
 
+  it("returns a clear message when Supabase rate-limits signup emails", async () => {
+    mockSupabaseAuth({
+      signUp: {
+        data: {},
+        error: {
+          message: "email rate limit exceeded",
+          code: "over_email_send_rate_limit",
+          status: 429,
+        },
+      },
+    });
+
+    const result = await signUp(
+      null,
+      formData({ email: "jane@example.com", password: "password123", confirmPassword: "password123" })
+    );
+
+    expect(result).toEqual({
+      success: false,
+      error: "Too many signup emails have been sent. Please try again a little later.",
+    });
+  });
+
   it("returns pendingConfirmation without redirecting when no session is returned", async () => {
     mockSupabaseAuth({ signUp: { data: { session: null }, error: null } });
 

@@ -9,7 +9,7 @@ import { getAllJobs, JOB_INDUSTRIES } from "@/server/integrations/jobadder";
 export const metadata: Metadata = {
   title: "For Candidates",
   description:
-    "Browse live jobs or submit your CV. Illora supports candidates through every step — sourcing, interview prep, and beyond.",
+    "Browse live jobs or submit your CV. Illoura supports candidates through every step — sourcing, interview prep, and beyond.",
   alternates: { canonical: "/candidates" },
 };
 
@@ -106,7 +106,7 @@ export default async function CandidatesPage() {
         <div className="rounded-xl bg-primary p-8 text-primary-foreground">
           <h2 className="text-xl font-semibold">Browse live jobs</h2>
           <p className="mt-2 text-primary-foreground/70 text-sm">
-            Search and filter {jobs.length} current opportunities across our seven specialist sectors.
+            Search and filter {jobs.length} current opportunities in AI Engineering, Cyber Security, and Data Analytics.
           </p>
           <Link
             href="/jobs"

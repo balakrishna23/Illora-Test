@@ -4,7 +4,6 @@ import { getRecentJobs } from "@/server/integrations/jobadder";
 import { jsonLdString } from "@/lib/utils";
 import { ORGANIZATION_JSON_LD } from "@/lib/organization-schema";
 import { getRecentArticles } from "@/features/knowledge-hub/queries";
-import { getSiteStats } from "@/features/home/queries";
 import { getReviews } from "@/server/integrations/reviews";
 
 import { HomeHero } from "@/features/home/components/HomeHero";
@@ -19,16 +18,15 @@ import { DualCtaBand } from "@/features/home/components/DualCtaBand";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Illora — First Nations-Owned Recruitment Across Australia",
+    absolute: "Illoura — First Nations-Owned Recruitment Across Australia",
   },
   description:
-    "Illora connects candidates and employers across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling. Supply Nation Registered.",
+    "Illoura connects candidates and employers in AI Engineering, Cyber Security, and Data Analytics. Supply Nation Registered.",
   alternates: { canonical: "/" },
 };
 
 export default async function Home() {
-  const [stats, jobs, articles, reviews] = await Promise.all([
-    getSiteStats(),
+  const [jobs, articles, reviews] = await Promise.all([
     getRecentJobs(4),
     getRecentArticles(3),
     getReviews(6),
@@ -40,12 +38,12 @@ export default async function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLdString(ORGANIZATION_JSON_LD) }}
       />
-      <HomeHero stats={stats} />
+      <HomeHero />
       <JobTicker jobs={jobs} />
       <IndustryTiles />
       <Accreditations />
       <Clients />
-      <TestimonialsCarousel reviews={reviews} />
+      {reviews.length > 0 && <TestimonialsCarousel reviews={reviews} />}
       <NameMeaning />
       <KnowledgeHubPreview articles={articles} />
       <DualCtaBand />

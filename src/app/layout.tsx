@@ -20,11 +20,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Illora — First Nations-Owned Recruitment",
-    template: "%s | Illora",
+    default: "Illoura — First Nations-Owned Recruitment",
+    template: "%s | Illoura",
   },
   description:
-    "Illora is a First Nations-owned recruitment partner connecting candidates and employers across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling.",
+    "Illoura is a First Nations-owned recruitment partner connecting candidates and employers in AI Engineering, Cyber Security, and Data Analytics.",
   twitter: {
     card: "summary_large_image",
   },

@@ -11,7 +11,7 @@ import { getCandidateByAuthUserId, getSavedJobs } from "@/features/portal/querie
 export const metadata: Metadata = {
   title: "Jobs",
   description:
-    "Search live job listings across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling. Filter by location, type, and industry.",
+    "Search live AI Engineering, Cyber Security, and Data Analytics jobs. Filter by location, type, and specialism.",
   alternates: { canonical: "/jobs" },
 };
 
@@ -26,7 +26,7 @@ export default async function JobsPage({ searchParams }: { searchParams: SearchP
   const itemListJsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Illora Live Job Listings",
+    name: "Illoura Live Job Listings",
     itemListElement: jobs.map((job, index) => ({
       "@type": "ListItem",
       position: index + 1,
@@ -51,7 +51,7 @@ export default async function JobsPage({ searchParams }: { searchParams: SearchP
         <div className="mt-8">
           <h1 className="text-3xl font-semibold tracking-tight">Find Your Next Role</h1>
           <p className="mt-2 text-muted-foreground">
-            {jobs.length} live roles across our seven specialist sectors, Australia-wide.
+            {jobs.length} live roles in AI Engineering, Cyber Security, and Data Analytics, Australia-wide.
           </p>
         </div>
         <JobsClient

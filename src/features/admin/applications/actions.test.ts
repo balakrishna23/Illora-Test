@@ -27,7 +27,7 @@ const APPLICATION_ID = "11111111-1111-4111-8111-111111111111";
 
 const APPLICATION = {
   name: "Jane Candidate",
-  targetIndustry: "ICT",
+  targetIndustry: "AI Engineering",
   currentRole: "Engineer",
   resumeStorageKey: "resumes/123-jane.pdf",
   coverLetterStorageKey: null as string | null,
@@ -165,7 +165,7 @@ describe("reviewResumeWithAi", () => {
     const result = await reviewResumeWithAi(APPLICATION_ID);
 
     expect(reviewResumeFromStorage).toHaveBeenCalledWith("resumes/123-jane.pdf", {
-      targetIndustry: "ICT",
+      targetIndustry: "AI Engineering",
       currentRole: "Engineer",
     });
     expect(result.success).toBe(true);

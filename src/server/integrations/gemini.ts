@@ -17,14 +17,14 @@ Tables:
 - contact_messages(id uuid, name text, email text, phone text?, subject text, message text, status text[new|read|replied], created_at)
 `.trim();
 
-const SYSTEM_PROMPT = `You are an internal analytics assistant for Illora, a recruitment platform. Answer the admin's question about operational data by calling the run_sql tool with a single read-only SQL SELECT statement against the schema below. Never attempt INSERT/UPDATE/DELETE/DDL — those will be rejected. A row limit is applied for you automatically; do not add your own LIMIT unless you want fewer rows than the default.
+const SYSTEM_PROMPT = `You are an internal analytics assistant for Illoura, a recruitment platform. Answer the admin's question about operational data by calling the run_sql tool with a single read-only SQL SELECT statement against the schema below. Never attempt INSERT/UPDATE/DELETE/DDL — those will be rejected. A row limit is applied for you automatically; do not add your own LIMIT unless you want fewer rows than the default.
 
 ${SCHEMA_SUMMARY}`;
 
 const RUN_SQL_TOOL: FunctionDeclaration = {
   name: "run_sql",
   description:
-    "Run a single read-only SQL SELECT statement against the Illora database to answer the admin's question. Only SELECT/WITH statements are allowed.",
+    "Run a single read-only SQL SELECT statement against the Illoura database to answer the admin's question. Only SELECT/WITH statements are allowed.",
   parametersJsonSchema: {
     type: "object",
     properties: {

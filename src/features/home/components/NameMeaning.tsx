@@ -1,5 +1,5 @@
 import { Reveal } from "@/components/shared/Reveal";
-import { IlloraLogo } from "@/components/shared/IlloraLogo";
+import { IllouraLogo } from "@/components/shared/IllouraLogo";
 
 export function NameMeaning() {
   return (
@@ -8,7 +8,7 @@ export function NameMeaning() {
         <div className="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <Reveal animation="slide-in-left">
             <div className="flex items-center justify-center lg:justify-end">
-              <IlloraLogo className="h-52 w-52 rounded-full shadow-md ring-4 ring-accent/20 sm:h-60 sm:w-60" />
+              <IllouraLogo className="h-52 w-52 rounded-full shadow-md ring-4 ring-accent/20 sm:h-60 sm:w-60" />
             </div>
           </Reveal>
 
@@ -18,7 +18,7 @@ export function NameMeaning() {
                 Behind the Name
               </p>
               <h2 className="mt-2 text-3xl font-semibold tracking-tight">
-                Illora
+                Illoura
                 <span className="mt-1 block text-xl font-medium italic text-accent">
                   a pleasant place
                 </span>
@@ -32,7 +32,7 @@ export function NameMeaning() {
               <p className="mt-3 max-w-xl text-muted-foreground lg:max-w-none">
                 That&apos;s what we set out to build: good ground for the people
                 who trust us with their careers, and for the employers who
-                trust us with their teams. Everyone who comes through Illora
+                trust us with their teams. Everyone who comes through Illoura
                 should leave better off for it.
               </p>
             </div>

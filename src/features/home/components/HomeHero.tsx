@@ -1,10 +1,9 @@
 import Link from "next/link";
 
 import { buttonVariants } from "@/components/ui/button";
-import { IlloraLogo } from "@/components/shared/IlloraLogo";
-import type { SiteStats } from "@/features/home/queries";
+import { IllouraLogo } from "@/components/shared/IllouraLogo";
 
-export function HomeHero({ stats }: { stats: SiteStats }) {
+export function HomeHero() {
   return (
     <section className="relative overflow-hidden bg-primary text-primary-foreground" style={{ background: "radial-gradient(ellipse 80% 90% at 65% 50%, oklch(0.46 0.16 40) 0%, oklch(0.32 0.13 24) 60%, oklch(0.26 0.10 20) 100%)" }}>
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-20 sm:px-6 sm:py-28 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
@@ -18,12 +17,6 @@ export function HomeHero({ stats }: { stats: SiteStats }) {
               for people and employers
             </span>
           </h1>
-          <p className="mt-6 max-w-xl text-lg text-primary-foreground/80">
-            {stats.candidatesPlaced.toLocaleString()}+ placements across seven
-            specialist sectors, Australia-wide.{" "}
-            {stats.clientRetentionPct}% client retention. {stats.yearsOperating}{" "}
-            years operating across Australia.
-          </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/jobs"
@@ -62,7 +55,7 @@ export function HomeHero({ stats }: { stats: SiteStats }) {
             />
           ))}
           <div className="relative z-10 rounded-full p-2 ring-4 ring-accent/30 shadow-[0_0_60px_20px_rgba(0,0,0,0.25)] animate-float">
-            <IlloraLogo className="w-80 h-80" />
+            <IllouraLogo className="w-80 h-80" />
           </div>
         </div>
       </div>

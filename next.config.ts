@@ -31,6 +31,17 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },
+  // Sector pages retired when Illoura narrowed to AI Engineering, Cyber
+  // Security and Data Analytics — kept so old links and search results land
+  // somewhere useful instead of a 404.
+  async redirects() {
+    return [
+      { source: "/industries/data-science", destination: "/industries/data-analytics", permanent: true },
+      ...["it-telecommunications", "construction", "healthcare", "nursing-aged-care", "ev-waste"].map(
+        (slug) => ({ source: `/industries/${slug}`, destination: "/industries", permanent: true })
+      ),
+    ];
+  },
 };
 
 export default nextConfig;

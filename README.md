@@ -1,6 +1,6 @@
-# Illora
+# Illoura
 
-Illora is a recruitment platform built with Next.js 16, React 19, Supabase Auth, Drizzle, PostgreSQL, JobAdder, Supabase Storage, and Resend.
+Illoura is a recruitment platform built with Next.js 16, React 19, Supabase Auth, Drizzle, PostgreSQL, JobAdder, Supabase Storage, and Resend.
 
 It includes:
 - Public marketing pages for candidates, employers, industries, testimonials, and the knowledge hub
@@ -93,7 +93,7 @@ scripts/        Local automation and agent helpers
 
 ## Deployment
 
-Deployment notes live in [DEPLOYMENT.md](DEPLOYMENT.md). The current production target is `illouraservices.com` on Hostinger VPS + Coolify.
+Deployment notes live in [DEPLOYMENT.md](DEPLOYMENT.md). Production is `illouraservices.com`, a Node.js app on Hostinger Business Web Hosting, built on Hostinger with `npm run build:hostinger` (webpack — Turbopack builds fail on Hostinger's build machine).
 
 ## Current Caveats
 

@@ -77,7 +77,7 @@ export function ContactForm() {
             className="mt-0.5 rounded border-border"
           />
           <span className="text-sm text-muted-foreground">
-            Keep me updated with news and insights from Illora. You can
+            Keep me updated with news and insights from Illoura. You can
             unsubscribe at any time. (Optional)
           </span>
         </label>

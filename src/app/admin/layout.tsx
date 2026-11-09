@@ -4,6 +4,12 @@ import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { isAdminEmail, requireUser } from "@/server/auth/session";
 
+// Every route under here reads cookies and calls Supabase Auth — never
+// prerenderable. Without this, Next attempts to execute that auth/DB work
+// during the build's static-generation pass, which hangs if the build
+// host's network can't reach Supabase and takes the whole build down with it.
+export const dynamic = "force-dynamic";
+
 const ADMIN_NAV = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/jobs", label: "Jobs" },

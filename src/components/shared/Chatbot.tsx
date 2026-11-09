@@ -12,7 +12,7 @@ import {
   matchReply,
   type ChatLink,
 } from "@/lib/chatbot";
-import { IlloraLogo } from "@/components/shared/IlloraLogo";
+import { IllouraLogo } from "@/components/shared/IllouraLogo";
 
 type Message = {
   id: string;
@@ -35,7 +35,7 @@ function JarrahAvatar({ size = "sm" }: { size?: "sm" | "md" }) {
   const dim = size === "md" ? "h-9 w-9" : "h-7 w-7";
   return (
     <div className={`${dim} shrink-0 overflow-hidden rounded-full bg-[#FBF6EE] ring-2 ring-primary/20`}>
-      <IlloraLogo className="h-full w-full" />
+      <IllouraLogo className="h-full w-full" />
     </div>
   );
 }

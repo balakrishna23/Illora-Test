@@ -34,7 +34,7 @@ export async function sendJobAlertEmail(input: {
   const { error } = await resend.emails.send({
     from: FROM_EMAIL,
     to: input.to,
-    subject: "New job matches from Illora",
+    subject: "New job matches from Illoura",
     html: jobAlertHtml(input.matches, unsubscribeUrl),
     text: jobAlertText(input.matches, unsubscribeUrl),
   });
@@ -160,13 +160,13 @@ export async function sendCvConfirmationEmail(input: {
   const resend = new Resend(process.env.RESEND_API_KEY);
   const roleLine = input.jobTitle ? ` for the ${input.jobTitle} role` : "";
 
-  const html = `<p>Hi ${input.name},</p><p>Thanks for submitting your CV${roleLine}. A consultant will review your submission and be in touch within two business days, whether we have an immediate match or not.</p><p>— The Illora team</p>`;
-  const text = `Hi ${input.name},\n\nThanks for submitting your CV${roleLine}. A consultant will review your submission and be in touch within two business days, whether we have an immediate match or not.\n\n— The Illora team`;
+  const html = `<p>Hi ${input.name},</p><p>Thanks for submitting your CV${roleLine}. A consultant will review your submission and be in touch within two business days, whether we have an immediate match or not.</p><p>— The Illoura team</p>`;
+  const text = `Hi ${input.name},\n\nThanks for submitting your CV${roleLine}. A consultant will review your submission and be in touch within two business days, whether we have an immediate match or not.\n\n— The Illoura team`;
 
   const { error } = await resend.emails.send({
     from: FROM_EMAIL,
     to: input.to,
-    subject: "CV received — Illora",
+    subject: "CV received — Illoura",
     html,
     text,
   });
@@ -182,13 +182,13 @@ export async function sendVacancyConfirmationEmail(input: {
 }): Promise<{ success: boolean }> {
   const resend = new Resend(process.env.RESEND_API_KEY);
 
-  const html = `<p>Hi ${input.contactName},</p><p>Thanks for registering the ${input.roleTitle} vacancy at ${input.companyName}. A specialist consultant will be in touch within one business day to discuss next steps.</p><p>— The Illora team</p>`;
-  const text = `Hi ${input.contactName},\n\nThanks for registering the ${input.roleTitle} vacancy at ${input.companyName}. A specialist consultant will be in touch within one business day to discuss next steps.\n\n— The Illora team`;
+  const html = `<p>Hi ${input.contactName},</p><p>Thanks for registering the ${input.roleTitle} vacancy at ${input.companyName}. A specialist consultant will be in touch within one business day to discuss next steps.</p><p>— The Illoura team</p>`;
+  const text = `Hi ${input.contactName},\n\nThanks for registering the ${input.roleTitle} vacancy at ${input.companyName}. A specialist consultant will be in touch within one business day to discuss next steps.\n\n— The Illoura team`;
 
   const { error } = await resend.emails.send({
     from: FROM_EMAIL,
     to: input.to,
-    subject: "Vacancy received — Illora",
+    subject: "Vacancy received — Illoura",
     html,
     text,
   });
@@ -201,7 +201,7 @@ export async function sendCapabilityStatementEmail(input: {
   name: string;
 }): Promise<{ success: boolean }> {
   const resend = new Resend(process.env.RESEND_API_KEY);
-  const pdfUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/capability-statement-illora.pdf`;
+  const pdfUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/capability-statement-illoura.pdf`;
 
   const html = `<p>Hi ${input.name},</p><p>Thanks for your interest in Illoura Services. You can download our capability statement here:</p><p><a href="${pdfUrl}">${pdfUrl}</a></p><p>A consultant may follow up to see if there's anything else we can help with.</p><p>— The Illoura team</p>`;
   const text = `Hi ${input.name},\n\nThanks for your interest in Illoura Services. You can download our capability statement here:\n${pdfUrl}\n\nA consultant may follow up to see if there's anything else we can help with.\n\n— The Illoura team`;
@@ -264,24 +264,24 @@ export async function sendAuthHookEmail(payload: SendEmailHookPayload): Promise<
   const content =
     type === "signup"
       ? {
-          subject: "Confirm your account — Illora",
+          subject: "Confirm your account — Illoura",
           html: `<p>Click below to confirm your account and sign in:</p><p><a href="${url}">${url}</a></p>`,
           text: `Confirm your account: ${url}`,
         }
       : type === "email_change"
         ? {
-            subject: "Confirm your new email — Illora",
-            html: `<p>Click below to confirm this email address for your Illora account:</p><p><a href="${url}">${url}</a></p>`,
+            subject: "Confirm your new email — Illoura",
+            html: `<p>Click below to confirm this email address for your Illoura account:</p><p><a href="${url}">${url}</a></p>`,
             text: `Confirm your new email: ${url}`,
           }
         : type === "recovery"
           ? {
-              subject: "Reset your password — Illora",
-              html: `<p>Click below to set a new password for your Illora account. If you didn't request this, you can safely ignore this email.</p><p><a href="${url}">${url}</a></p>`,
+              subject: "Reset your password — Illoura",
+              html: `<p>Click below to set a new password for your Illoura account. If you didn't request this, you can safely ignore this email.</p><p><a href="${url}">${url}</a></p>`,
               text: `Reset your password: ${url}\n\nIf you didn't request this, you can safely ignore this email.`,
             }
           : {
-              subject: "Action required — Illora",
+              subject: "Action required — Illoura",
               html: `<p>Click below to continue:</p><p><a href="${url}">${url}</a></p>`,
               text: `Continue: ${url}`,
             };
@@ -304,13 +304,13 @@ export async function sendContactConfirmationEmail(input: {
 }): Promise<{ success: boolean }> {
   const resend = new Resend(process.env.RESEND_API_KEY);
 
-  const html = `<p>Hi ${input.name},</p><p>Thanks for reaching out (${input.subject}). We've received your message and will be in touch within one business day.</p><p>— The Illora team</p>`;
-  const text = `Hi ${input.name},\n\nThanks for reaching out (${input.subject}). We've received your message and will be in touch within one business day.\n\n— The Illora team`;
+  const html = `<p>Hi ${input.name},</p><p>Thanks for reaching out (${input.subject}). We've received your message and will be in touch within one business day.</p><p>— The Illoura team</p>`;
+  const text = `Hi ${input.name},\n\nThanks for reaching out (${input.subject}). We've received your message and will be in touch within one business day.\n\n— The Illoura team`;
 
   const { error } = await resend.emails.send({
     from: FROM_EMAIL,
     to: input.to,
-    subject: "Message received — Illora",
+    subject: "Message received — Illoura",
     html,
     text,
   });

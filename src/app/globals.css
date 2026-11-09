@@ -52,7 +52,7 @@
 }
 
 :root {
-  /* Illora brand: deep terracotta primary + golden ochre accent (First Nations palette) */
+  /* Illoura brand: deep terracotta primary + golden ochre accent (First Nations palette) */
   --background: oklch(0.98 0.014 76);
   --foreground: oklch(0.16 0.06 35);
   --card: oklch(0.995 0.008 78);
@@ -160,66 +160,66 @@
 }
 
 /* Waterhole: concentric ring shimmer */
-@keyframes illora-waterhole {
+@keyframes illoura-waterhole {
   0%   { transform: scale(1);    opacity: 0.6; }
   50%  { transform: scale(1.04); opacity: 0.9; }
   100% { transform: scale(1);    opacity: 0.6; }
 }
-.animate-waterhole { animation: illora-waterhole 3.5s ease-in-out infinite; }
+.animate-waterhole { animation: illoura-waterhole 3.5s ease-in-out infinite; }
 
 /* Dot-pulse for accent indicators */
-@keyframes illora-dot-pulse {
+@keyframes illoura-dot-pulse {
   0%, 100% { transform: scale(1);   opacity: 0.9; }
   50%       { transform: scale(1.6); opacity: 0.35; }
 }
-.animate-dot-pulse { animation: illora-dot-pulse 1.8s ease-in-out infinite; }
+.animate-dot-pulse { animation: illoura-dot-pulse 1.8s ease-in-out infinite; }
 
 /* ── Illora motion ─────────────────────────────────────────── */
-@keyframes illora-fade-in-up {
+@keyframes illoura-fade-in-up {
   from { opacity: 0; transform: translateY(22px); }
   to   { opacity: 1; transform: translateY(0);    }
 }
-@keyframes illora-fade-in {
+@keyframes illoura-fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
-@keyframes illora-slide-in-left {
+@keyframes illoura-slide-in-left {
   from { opacity: 0; transform: translateX(-30px); }
   to   { opacity: 1; transform: translateX(0);     }
 }
-@keyframes illora-slide-in-right {
+@keyframes illoura-slide-in-right {
   from { opacity: 0; transform: translateX(30px); }
   to   { opacity: 1; transform: translateX(0);    }
 }
-@keyframes illora-scale-in {
+@keyframes illoura-scale-in {
   from { opacity: 0; transform: scale(0.95); }
   to   { opacity: 1; transform: scale(1);    }
 }
-@keyframes illora-dropdown-in {
+@keyframes illoura-dropdown-in {
   from { opacity: 0; transform: translateY(-8px) scale(0.97); }
   to   { opacity: 1; transform: translateY(0)    scale(1);    }
 }
-@keyframes illora-float {
+@keyframes illoura-float {
   0%, 100% { transform: translateY(0px);  }
   50%       { transform: translateY(-10px); }
 }
-@keyframes illora-page-enter {
+@keyframes illoura-page-enter {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0);   }
 }
-@keyframes illora-shimmer {
+@keyframes illoura-shimmer {
   from { transform: translateX(-100%); }
   to   { transform: translateX(100%);  }
 }
 
-.animate-fade-in-up     { animation: illora-fade-in-up     0.55s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
-.animate-fade-in        { animation: illora-fade-in         0.4s  ease-out                       both; }
-.animate-slide-in-left  { animation: illora-slide-in-left  0.6s  cubic-bezier(0.16, 1, 0.3, 1) backwards; }
-.animate-slide-in-right { animation: illora-slide-in-right 0.6s  cubic-bezier(0.16, 1, 0.3, 1) backwards; }
-.animate-scale-in       { animation: illora-scale-in       0.45s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
-.animate-dropdown-in    { animation: illora-dropdown-in    0.18s ease-out backwards; }
-.animate-float          { animation: illora-float          4s    ease-in-out infinite; }
-.animate-page-enter     { animation: illora-page-enter     0.4s  cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+.animate-fade-in-up     { animation: illoura-fade-in-up     0.55s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+.animate-fade-in        { animation: illoura-fade-in         0.4s  ease-out                       both; }
+.animate-slide-in-left  { animation: illoura-slide-in-left  0.6s  cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+.animate-slide-in-right { animation: illoura-slide-in-right 0.6s  cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+.animate-scale-in       { animation: illoura-scale-in       0.45s cubic-bezier(0.16, 1, 0.3, 1) backwards; }
+.animate-dropdown-in    { animation: illoura-dropdown-in    0.18s ease-out backwards; }
+.animate-float          { animation: illoura-float          4s    ease-in-out infinite; }
+.animate-page-enter     { animation: illoura-page-enter     0.4s  cubic-bezier(0.16, 1, 0.3, 1) backwards; }
 
 /* ── Nav underline slide ───────────────────────────────────── */
 .nav-underline {

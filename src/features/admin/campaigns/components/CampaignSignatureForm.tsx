@@ -29,7 +29,7 @@ export function CampaignSignatureForm({ signature }: { signature: string | null 
         name="signature"
         defaultValue={signature ?? ""}
         rows={5}
-        placeholder={"— The Illoura team\n+61 2 6196 6999 · illouraservices.com"}
+        placeholder={"— The Illoura team\nillouraservices.com"}
       />
       <p className="text-xs text-muted-foreground">
         Appended to every campaign that has &ldquo;Append the shared signature&rdquo; checked.

@@ -15,13 +15,20 @@ CLAUDE.md's JobAdder integration note.)
   (`listField()`).
 - `closeJob` marks status `closed` without deleting the row (keeps history);
   `deleteJob` hard-deletes.
+- `approveJob`/`rejectJob` are the review-queue actions for jobs the
+  ingestion pipeline (`features/job-ingestion`) lands as `status: "pending"`
+  — they never apply to native "illoura" jobs, which skip "pending"
+  entirely. `/admin/jobs` has a status tab bar (`?status=pending` etc.) and
+  shows each row's source.
 - Every mutation revalidates `/admin/jobs`, `/jobs`, and (on update) the
   job's own `/jobs/[slug]` page.
 
 ## Key entry points
 
-- `actions.ts` — `createJob`, `updateJob`, `closeJob`, `deleteJob`.
-- `queries.ts` — read queries backing the admin list/edit views.
+- `actions.ts` — `createJob`, `updateJob`, `closeJob`, `deleteJob`,
+  `approveJob`, `rejectJob`.
+- `queries.ts` — read queries backing the admin list/edit views, including
+  `getPendingJobsAdmin`.
 - `components/` — `JobForm` (shared create/edit form), `JobRowActions`.
 
 ## Gotchas
