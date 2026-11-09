@@ -41,7 +41,6 @@ const REPLIES: Record<string, ChatReply> = {
     text: "No worries — here's how to reach the team. They're a friendly bunch and will get back to you quick smart.",
     links: [
       { label: "📧 info@illouraservices.com", href: "mailto:info@illouraservices.com" },
-      { label: "📞 +61 2 6196 6999", href: "tel:+61261966999" },
       { label: "Full contact page →", href: "/contact" },
     ],
   },

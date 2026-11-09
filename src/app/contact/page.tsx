@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { jsonLdString } from "@/lib/utils";
-import { PhoneIcon, MailIcon, MapPinIcon, ClockIcon } from "lucide-react";
+import { MailIcon, MapPinIcon, ClockIcon } from "lucide-react";
 
 import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { ContactForm } from "@/features/contact/components/ContactForm";
@@ -16,7 +16,6 @@ const localBusinessJsonLd = {
   "@type": "LocalBusiness",
   name: "Illoura",
   description: "First Nations-owned recruitment across seven specialist sectors including IT & Telecommunications, Construction, and Healthcare.",
-  telephone: "+61-2-6196-6999",
   email: "info@illouraservices.com",
   url: "https://illouraservices.com",
   address: {
@@ -55,15 +54,6 @@ export default function ContactPage() {
             </p>
 
             <div className="mt-8 space-y-5">
-              <div className="flex items-start gap-3">
-                <PhoneIcon className="mt-0.5 size-5 shrink-0 text-accent" aria-hidden="true" />
-                <div>
-                  <p className="font-medium">Phone</p>
-                  <a href="tel:+61261966999" className="text-sm text-muted-foreground hover:text-foreground">
-                    +61 2 6196 6999
-                  </a>
-                </div>
-              </div>
               <div className="flex items-start gap-3">
                 <MailIcon className="mt-0.5 size-5 shrink-0 text-accent" aria-hidden="true" />
                 <div>

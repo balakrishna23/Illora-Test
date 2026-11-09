@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { PhoneIcon, MailIcon, MapPinIcon, ExternalLinkIcon } from "lucide-react";
+import { MailIcon, MapPinIcon, ExternalLinkIcon } from "lucide-react";
 
 import { IllouraLogo } from "@/components/shared/IllouraLogo";
 import { DotDivider } from "@/components/shared/DotDivider";
@@ -171,15 +171,6 @@ export function Footer() {
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-primary">Contact</p>
             <ul className="mt-4 space-y-3">
-              <li>
-                <a
-                  href="tel:+61261966999"
-                  className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
-                >
-                  <PhoneIcon className="size-3.5 shrink-0 text-primary" aria-hidden="true" />
-                  +61 2 6196 6999
-                </a>
-              </li>
               <li>
                 <a
                   href="mailto:info@illouraservices.com"
