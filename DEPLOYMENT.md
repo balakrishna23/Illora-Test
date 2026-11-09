@@ -25,7 +25,7 @@ Legend: 🧑 = you do it (dashboard/account actions) · 🤖 = Claude can do it 
 | Build script | **`build:hostinger`** (`next build --webpack`) — see below for why |
 | Output directory | `.next` |
 | Source | uploaded archive `illora-deploy.zip` in `public_html` |
-| Last deploy | 2026-10-27, commit `aeadc68` (branch `feat/team-photos-job-ingestion`) |
+| Last deploy | 2026-11-09, commit `71d215a` (branch `fix/remove-phone-number`) |
 
 Env vars live in hPanel → **Websites → illouraservices.com → Node.js →
 Environment variables** (full list at the bottom of this file).
