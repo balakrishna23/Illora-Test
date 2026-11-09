@@ -93,7 +93,8 @@ do nothing.
 ## Government job ingestion pipeline (2026-08-31, deployed 2026-10-27)
 
 `src/features/job-ingestion` pulls new postings from 8 Australian government
-job boards and lands them in `/admin/jobs` as **pending** for an admin to
+job boards, keeps only AI Engineering, Cyber Security and Data Analytics roles
+(title-based filter), and lands them in `/admin/jobs` as **pending** for an admin to
 approve before they show on the public `/jobs` page.
 
 - ✅ **Migration `0009_last_terrax.sql` applied** (2026-10-27) — adds

@@ -40,6 +40,8 @@ export type IngestionSourceResult = {
   fetched: number;
   created: number;
   updated: number;
+  // Postings outside Illoura's specialisms, dropped before upsert.
+  skipped: number;
   failed: number;
   error?: string;
 };

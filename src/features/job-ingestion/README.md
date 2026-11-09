@@ -6,6 +6,10 @@ before they appear on the public `/jobs` page.
 
 ## What it does
 
+- Only AI Engineering, Cyber Security and Data Analytics roles are kept.
+  `classifyJobIndustry()` (`src/lib/classify-job-industry.ts`) sorts each
+  posting by its **title**; anything that doesn't match (nurses, trades,
+  admin, etc.) is counted as `skipped` and never written to the database.
 - `queries.ts` — `normalizeJob()` maps a source's raw listing onto the
   `jobs` table's columns (job type mapping, date parsing, geocoding
   fallback via `@/lib/au-geocoding`). `upsertExternalJob()` dedupes on

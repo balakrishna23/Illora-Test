@@ -2,7 +2,8 @@ import { and, eq } from "drizzle-orm";
 
 import { db } from "@/server/db/client";
 import { jobs, jobTypeValues } from "@/server/db/schema";
-import { AU_STATES } from "@/lib/job-constants";
+import { AU_STATES, type JobIndustry } from "@/lib/job-constants";
+import { classifyJobIndustry } from "@/lib/classify-job-industry";
 import { geocodeAuLocation } from "@/lib/au-geocoding";
 import { EXTERNAL_JOB_SOURCES } from "@/server/integrations/external-jobs";
 import type {
@@ -65,7 +66,11 @@ function parseDateToIso(raw: string | undefined): string | undefined {
   return `${y}-${m}-${d}`;
 }
 
-export function normalizeJob(raw: RawExternalJob, source: ExternalJobSource): NormalizedJob {
+export function normalizeJob(
+  raw: RawExternalJob,
+  source: ExternalJobSource,
+  industry: JobIndustry
+): NormalizedJob {
   const state = normalizeState(raw.state);
   const coords =
     raw.latitude !== undefined && raw.longitude !== undefined
@@ -88,7 +93,7 @@ export function normalizeJob(raw: RawExternalJob, source: ExternalJobSource): No
     latitude: coords.latitude,
     longitude: coords.longitude,
     type: mapJobType(raw.jobType),
-    industry: "Government",
+    industry,
     salaryRange: raw.salaryRange || null,
     postedDate,
     closingDate,
@@ -147,15 +152,30 @@ export async function processJobIngestion(): Promise<IngestionSourceResult[]> {
   const results: IngestionSourceResult[] = [];
 
   for (const source of EXTERNAL_JOB_SOURCES) {
-    const result: IngestionSourceResult = { source: source.key, fetched: 0, created: 0, updated: 0, failed: 0 };
+    const result: IngestionSourceResult = {
+      source: source.key,
+      fetched: 0,
+      created: 0,
+      updated: 0,
+      skipped: 0,
+      failed: 0,
+    };
 
     try {
       const raw = await source.fetchListings();
       result.fetched = raw.length;
 
       for (const rawJob of raw) {
+        // Government boards list every kind of role; only AI, cyber and
+        // data roles are relevant to Illoura, so the rest never reach the
+        // admin approval queue.
+        const industry = classifyJobIndustry(rawJob.title);
+        if (!industry) {
+          result.skipped++;
+          continue;
+        }
         try {
-          const normalized = normalizeJob(rawJob, source);
+          const normalized = normalizeJob(rawJob, source, industry);
           const outcome = await upsertExternalJob(normalized);
           if (outcome === "created") result.created++;
           else result.updated++;
