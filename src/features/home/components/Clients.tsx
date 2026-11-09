@@ -9,7 +9,6 @@ import { logoUrl } from "@/server/lib/logos";
 // logo without authorisation. Confirm any contract confidentiality terms before
 // publishing these names. Private clients may use a logo (public/logos/).
 const GOVERNMENT_CLIENTS = [
-  { name: "Department of Health, Disability & Ageing", tier: "Australian Government" },
   { name: "Department of Home Affairs", tier: "Australian Government" },
 ];
 

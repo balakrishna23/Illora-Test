@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     absolute: "Illoura — First Nations-Owned Recruitment Across Australia",
   },
   description:
-    "Illoura connects candidates and employers across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling. Supply Nation Registered.",
+    "Illoura connects candidates and employers in AI Engineering, Cyber Security, and Data Analytics. Supply Nation Registered.",
   alternates: { canonical: "/" },
 };
 

@@ -16,7 +16,7 @@ export const CHAT_QUICK_ACTIONS: ChatQuickAction[] = [
 
 const REPLIES: Record<string, ChatReply> = {
   jobs: {
-    text: "Ripper! We've got live roles across seven specialist sectors — IT & Telecoms, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling. Jump in and filter by location, type, or industry to find what fits you best.",
+    text: "Ripper! We've got live roles in our three specialisms — AI Engineering, Cyber Security, and Data Analytics. Jump in and filter by location, type, or industry to find what fits you best.",
     links: [{ label: "Browse all jobs →", href: "/jobs" }],
   },
   "submit-cv": {
@@ -24,17 +24,17 @@ const REPLIES: Record<string, ChatReply> = {
     links: [{ label: "Submit your CV →", href: "/candidates/submit-cv" }],
   },
   hire: {
-    text: "Brilliant — you've come to the right place! We offer permanent, contract, and embedded recruitment across our seven specialist sectors. Register a vacancy and one of our consultants will be in touch within one business day. No fuss.",
+    text: "Brilliant — you've come to the right place! We offer permanent, contract, and embedded recruitment for AI Engineering, Cyber Security, and Data Analytics roles. Register a vacancy and one of our consultants will be in touch within one business day. No fuss.",
     links: [
       { label: "Register a vacancy →", href: "/employers/register-vacancy" },
       { label: "Our employer services →", href: "/employers" },
     ],
   },
   visa: {
-    text: "Great question! We regularly work alongside registered migration agents for roles like the Skills in Demand (482) and Employer Nomination Scheme (186) visas — especially in Nursing & Aged Care and Construction. We're not a migration agency ourselves, but our team can absolutely point you in the right direction.",
+    text: "Great question! We regularly work alongside registered migration agents for roles like the Skills in Demand (482) and Employer Nomination Scheme (186) visas — especially for hard-to-fill AI, cyber, and data roles. We're not a migration agency ourselves, but our team can absolutely point you in the right direction.",
     links: [
       { label: "Talk to our team →", href: "/contact" },
-      { label: "Nursing & Aged Care roles →", href: "/industries/nursing-aged-care" },
+      { label: "Browse current roles →", href: "/jobs" },
     ],
   },
   contact: {
@@ -45,7 +45,7 @@ const REPLIES: Record<string, ChatReply> = {
     ],
   },
   industries: {
-    text: "We've built deep specialist networks across seven sectors — IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling.",
+    text: "We specialise in three technology disciplines — AI Engineering, Cyber Security, and Data Analytics — and we've built deep networks in each.",
     links: [{ label: "Explore our industries →", href: "/industries" }],
   },
   about: {
@@ -60,11 +60,11 @@ const REPLIES: Record<string, ChatReply> = {
     ],
   },
   location: {
-    text: "We place candidates Australia-wide — Sydney, Melbourne, Brisbane, Perth, Canberra, Adelaide, Darwin, and remote locations too (especially for Nursing & Aged Care and Construction). Use the location filter on our jobs board to see what's near you.",
+    text: "We place candidates Australia-wide — Sydney, Melbourne, Brisbane, Perth, Canberra, Adelaide, Darwin, and fully remote roles too. Use the location filter on our jobs board to see what's near you.",
     links: [{ label: "Search jobs by location →", href: "/jobs" }],
   },
   remote: {
-    text: "Yep, we've got remote and hybrid roles — especially in IT & Telecommunications, Data Science, and Cyber Security. Some healthcare and construction roles are site-based by nature. Filter by location on the jobs board and you'll see what's flexible.",
+    text: "Yep, we've got remote and hybrid roles — plenty of AI Engineering, Cyber Security, and Data Analytics work is flexible, though some government and security-cleared roles need you on-site. Filter by location on the jobs board and you'll see what's flexible.",
     links: [{ label: "Browse remote & hybrid roles →", href: "/jobs" }],
   },
   alert: {
@@ -92,6 +92,8 @@ const OUT_OF_SCOPE_KEYWORDS = [
   "accountant", "bookkeeping", "chef", "cook", "hospitality", "barista",
   "retail", "shop assistant", "real estate", "property agent", "mining",
   "agriculture", "farming", "truck driver", "logistics", "forklift",
+  "construction", "healthcare", "nurse", "nursing", "aged care", "disability",
+  "labour hire", "tradie", "electrician", "plumber", "carpenter", "recycling", "ev waste",
 ];
 
 const KEYWORD_RULES: { keywords: string[]; key: keyof typeof REPLIES }[] = [
@@ -102,9 +104,9 @@ const KEYWORD_RULES: { keywords: string[]; key: keyof typeof REPLIES }[] = [
   { keywords: ["contact", "email", "phone", "call", "linkedin", "reach", "talk", "speak to"], key: "contact" },
   {
     keywords: [
-      "industr", "sector", "construction", "healthcare", "telecommunication", "it jobs",
-      "nursing", "aged care", "data science", "machine learning", "cyber", "security",
-      "ev waste", "recycling", "battery", "tech roles",
+      "industr", "sector", "speciali", "it jobs", "tech roles",
+      "ai engineer", "artificial intelligence", "machine learning", "llm", "mlops",
+      "cyber", "security", "data analytic", "data science", "data engineer", "analyst",
     ],
     key: "industries",
   },

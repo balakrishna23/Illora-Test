@@ -9,7 +9,7 @@ export const ORGANIZATION_JSON_LD = {
   "@type": "Organization",
   name: "Illoura",
   description:
-    "First Nations-owned recruitment delivering real outcomes across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling.",
+    "First Nations-owned recruitment delivering real outcomes in AI Engineering, Cyber Security, and Data Analytics.",
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   foundingDate: "2024",

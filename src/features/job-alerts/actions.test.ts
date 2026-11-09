@@ -82,13 +82,13 @@ describe("subscribeToJobAlert", () => {
   it("creates the alert with full criteria when provided", async () => {
     const result = await subscribeToJobAlert(
       null,
-      formData({ industry: "ICT", state: "NSW", jobType: "Permanent", keyword: "engineer" })
+      formData({ industry: "AI Engineering", state: "NSW", jobType: "Permanent", keyword: "engineer" })
     );
 
     expect(result).toEqual({ success: true });
     expect(createJobAlert).toHaveBeenCalledWith({
       email: "jane@example.com",
-      industry: "ICT",
+      industry: "AI Engineering",
       state: "NSW",
       jobType: "Permanent",
       keyword: "engineer",

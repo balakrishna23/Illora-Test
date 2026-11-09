@@ -21,7 +21,7 @@ const MAIN_MENU = [
 
 const SERVICES = [
   { label: "Permanent Recruitment", href: "/employers/permanent" },
-  { label: "Contract & Labour Hire", href: "/employers/contract" },
+  { label: "IT Contract Recruitment", href: "/employers/contract" },
   { label: "Embedded / RPO", href: "/employers/embedded-rpo" },
   { label: "Register a Vacancy", href: "/employers/register-vacancy" },
   { label: "Submit Your CV", href: "/candidates/submit-cv" },
@@ -29,13 +29,9 @@ const SERVICES = [
 ];
 
 const INDUSTRIES = [
-  { label: "IT & Telecommunications", href: "/industries/it-telecommunications" },
-  { label: "Construction", href: "/industries/construction" },
-  { label: "Healthcare", href: "/industries/healthcare" },
-  { label: "Nursing & Aged Care", href: "/industries/nursing-aged-care" },
-  { label: "Data Science", href: "/industries/data-science" },
+  { label: "AI Engineering", href: "/industries/ai-engineering" },
   { label: "Cyber Security", href: "/industries/cyber-security" },
-  { label: "EV Waste & Recycling", href: "/industries/ev-waste" },
+  { label: "Data Analytics", href: "/industries/data-analytics" },
 ];
 
 const OFFICES = [

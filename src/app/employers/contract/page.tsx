@@ -8,24 +8,24 @@ import { Breadcrumbs } from "@/components/shared/Breadcrumbs";
 import { VacancyForm } from "@/features/employers/components/VacancyForm";
 
 export const metadata: Metadata = {
-  title: "Contract & Labour Hire",
+  title: "IT Contract Recruitment",
   description:
-    "Flexible contract and labour hire staffing across our seven specialist sectors, including IT & Telecommunications, Construction, and Healthcare.",
+    "Specialist contractors in AI Engineering, Cyber Security, and Data Analytics — shortlisted in 48 hours, with clearance and compliance handled.",
   alternates: { canonical: "/employers/contract" },
 };
 
 const FAQS = [
   {
     q: "How quickly can you mobilise a contractor?",
-    a: "For most contract roles, we can present a shortlist within 24–48 hours and have a candidate on-site or on-contract within 5 business days, subject to background checks and induction requirements. For roles requiring security clearances, this extends accordingly.",
+    a: "For most contract roles, we can present a shortlist within 24–48 hours and have a contractor started within 5 business days, subject to background checks and onboarding requirements. For roles requiring security clearances, this extends accordingly.",
   },
   {
     q: "Who employs the contractor — us or Illoura?",
-    a: "Under our labour hire model, Illoura is the employer of record. We manage payroll, superannuation, leave entitlements, and WorkCover obligations. You pay an agreed rate and manage the day-to-day work. This reduces your administrative burden and ensures full compliance.",
+    a: "Either works. Contractors can be engaged through Illoura as the employer of record — we manage payroll, superannuation, insurance, and timesheets, and you pay an agreed day or hourly rate — or through their own company (ABN/Pty Ltd) where that suits you and the role.",
   },
   {
-    q: "What WHS obligations do you manage?",
-    a: "We coordinate SWMS, site-specific inductions, PPE requirements, and licence verification. For construction and healthcare placements, we also conduct pre-employment medicals and background checks as required by the role and site.",
+    q: "Can you supply security-cleared contractors?",
+    a: "Yes. We verify clearance level (Baseline, NV1, NV2) and status before presenting a candidate, and we're upfront about realistic timelines when a role needs a clearance the market can't readily supply.",
   },
   {
     q: "Can a contractor convert to a permanent hire?",
@@ -55,28 +55,28 @@ export default function ContractRecruitmentPage() {
           items={[
             { label: "Home", href: "/" },
             { label: "For Employers", href: "/employers" },
-            { label: "Contract & Labour Hire", href: "/employers/contract" },
+            { label: "IT Contract Recruitment", href: "/employers/contract" },
           ]}
         />
 
         <div className="mt-8 grid gap-12 lg:grid-cols-3">
           <div className="lg:col-span-2">
-            <p className="text-sm font-medium uppercase tracking-widest text-accent">Contract & Labour Hire</p>
+            <p className="text-sm font-medium uppercase tracking-widest text-accent">IT Contract Recruitment</p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
-              Flexible talent, on demand.
+              Specialist technical talent, on demand.
             </h1>
             <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                Project timelines spike. Key staff go on leave. New platforms need
-                temporary specialist capability. Contract and labour hire staffing
-                gives you the flexibility to respond to these realities without the
-                overhead of a permanent headcount decision.
+                Delivery timelines spike. A security uplift lands mid-year. A new
+                AI or data platform needs capability your team doesn&apos;t have yet.
+                Contract engagements give you that specialist capability for exactly
+                as long as you need it, without a permanent headcount decision.
               </p>
               <p>
-                Illoura provides compliant on-hire arrangements across IT &amp;
-                Telecommunications, Construction, and Healthcare. We act as the
-                employer of record — managing payroll, superannuation, WHS compliance,
-                and all the administrative obligations — while you direct the work.
+                Illoura places contractors across AI Engineering, Cyber Security,
+                and Data Analytics. We can act as the employer of record — managing
+                payroll, superannuation, insurance, and timesheets — while you
+                direct the work.
               </p>
               <p>
                 Our contract candidates are screened with the same rigour as our
@@ -89,10 +89,10 @@ export default function ContractRecruitmentPage() {
             <ul className="mt-4 space-y-3">
               {[
                 "Rapid sourcing and screening — shortlist within 24–48 hours for most roles",
-                "Compliant on-hire employment (payroll, super, WorkCover)",
-                "SWMS, site induction, and WHS coordination",
-                "Licence and credential verification",
-                "Pre-employment medicals where required",
+                "Employer-of-record option (payroll, super, insurance)",
+                "Security clearance verification (Baseline, NV1, NV2)",
+                "Technical screening by consultants who know the stack",
+                "Certification and reference checks",
                 "Ongoing contractor performance monitoring",
                 "Timesheet and invoicing management",
                 "Seamless conversion to permanent where required",

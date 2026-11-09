@@ -18,7 +18,7 @@ Note: These terms should be reviewed and finalised by a qualified solicitor befo
   },
   {
     title: "2. Services",
-    content: `Illoura provides recruitment and labour hire services to employers and career support services to candidates. The specific terms of any recruitment engagement are set out in a separate Service Agreement or Candidate Registration Agreement provided to you directly.`,
+    content: `Illoura provides recruitment and contractor services to employers and career support services to candidates. The specific terms of any recruitment engagement are set out in a separate Service Agreement or Candidate Registration Agreement provided to you directly.`,
   },
   {
     title: "3. Use of website",

@@ -22,7 +22,7 @@ export const SEED_ARTICLES = [
     readingTimeMinutes: 5,
     excerpt:
       "Cloud, cybersecurity, and AI skills remain critically short across Australia. We break down where demand is concentrated and what hiring managers are doing to compete.",
-    body: `Australia's IT talent market entered 2026 tighter than any point in the past decade. The ACS Digital Pulse report confirmed a shortfall of over 60,000 technology workers nationally, with the gap most acute in cloud infrastructure, cybersecurity, and AI/ML engineering.\n\nFor employers, this has shifted negotiation dynamics. Candidates with AWS Solutions Architect, Azure, or GCP certifications are routinely receiving multiple offers within five business days of entering the market. Average time-to-offer has compressed from 21 days to 12 for senior cloud roles.\n\nContracting rates for DevOps engineers in government have climbed to $1,100–$1,300 per day in Canberra, driven by large-scale platform modernisation programs across Defence, Home Affairs, and Health.\n\nFor employers looking to compete: the organisations winning the talent war are those offering genuine hybrid flexibility, clear progression frameworks, and certification support budgets — not just the highest base salary.`,
+    body: `Australia's IT talent market entered 2026 tighter than any point in the past decade. The ACS Digital Pulse report confirmed a shortfall of over 60,000 technology workers nationally, with the gap most acute in cloud infrastructure, cybersecurity, and AI/ML engineering.\n\nFor employers, this has shifted negotiation dynamics. Candidates with AWS Solutions Architect, Azure, or GCP certifications are routinely receiving multiple offers within five business days of entering the market. Average time-to-offer has compressed from 21 days to 12 for senior cloud roles.\n\nContracting rates for DevOps engineers in government have climbed to $1,100–$1,300 per day in Canberra, driven by large-scale platform modernisation programs across Defence, Home Affairs, and other federal agencies.\n\nFor employers looking to compete: the organisations winning the talent war are those offering genuine hybrid flexibility, clear progression frameworks, and certification support budgets — not just the highest base salary.`,
     authorName: "Illoura Team",
     authorRole: "Recruitment Insights",
   },
@@ -35,30 +35,6 @@ export const SEED_ARTICLES = [
     excerpt:
       "Technical interviews have evolved. Most companies now use take-home assessments alongside live coding. Our recruiters share exactly what employers are looking for and how to prepare.",
     body: `Technical interview formats have shifted considerably in the last two years. Whiteboarding has largely given way to take-home assessments and pair-programming sessions — but that doesn't make them easier. It means you need to demonstrate clean code, documentation habits, and the ability to explain your thinking under time pressure.\n\nHere's what our most successful candidates do differently:\n\n**They practice out loud.** Explaining your reasoning while you code is a skill that requires practice. Even if you know the answer, being able to articulate your approach is often the difference between offer and rejection.\n\n**They research the actual tech stack.** Most job descriptions list technologies. Go deeper — look at the company's GitHub (if public), their tech blog, and their job ads over time. Understanding what problems they're solving matters more than generic algorithm drills.\n\n**They prepare for the culture round.** Behavioural interviews increasingly count for as much as technical rounds. Prepare specific examples using the STAR method for questions around handling conflict, receiving critical feedback, and managing competing priorities.`,
-    authorName: "Illoura Team",
-    authorRole: "Candidate Support",
-  },
-  {
-    slug: "construction-labour-market-outlook-2026",
-    title: "Construction Labour Market Outlook: Skills Most In Demand This Year",
-    category: "Industry Insights",
-    publishDate: "2026-05-15",
-    readingTimeMinutes: 4,
-    excerpt:
-      "Australia's infrastructure pipeline is creating sustained demand for skilled trades and project delivery professionals. We look at where the shortages are most acute.",
-    body: `Australia's $120B+ infrastructure pipeline — spanning road, rail, defence facilities, and social housing — is creating sustained pressure on the construction labour market that won't ease before 2028.\n\nThe roles most in demand right now: Site Managers with commercial and civil crossover experience, Estimators who can price complex packages, and Schedulers experienced with Primavera P6.\n\nThere's also growing demand for WHS advisors with major project exposure as clients increasingly require dedicated safety resources on projects over $20M.\n\nSalary growth in the sector has run at 8–12% year-on-year since 2024. Candidates with a track record on Tier 1 or Tier 2 projects and interstate mobility are in the strongest negotiating position.`,
-    authorName: "Illoura Team",
-    authorRole: "Recruitment Insights",
-  },
-  {
-    slug: "aged-care-workforce-crisis-and-what-employers-can-do",
-    title: "The Aged Care Workforce Crisis — and What Employers Can Do",
-    category: "Hiring Trends",
-    publishDate: "2026-04-30",
-    readingTimeMinutes: 6,
-    excerpt:
-      "Post-Royal Commission reforms have significantly increased staffing requirements in aged care, but the workforce pipeline hasn't kept pace. Here's how forward-thinking providers are closing the gap.",
-    body: `The Aged Care Quality and Safety Commission's mandatory care minute requirements — 215 minutes of total care per resident per day — have increased staffing demand at exactly the moment when the registered nurse pipeline is at its most constrained.\n\nOrganisations that are succeeding in this environment share several characteristics. First, they've invested in career pathways that allow Personal Care Workers to upskill toward enrolled and registered nursing, often through subsidised study arrangements. Second, they've built genuine partnerships with education providers to access graduates ahead of open-market competition.\n\nFor registered nurses considering a move into aged care: the sector has undergone a significant cultural shift since the Royal Commission. Pay has risen substantially, staffing ratios are now mandated, and the clinical complexity of residential care is genuinely high. If you haven't looked at aged care since 2019, the landscape is materially different.`,
     authorName: "Illoura Team",
     authorRole: "Candidate Support",
   },
@@ -85,18 +61,6 @@ export const SEED_ARTICLES = [
     body: `Supply Nation is Australia's peak body for Indigenous business certification and supplier diversity. A Supply Nation certified business has undergone independent verification that it is at least 50% Indigenous-owned and controlled — a higher standard than self-identification.\n\nFor buyers — whether in government, corporate, or the resources sector — engaging a Supply Nation certified business provides assurance that your spend genuinely contributes to Indigenous economic participation, not token compliance.\n\nIlloura is Supply Nation Registered, which you can verify directly on the Supply Nation directory. Our registration is current and reviewed annually.\n\nFor prospective clients under an Indigenous Procurement Policy obligation: we're happy to provide our registration documentation and assist your procurement team with reporting requirements.`,
     authorName: "Illoura Team",
     authorRole: "About Illoura",
-  },
-  {
-    slug: "healthcare-recruitment-nurse-retention-strategies",
-    title: "Nurse Retention in 2026: What the Best Healthcare Employers Do Differently",
-    category: "Industry Insights",
-    publishDate: "2026-03-05",
-    readingTimeMinutes: 5,
-    excerpt:
-      "Recruiting nurses is expensive. Retaining them is where the real ROI sits. Here are the strategies that actually move retention rates.",
-    body: `The cost of replacing a registered nurse is estimated at $50,000–$80,000 when you account for recruitment fees, onboarding time, and the productivity dip during transition. In an environment where agencies are competing to fill the same roles, retention is the most cost-effective workforce strategy available.\n\nOrganisations with above-average retention rates consistently do five things:\n\n1. **Offer predictable rosters with genuine advance notice.** Last-minute roster changes are the most cited reason nurses leave a role in exit surveys.\n\n2. **Invest in clinical education budgets.** Even $2,000–$3,000 per year per FTE in CPD support significantly increases tenure.\n\n3. **Create visible career pathways.** Nurses who can see a path to Clinical Nurse Specialist, CNE, or NUM roles stay longer, even at comparable pay.\n\n4. **Address workload honestly.** Organisations that engage transparently with staffing ratios in interviews — rather than underselling the reality — have lower first-year attrition.\n\n5. **Act on exit interview data.** The most common response to "why are you leaving" data is no response at all. The organisations with the best retention metrics are those that close the loop systematically.`,
-    authorName: "Illoura Team",
-    authorRole: "Recruitment Insights",
   },
   {
     slug: "fashique-fashion-runway-2026",

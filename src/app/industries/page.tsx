@@ -9,7 +9,7 @@ import { getAllJobs } from "@/server/integrations/jobadder";
 export const metadata: Metadata = {
   title: "Industries",
   description:
-    "Specialist recruitment across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling.",
+    "Specialist recruitment for AI Engineering, Cyber Security, and Data Analytics.",
   alternates: { canonical: "/industries" },
 };
 
@@ -27,7 +27,7 @@ export default async function IndustriesPage() {
       <div className="mt-8">
         <h1 className="text-3xl font-semibold tracking-tight">Industries</h1>
         <p className="mt-3 max-w-2xl text-muted-foreground">
-          We recruit across seven specialist sectors. That focus means we know
+          We specialise in three technology disciplines. That focus means we know
           the market, we know the candidates, and we understand the work.
         </p>
       </div>

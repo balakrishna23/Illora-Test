@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | Illoura",
   },
   description:
-    "Illoura is a First Nations-owned recruitment partner connecting candidates and employers across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling.",
+    "Illoura is a First Nations-owned recruitment partner connecting candidates and employers in AI Engineering, Cyber Security, and Data Analytics.",
   twitter: {
     card: "summary_large_image",
   },

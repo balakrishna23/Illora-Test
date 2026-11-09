@@ -101,7 +101,7 @@ export default async function AboutPage() {
               {[
                 ["Founded", "2024"],
                 ["Headquarters", "Sydney, NSW (operates nationally)"],
-                ["Sectors", "7 specialist sectors, Australia-wide"],
+                ["Sectors", "AI Engineering, Cyber Security, Data Analytics"],
                 ["Registrations", "Supply Nation Registered · Black Business Finder"],
               ].map(([label, value]) => (
                 <div key={label} className="flex justify-between border-b border-border pb-3 last:border-0 last:pb-0">

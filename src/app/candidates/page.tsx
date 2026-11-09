@@ -106,7 +106,7 @@ export default async function CandidatesPage() {
         <div className="rounded-xl bg-primary p-8 text-primary-foreground">
           <h2 className="text-xl font-semibold">Browse live jobs</h2>
           <p className="mt-2 text-primary-foreground/70 text-sm">
-            Search and filter {jobs.length} current opportunities across our seven specialist sectors.
+            Search and filter {jobs.length} current opportunities in AI Engineering, Cyber Security, and Data Analytics.
           </p>
           <Link
             href="/jobs"

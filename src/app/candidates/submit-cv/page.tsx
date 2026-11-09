@@ -9,7 +9,7 @@ import { requireUser } from "@/server/auth/session";
 export const metadata: Metadata = {
   title: "Submit Your CV",
   description:
-    "Submit your CV to Illoura and be considered for upcoming roles across our seven specialist sectors, including IT & Telecommunications, Construction, and Healthcare.",
+    "Submit your CV to Illoura and be considered for upcoming roles in AI Engineering, Cyber Security, and Data Analytics.",
   alternates: { canonical: "/candidates/submit-cv" },
 };
 

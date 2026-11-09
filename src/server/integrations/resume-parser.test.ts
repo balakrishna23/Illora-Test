@@ -100,7 +100,7 @@ describe("parseResumeFromStorage", () => {
 });
 
 describe("reviewResumeFromStorage", () => {
-  const context = { targetIndustry: "ICT", currentRole: "Engineer" };
+  const context = { targetIndustry: "AI Engineering", currentRole: "Engineer" };
 
   it("returns a config error when GEMINI_API_KEY is unset", async () => {
     vi.stubEnv("GEMINI_API_KEY", "");

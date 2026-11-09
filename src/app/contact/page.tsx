@@ -15,7 +15,7 @@ const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   name: "Illoura",
-  description: "First Nations-owned recruitment across seven specialist sectors including IT & Telecommunications, Construction, and Healthcare.",
+  description: "First Nations-owned specialist recruitment for AI Engineering, Cyber Security, and Data Analytics.",
   email: "info@illouraservices.com",
   url: "https://illouraservices.com",
   address: {

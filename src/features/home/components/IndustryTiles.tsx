@@ -18,7 +18,7 @@ export function IndustryTiles() {
           </p>
         </Reveal>
         <DotDivider className="mt-6 mb-2" count={29} />
-        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {INDUSTRIES.map(({ slug, name, icon: Icon, shortDescription }, i) => (
             <Reveal key={slug} delay={i * 75} animation="scale-in">
               <Link

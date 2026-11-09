@@ -77,7 +77,7 @@ export default function CapabilityStatementPage() {
             "Company overview and founding story",
             "Supply Nation registration and other credentials",
             "Service offering: permanent, contract, and embedded RPO",
-            "Sector expertise across IT & Telco, Construction, and Healthcare",
+            "Sector expertise across AI Engineering, Cyber Security, and Data Analytics",
             "Leadership team profiles",
             "Example placements and client outcomes",
             "Pricing model overview",

@@ -14,7 +14,7 @@ import { INDUSTRIES } from "@/lib/industries";
 export const metadata: Metadata = {
   title: "For Employers",
   description:
-    "Permanent, contract, and embedded RPO recruitment services across IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling.",
+    "Permanent, contract, and embedded RPO recruitment for AI Engineering, Cyber Security, and Data Analytics roles.",
   alternates: { canonical: "/employers" },
 };
 
@@ -36,13 +36,13 @@ const SERVICES = [
   {
     href: "/employers/contract",
     icon: FileTextIcon,
-    title: "Contract & Labour Hire",
+    title: "IT Contract Recruitment",
     description:
-      "Flexible staffing solutions for project-based work, peak demand periods, and specialist requirements. On-hire arrangements managed with full compliance and payroll support.",
+      "Specialist contractors for project delivery, peak demand, and capability gaps. Employer-of-record option with payroll and compliance handled for you.",
     includes: [
       "Rapid mobilisation for urgent requirements",
-      "Compliant on-hire employment and payroll",
-      "SWMS, induction, and WHS coordination",
+      "Employer-of-record option with payroll handled",
+      "Security clearance verification",
       "Contractor performance monitoring",
       "Seamless conversion to permanent where required",
     ],
@@ -87,8 +87,8 @@ export default function EmployersPage() {
           Recruitment that works as hard as you do.
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-          We deliver permanent, contract, and embedded recruitment across IT &amp;
-          Telecommunications, Construction, and Healthcare — with the same depth
+          We deliver permanent, contract, and embedded recruitment across AI
+          Engineering, Cyber Security, and Data Analytics — with the same depth
           of expertise at every level of seniority.
         </p>
       </div>

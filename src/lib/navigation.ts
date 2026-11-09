@@ -9,7 +9,7 @@ export const NAV_ITEMS: NavItem[] = [
     label: "For Employers",
     items: [
       { label: "Permanent Recruitment",  href: "/employers/permanent",          description: "Long-term talent for your team" },
-      { label: "Contract & Labour Hire", href: "/employers/contract",            description: "Flexible workforce solutions" },
+      { label: "IT Contract Recruitment", href: "/employers/contract",           description: "Specialist contractors, fast" },
       { label: "Embedded / RPO",         href: "/employers/embedded-rpo",        description: "Recruitment as a service" },
       { label: "Register a Vacancy",     href: "/employers/register-vacancy",    description: "Post a role — we respond in 1 day" },
     ],
@@ -25,13 +25,9 @@ export const NAV_ITEMS: NavItem[] = [
   {
     label: "Industries",
     items: [
-      { label: "IT & Telecommunications", href: "/industries/it-telecommunications" },
-      { label: "Construction",            href: "/industries/construction" },
-      { label: "Healthcare",              href: "/industries/healthcare" },
-      { label: "Nursing & Aged Care",     href: "/industries/nursing-aged-care" },
-      { label: "Data Science",            href: "/industries/data-science" },
-      { label: "Cyber Security",          href: "/industries/cyber-security" },
-      { label: "EV Waste & Recycling",    href: "/industries/ev-waste" },
+      { label: "AI Engineering", href: "/industries/ai-engineering" },
+      { label: "Cyber Security", href: "/industries/cyber-security" },
+      { label: "Data Analytics", href: "/industries/data-analytics" },
     ],
   },
   {

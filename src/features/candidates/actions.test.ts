@@ -50,7 +50,7 @@ function cvFormData(overrides: Record<string, string> = {}): FormData {
     name: "Jane Candidate",
     email: "jane@example.com",
     phone: "0400000000",
-    targetIndustry: "ICT",
+    targetIndustry: "AI Engineering",
     currentRole: "Engineer",
     securityClearance: "None",
     resumeKey: "resumes/1700000000000-resume.pdf",

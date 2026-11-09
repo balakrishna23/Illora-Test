@@ -10,7 +10,7 @@ import { VacancyForm } from "@/features/employers/components/VacancyForm";
 export const metadata: Metadata = {
   title: "Permanent Recruitment",
   description:
-    "End-to-end permanent recruitment across our seven specialist sectors, including IT & Telecommunications, Construction, and Healthcare, across Australia.",
+    "End-to-end permanent recruitment for AI Engineering, Cyber Security, and Data Analytics roles across Australia.",
   alternates: { canonical: "/employers/permanent" },
 };
 
@@ -33,7 +33,7 @@ const FAQS = [
   },
   {
     q: "Can you recruit for roles outside your core sectors?",
-    a: "Our core sectors are IT & Telecommunications, Construction, Healthcare, Nursing & Aged Care, Data Science, Cyber Security, and EV Waste & Recycling. While we occasionally assist with adjacent disciplines, we're honest when a role falls outside our genuine area of expertise — and we'll say so rather than taking on work we can't do well.",
+    a: "We specialise in three areas: AI Engineering, Cyber Security, and Data Analytics. While we occasionally assist with adjacent technology disciplines, we're honest when a role falls outside our genuine area of expertise — and we'll say so rather than taking on work we can't do well.",
   },
 ];
 
@@ -82,8 +82,8 @@ export default function PermanentRecruitmentPage() {
                 and competency-based screening that goes well beyond reading a résumé.
               </p>
               <p>
-                We work across mid-to-senior level permanent roles in IT &amp;
-                Telecommunications, Construction, and Healthcare. Our consultants have
+                We work across mid-to-senior level permanent roles in AI Engineering,
+                Cyber Security, and Data Analytics. Our consultants have
                 sector-specific experience — they&apos;ve worked in or deeply around the
                 industries they recruit for, which means they understand the difference
                 between a candidate who looks right on paper and one who will actually thrive.
@@ -137,7 +137,7 @@ export default function PermanentRecruitmentPage() {
             <div className="mt-10 rounded-xl bg-muted/50 p-6">
               <h2 className="font-semibold">Outcome example</h2>
               <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                A federal government health agency needed a Senior Project Manager with
+                A federal government agency needed a Senior Project Manager with
                 PRINCE2 certification and NV1 clearance — a combination that rules out
                 most of the active candidate market. Within eight business days we
                 identified, screened, and presented three candidates meeting every
