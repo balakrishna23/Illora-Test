@@ -25,7 +25,7 @@ Legend: 🧑 = you do it (dashboard/account actions) · 🤖 = Claude can do it 
 | Build script | **`build:hostinger`** (`next build --webpack`) — see below for why |
 | Output directory | `.next` |
 | Source | uploaded archive `illora-deploy.zip` in `public_html` |
-| Last deploy | 2026-11-09, commit `572cddd` (branch `feat/it-only-focus`) |
+| Last deploy | 2026-11-10, commit `1c66bc9` (branch `feat/it-only-focus`) |
 
 Env vars live in hPanel → **Websites → illouraservices.com → Node.js →
 Environment variables** (full list at the bottom of this file).
