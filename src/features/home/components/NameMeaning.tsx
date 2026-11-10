@@ -24,10 +24,10 @@ export function NameMeaning() {
                 </span>
               </h2>
               <p className="mt-4 max-w-xl text-muted-foreground lg:max-w-none">
-                Our name comes from <em>illoura</em>, an Aboriginal word
-                recorded as meaning <em>a pleasant place</em> — a good camping
-                ground, with water and plenty of food. A place people came to
-                because they knew they would be looked after.
+                <em>Illoura</em> comes from an Aboriginal language, meaning{" "}
+                <em>a pleasant place</em>: a good camping ground with water and
+                plenty of food. A place people came to because they knew they
+                would be looked after.
               </p>
               <p className="mt-3 max-w-xl text-muted-foreground lg:max-w-none">
                 That&apos;s what we set out to build: good ground for the people
